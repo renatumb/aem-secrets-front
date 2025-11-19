@@ -8,6 +8,12 @@ import { SinglePostComponent } from './pages/single-post/single-post.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { SubscriptionFormComponent } from './components/subscription-form/subscription-form.component';
+import { CommentFormComponent } from './components/comment-form/comment-form.component';
+import { CommentListComponent } from './components/comment-list/comment-list.component';
+import { CategoryNavBarComponent } from './components/category-nav-bar/category-nav-bar.component';
+import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
+import {HeaderComponentComponent} from '../shared/header-component/header-component.component';
 
 
 @NgModule({
@@ -17,11 +23,17 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
     SinglePostComponent,
     AboutUsComponent,
     TermsConditionsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    SubscriptionFormComponent,
+    CommentFormComponent,
+    CommentListComponent,
+    CategoryNavBarComponent
   ],
   imports: [
     CommonModule,
-    ReaderRoutingModule
+    ReaderRoutingModule,
+    FooterComponentComponent,
+    HeaderComponentComponent
   ]
 })
 export class ReaderModule { }
