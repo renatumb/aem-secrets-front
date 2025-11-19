@@ -1,3 +1,11 @@
-<p class="font-bold text-red-600">
-  {{ title }}
-</p>
+<ul>
+  <li><a routerLink="">home</a></li>
+  <li><a [routerLink]="['category','something']">category</a></li>
+  <li><a [routerLink]="['post','postname']">Post</a></li>
+  <li><a routerLink="about-us">About Us</a></li>
+  <li><a routerLink="terms-conditions">Terms and Conditions</a></li>
+  <li><a routerLink="contact-us">Contact us</a></li>
+</ul>
+<div class="border-2 border-purple-500">
+  <router-outlet></router-outlet>
+</div>
