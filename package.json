@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4201 --host 127.0.0.1",
+    "start": "ng serve --port 4201 --host 192.168.1.4",
     "build": "ng build",
     "build-prod": "ng build --optimization true",
     "watch": "ng build --watch --configuration development",
@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@ng-icons/core": "^28.1.0",
+    "@ng-icons/material-icons": "^33.0.0",
     "@tailwindcss/postcss": "^4.1.17",
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",

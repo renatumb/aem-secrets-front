@@ -1,2 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+/* you can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+@layer base {
+  *[data-theme='light'] {
+    --bg-primaryx: #fdf1d9;
+    --color-primaryx: #db6b18;
+    --color-secondaryx: #412e1d;
+  }
+
+  *[data-theme='dark'] {
+    --bg-primaryx: #3f2914;
+    --color-primaryx: #fef5e7;
+    --color-secondaryx: #db6b18;
+  }
+
+  *[data-theme='middle'] {
+    --bg-primaryx: #dd6717;
+    --color-primaryx: #412e1d;
+    --color-secondaryx: #fef5e7;
+  }
+
+  button {
+    @apply hover:cursor-pointer transition-all hover:scale-115 hover:-translate-y-0.5
+  }
+}
+
+@theme inline {
+  --color-bg-primary: var(--bg-primaryx);
+  --color-primary: var(--color-primaryx);
+  --color-secondary: var(--color-secondaryx);
+}
+
+@layer components {
+  .mobile-menu {
+    @apply absolute inset-0 flex flex-col justify-around  items-center gap-2 bg-bg-primary overflow-y-scroll font-medium text-2xl
+  }
+}

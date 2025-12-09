@@ -11,9 +11,10 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { SubscriptionFormComponent } from './components/subscription-form/subscription-form.component';
 import { CommentFormComponent } from './components/comment-form/comment-form.component';
 import { CommentListComponent } from './components/comment-list/comment-list.component';
-import { CategoryNavBarComponent } from './components/category-nav-bar/category-nav-bar.component';
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import {HeaderComponentComponent} from '../shared/header-component/header-component.component';
+import {NgIconsModule} from '@ng-icons/core';
+import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound} from '@ng-icons/material-icons/round';
 
 
 @NgModule({
@@ -27,13 +28,15 @@ import {HeaderComponentComponent} from '../shared/header-component/header-compon
     SubscriptionFormComponent,
     CommentFormComponent,
     CommentListComponent,
-    CategoryNavBarComponent
+  ],
+  exports: [
   ],
   imports: [
     CommonModule,
     ReaderRoutingModule,
     FooterComponentComponent,
-    HeaderComponentComponent
+    HeaderComponentComponent,
+    NgIconsModule.withIcons({matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound})
   ]
 })
 export class ReaderModule { }
