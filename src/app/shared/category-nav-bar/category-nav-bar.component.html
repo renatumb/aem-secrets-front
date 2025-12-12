@@ -1,0 +1,10 @@
+<nav class="container md:py-2">
+  <ul [ngClass]="this.showMobileMenu?'mobile-menu':'hidden' " class="md:bg-secondary/3 md:rounded-md md:mx-auto md:w-8/9 md:flex md:justify-evenly md:items-center md:flex-wrap md:gap-1 md:font-medium md:text-sm">
+    <li *ngFor="let category of this.categories" class="py-2 px-1.5 hover:rounded-md hover:bg-primary/50  hover:cursor-pointer hover:text-secondary text-primary hover:scale-115 transition-all">
+      <a [routerLink]="['category', category.categoryName ]">{{ category.categoryName }}</a>
+    </li>
+  </ul>
+  <button *ngIf="this.showMobileMenu" (click)="this.closeMobileMenu.emit()" class="absolute top-4 right-5  text-red-600">
+    <ng-icon name="matCloseRound" class="border text-2xl"></ng-icon>
+  </button>
+</nav>
