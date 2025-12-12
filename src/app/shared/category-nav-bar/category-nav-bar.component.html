@@ -1,5 +1,5 @@
-<nav class="py-4 px-2 border">
-  <ul [ngClass]="this.showMobileMenu?'mobile-menu':'hidden' " class="md:flex md:justify-evenly md:items-center md:flex-wrap md:gap-2 md:font-medium md:text-sm">
+<nav class="container md:py-2">
+  <ul [ngClass]="this.showMobileMenu?'mobile-menu':'hidden' " class="md:bg-secondary/3 md:rounded-md md:mx-auto md:w-8/9 md:flex md:justify-evenly md:items-center md:flex-wrap md:gap-1 md:font-medium md:text-sm">
     <li *ngFor="let category of this.categories" class="py-2 px-1.5 hover:rounded-md hover:bg-primary/50  hover:cursor-pointer hover:text-secondary text-primary hover:scale-115 transition-all">
       <a [routerLink]="['category', category.categoryName ]">{{ category.categoryName }}</a>
     </li>

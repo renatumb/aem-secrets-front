@@ -3,7 +3,7 @@
 
 @layer base {
   *[data-theme='light'] {
-    --bg-primaryx: #fdf1d9;
+    --bg-primaryx: #faf3e5;
     --color-primaryx: #db6b18;
     --color-secondaryx: #412e1d;
   }
@@ -22,6 +22,10 @@
 
   button {
     @apply hover:cursor-pointer transition-all hover:scale-115 hover:-translate-y-0.5
+  }
+
+  .container{
+    @apply container mx-auto border border-blue-500
   }
 }
 
