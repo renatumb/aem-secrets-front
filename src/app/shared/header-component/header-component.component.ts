@@ -17,7 +17,7 @@ import {RouterLink} from '@angular/router';
   styleUrl: './header-component.component.css'
 })
 export class HeaderComponentComponent {
-  @Input() showNavBar!: boolean;
+  @Input() showCategoryNavBar!: boolean;
 
   showMobileMenu: boolean = false
 
