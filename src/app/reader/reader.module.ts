@@ -15,6 +15,7 @@ import {FooterComponentComponent} from '../shared/footer-component/footer-compon
 import {HeaderComponentComponent} from '../shared/header-component/header-component.component';
 import {NgIconsModule} from '@ng-icons/core';
 import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound} from '@ng-icons/material-icons/round';
+import { PostCardComponent } from './components/post-card/post-card.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Ro
     SubscriptionFormComponent,
     CommentFormComponent,
     CommentListComponent,
+    PostCardComponent,
   ],
   exports: [
   ],
