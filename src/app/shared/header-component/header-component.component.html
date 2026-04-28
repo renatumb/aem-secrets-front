@@ -5,7 +5,7 @@
 
     <!-- CENTER LOGO -->
     <div class="flex justify-center">
-      <div class="size-16 rounded-xl overflow-hidden">
+      <div class="size-20 rounded-xl overflow-hidden md:size-28">
         <a [routerLink]="['']">
           <img alt="AEM Secrets Logo" aria-label="AEM Secrets Logo"  src="logo5.png" class="">
         </a>
@@ -15,9 +15,9 @@
     <!-- RIGHT BUTTON GROUP -->
     <div class="flex-1 flex justify-center gap-2 ">
       <div class="flex gap-2 justify-between items-center ">
-        <button><ng-icon name="matWbSunnyRound"      class=" text-xl  text-primary ml-2 hover:text-secondary "></ng-icon></button>
-        <button><ng-icon name="matBrightness6Round"  class=" text-lg  text-primary ml-2 hover:text-secondary "></ng-icon></button>
-        <button><ng-icon name="matBrightness2Round"  class=" text-lg  text-primary ml-2 hover:text-secondary "></ng-icon></button>
+        <button (click)="switchTheme('light')"><ng-icon name="matWbSunnyRound"      class=" text-xl  text-primary ml-2 hover:text-secondary "></ng-icon></button>
+        <button (click)="switchTheme('middle')"><ng-icon name="matBrightness6Round"  class=" text-lg  text-primary ml-2 hover:text-secondary "></ng-icon></button>
+        <button (click)="switchTheme('dark')"><ng-icon name="matBrightness2Round"  class=" text-lg  text-primary ml-2 hover:text-secondary "></ng-icon></button>
       </div>
       <div class="md:hidden ">
         <button (click)="this.showMobileMenu = !this.showMobileMenu;console.log('clicked toggle mobile menu');" >
@@ -26,5 +26,5 @@
       </div>
     </div>
   </div>
-  <app-category-nav-bar *ngIf="showNavBar" [showMobileMenu]="this.showMobileMenu" (closeMobileMenu)="this.showMobileMenu=false"></app-category-nav-bar>
+  <app-category-nav-bar *ngIf="showCategoryNavBar" [showMobileMenu]="this.showMobileMenu" (closeMobileMenu)="this.showMobileMenu=false"></app-category-nav-bar>
 </header>
