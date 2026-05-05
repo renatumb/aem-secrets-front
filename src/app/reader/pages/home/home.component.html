@@ -1,14 +1,17 @@
 <app-header-component [showCategoryNavBar]="true"></app-header-component>
 <main>
-    <section class=" bg-secondary flex flex-col justify-center items-center gap-2 px-10 py-20">
-      <h2 class="text-backone font-medium text-xl uppercase text-center tracking-wider ">Featured Posts</h2>
-      <h3 class="text-backone  text-center  tracking-wider mx-2 ">Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3>
-      <div class="grid grid-cols-2 gap-8 lg:flex lg:flex-row">
-      <app-post-card></app-post-card>
-      <app-post-card></app-post-card>
-      <app-post-card></app-post-card>
-      <app-post-card></app-post-card>
+  <section class="bg-secondary">
+    <div class="container flex flex-col justify-center items-center gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
+      <h2 class="text-backone font-medium text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Featured Posts</h2>
+      <h3 class="text-backone  text-center text-base tracking-wide md:text-xl md:mb-3">Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3>
+      <div class="grid grid-cols-2 gap-8 lg:flex lg:flex-row ">
+        <app-post-card></app-post-card>
+        <app-post-card></app-post-card>
+        <app-post-card></app-post-card>
+        <app-post-card></app-post-card>
+
       </div>
-    </section>
+    </div>
+  </section>
 </main>
 <app-footer-component></app-footer-component>
