@@ -20,8 +20,8 @@
     --color-secondaryx: #fef5e7;
   }
 
-  button {
-    @apply hover:cursor-pointer transition-all hover:scale-115 hover:-translate-y-0.5
+  button, .button {
+    @apply rounded hover:cursor-pointer transition-all hover:scale-115 hover:-translate-y-0.5
   }
 
   .container{

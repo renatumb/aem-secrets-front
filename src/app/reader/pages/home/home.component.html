@@ -1,5 +1,6 @@
 <app-header-component [showCategoryNavBar]="true"></app-header-component>
 <main>
+<!--  Featured Posts-->
   <section class="bg-secondary">
     <div class="container flex flex-col justify-center items-center gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
       <h2 class="text-backone font-medium text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Featured Posts</h2>
@@ -11,6 +12,24 @@
         <app-post-card></app-post-card>
 
       </div>
+    </div>
+  </section>
+<!--  Latest Posts-->
+  <section class="bg-backone">
+    <div class="container flex flex-col justify-center items-center gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
+      <h2 class="text-primary font-medium text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Latest Posts</h2>
+      <h3 class="text-primary  text-center text-base tracking-wide md:text-xl md:mb-3">Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3>
+      <div class="grid grid-cols-3 gap-8">
+        <app-post-card></app-post-card>
+        <app-post-card></app-post-card>
+        <app-post-card></app-post-card>
+      </div>
+      <button class="bg-secondary text-backone font-medium  my-3 py-3 px-5 hover:shadow-lg hover:shadow-primary/50 hover:text-shadow-xs hover:text-shadow-primary">Load more</button>
+    </div>
+  </section>
+  <section class="bg-backone">
+    <div class="container">
+    <app-subscription-form></app-subscription-form>
     </div>
   </section>
 </main>
