@@ -25,7 +25,7 @@
   }
 
   .container{
-    @apply container mx-auto border border-blue-500
+    @apply container mx-auto  /* border border-blue-500 /**/
   }
 }
 

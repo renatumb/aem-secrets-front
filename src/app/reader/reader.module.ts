@@ -16,6 +16,7 @@ import {HeaderComponentComponent} from '../shared/header-component/header-compon
 import {NgIconsModule} from '@ng-icons/core';
 import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound} from '@ng-icons/material-icons/round';
 import { PostCardComponent } from './components/post-card/post-card.component';
+import { LoadPostsComponent } from '../src/app/reader/components/load-posts/load-posts.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { PostCardComponent } from './components/post-card/post-card.component';
     CommentFormComponent,
     CommentListComponent,
     PostCardComponent,
+    LoadPostsComponent,
   ],
   exports: [
   ],
