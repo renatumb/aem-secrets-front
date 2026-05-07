@@ -5,6 +5,7 @@ import {CommentsComponent} from './pages/comments/comments.component';
 import {SubscribersComponent} from './pages/subscribers/subscribers.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {CategoryComponent} from './pages/category/category.component';
+import {PostComponent} from './pages/post/post.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'category', component: CategoryComponent, title: 'Category'},
   {path: 'comments', component: CommentsComponent, title: 'Comments'},
   {path: 'subscribers', component: SubscribersComponent, title: 'Subscribers'},
+  {path: 'posts', component: PostComponent, title: 'Posts'},
 ];
 
 @NgModule({

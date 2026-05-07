@@ -1,1 +1,41 @@
-<p>dashboard works!</p>
+<app-header-component [showCategoryNavBar]="false"></app-header-component>
+<main class="bg-backone">
+  <section class="container grid grid-cols-1 place-items-center gap-5 p-10 md:gap-12 md:grid-cols-2">
+    <div class="flex min-h-52 w-full max-w-sm items-center justify-center rounded bg-secondary p-10 text-center text-2xl font-bold tracking-wider text-backone transition-all hover:shadow-md hover:shadow-primary hover:scale-105">
+      <a [routerLink]="['/editor/category']" class="grid grid-cols-1 place-items-center gap-2 ">
+        <ng-icon name="matCategoryRound" class="text-4xl md:text-5xl"> </ng-icon>
+        <span>Category</span>
+        <p class="text-xs font-normal">Create, edit, and organize categories used to structure blog content.</p>
+      </a>
+    </div>
+
+    <div class="flex min-h-52 w-full max-w-sm items-center justify-center rounded bg-secondary p-10 text-center text-2xl font-bold tracking-wider text-backone transition-all hover:shadow-md hover:shadow-primary hover:scale-105">
+      <a [routerLink]="['/editor/posts']" class="grid grid-cols-1 place-items-center gap-2">
+        <ng-icon name="matStickyNote2Round" class="text-4xl md:text-5xl"> </ng-icon>
+        <span>Post</span>
+        <p class="text-xs font-normal">Write, update, and publish posts, then manage drafts and visibility.</p>
+      </a>
+    </div>
+
+    <div class="flex min-h-52 w-full max-w-sm items-center justify-center rounded bg-secondary p-10 text-center text-2xl font-bold tracking-wider text-backone transition-all hover:shadow-md hover:shadow-primary hover:scale-105">
+      <a [routerLink]="['/editor/subscribers']" class="grid grid-cols-1 place-items-center gap-2">
+        <ng-icon name="matGroupsRound" class="text-4xl md:text-5xl"> </ng-icon>
+        <span>Subscribers</span>
+        <p class="text-xs font-normal">View subscribers, monitor growth, and manage newsletter audience lists.</p>
+      </a>
+    </div>
+
+    <div class="flex min-h-52 w-full max-w-sm items-center justify-center rounded bg-secondary p-10 text-center text-2xl font-bold tracking-wider text-backone transition-all hover:shadow-md hover:shadow-primary hover:scale-105">
+      <a [routerLink]="['/editor/comments']" class="grid grid-cols-1 place-items-center gap-2">
+        <ng-icon name="matForumRound" class="text-4xl md:text-5xl"> </ng-icon>
+        <span>Comments</span>
+        <p class="text-xs font-normal">Review, approve, and moderate comments to keep discussions healthy.</p>
+      </a>
+
+    </div>
+
+  </section>
+</main>
+<app-footer-component></app-footer-component>
+
+
