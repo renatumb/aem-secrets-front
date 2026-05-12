@@ -10,7 +10,7 @@ import {PostComponent} from './pages/post/post.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent, title: 'Aem Secrets: Login'},
-  {path: 'dashboard', component: DashboardComponent, title: 'Aem Secrets: Login'},
+  {path: 'dashboard', component: DashboardComponent, title: 'Aem Secrets: Dashboard'},
   {path: 'category', component: CategoryComponent, title: 'Category'},
   {path: 'comments', component: CommentsComponent, title: 'Comments'},
   {path: 'subscribers', component: SubscribersComponent, title: 'Subscribers'},
