@@ -22,6 +22,7 @@ import {
   matCategoryRound
 } from '@ng-icons/material-icons/round';
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {FooterComponentComponent} from '../shared/footer-component/footer-compon
       matForumRound,
       matCategoryRound
     }),
-    FooterComponentComponent
+    FooterComponentComponent,
+    FormsModule
   ]
 })
 export class EditorModule { }
