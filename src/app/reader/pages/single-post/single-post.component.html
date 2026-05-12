@@ -17,24 +17,18 @@
 
     <div class="grid grid-cols-1 gap-4 xl:grid-cols-4 xl:items-start xl:gap-3">
       <div class="flex min-w-0 flex-col gap-4 xl:col-span-3">
-        <article class="rounded bg-primary/20 p-5 text-secondary md:p-8">
+        <article class="rounded-lg border border-secondary/10 bg-primary/20 p-5 text-secondary/90 shadow-sm md:p-8">
           <h1 class="mb-6 text-center text-xl font-bold uppercase tracking-wide sm:text-2xl md:mb-8 md:text-3xl lg:text-4xl">
             Post title
           </h1>
           <p class="text-justify text-sm font-semibold leading-relaxed sm:text-base md:text-lg lg:text-xl">Post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content.</p>
 
         </article>
-        <div class="bg-sky-300 p-4 text-secondary md:p-8 " >
-          <h2 class="mb-5 text-center text-lg font-extrabold uppercase tracking-wide sm:text-xl md:mb-6 md:text-2xl lg:text-3xl xl:text-4xl">
-            Leave a comment
-          </h2>
+        <div class="rounded-lg border border-secondary/10 bg-primary/20 p-4 text-xs text-secondary/85 shadow-sm sm:text-sm md:p-8">
           <app-comment-form></app-comment-form>
         </div>
 
-        <div class="bg-yellow-300 p-4 text-secondary md:p-8 ">
-          <h2 class="mb-5 text-center text-lg font-extrabold uppercase tracking-wide sm:text-xl md:mb-6 md:text-2xl lg:text-3xl xl:text-4xl">
-            Comment list
-          </h2>
+        <div class="rounded-lg border border-secondary/10 bg-primary/20 p-4 text-secondary/90 shadow-sm md:p-8">
           <app-comment-list></app-comment-list>
         </div>
       </div>
@@ -48,6 +42,7 @@
       </aside>
     </div>
   </section>
+  <app-subscription-form></app-subscription-form>
 </main>
 
 <app-footer-component></app-footer-component>
