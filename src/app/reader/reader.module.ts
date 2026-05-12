@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import { ReaderRoutingModule } from './reader-routing.module';
 import { HomeComponent } from './pages/home/home.component';
@@ -14,8 +14,11 @@ import { CommentListComponent } from './components/comment-list/comment-list.com
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import {HeaderComponentComponent} from '../shared/header-component/header-component.component';
 import {NgIconsModule} from '@ng-icons/core';
+
 import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound} from '@ng-icons/material-icons/round';
-import { PostCardComponent } from './components/post-card/post-card.component';
+
+import {PostCardComponent} from './components/post-card/post-card.component';
+import {LoadPostsComponent} from './components/load-posts/load-posts.component';
 
 
 @NgModule({
@@ -30,6 +33,7 @@ import { PostCardComponent } from './components/post-card/post-card.component';
     CommentFormComponent,
     CommentListComponent,
     PostCardComponent,
+    LoadPostsComponent,
   ],
   exports: [
   ],
@@ -38,7 +42,9 @@ import { PostCardComponent } from './components/post-card/post-card.component';
     ReaderRoutingModule,
     FooterComponentComponent,
     HeaderComponentComponent,
-    NgIconsModule.withIcons({matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound})
+    NgIconsModule.withIcons({
+      matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound
+    })
   ]
 })
 export class ReaderModule { }

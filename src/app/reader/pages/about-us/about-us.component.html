@@ -1,1 +1,54 @@
-<p>about-us works!</p>
+<app-header-component [showCategoryNavBar]="true"></app-header-component>
+<main class="bg-backone">
+  <div class="container px-4 py-8 text-secondary md:px-8 md:py-12">
+    <!-- Section 1: AEM logo (left, overlapping) + why this blog -->
+    <section class="mx-auto mb-16 max-w-5xl pt-4 md:mb-24 md:pt-6 " aria-labelledby="about-blog-heading">
+      <div class="relative rounded-sm bg-primary/20 px-5 pb-8 pt-10 shadow-lg md:px-10 md:pb-12 md:pt-14 ">
+        <div class="flex flex-row items-start gap-3 md:gap-8 ">
+          <div class="-mt-16 shrink-0 md:-mt-24">
+            <div class="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl border border-secondary bg-backone  md:h-44 md:w-44">
+              <img src="logo5.png" alt="AEM Secrets logo" class="aspect-square h-full w-full object-cover object-center" width="160" height="160"/>
+            </div>
+          </div>
+          <div class="min-w-0 flex-1 pt-2 md:pt-4">
+            <h2 id="about-blog-heading" class="mb-2 text-left text-base font-bold uppercase tracking-wide text-secondary md:mb-3 md:text-lg">Why this blog</h2>
+            <p class="text-justify text-sm leading-relaxed md:text-base lg:text-lg">
+              AEM Secrets exists to share practical experience with Adobe Experience Manager in plain language. Here you
+              will find patterns that work in real projects, common pitfalls to avoid, and deeper notes on content
+              architecture, components, and delivery so you can ship faster with fewer surprises.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: About me (text left) + profile photo (right, overlapping) -->
+    <section class="mx-auto max-w-5xl pt-3 md:pt-4" aria-labelledby="about-author-heading">
+      <div class="relative rounded-sm bg-primary/20 px-5 pb-8 pt-10 shadow-lg md:px-10 md:pb-12 md:pt-14">
+        <div class="flex flex-row-reverse items-start gap-3 md:gap-8">
+          <div class="-mt-16 shrink-0 md:-mt-24">
+            <div class="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl border border-secondary bg-backone  md:h-44 md:w-44">
+              <img src="bike2.jpg" alt="Author profile photo" class="aspect-square h-full w-full object-cover object-center" width="160" height="160"/>
+            </div>
+          </div>
+          <div class="min-w-0 flex-1 pt-2 md:pt-4">
+            <h2 id="about-author-heading" class="mb-2 text-left text-base font-bold uppercase tracking-wide text-secondary md:mb-3 md:text-lg">
+              About me
+            </h2>
+            <p class="mb-3 text-justify text-sm leading-relaxed md:mb-4 md:text-base lg:text-lg">
+              I am a developer and content-system practitioner focused on AEM and the surrounding ecosystem. I enjoy
+              turning vague requirements into maintainable implementations and documenting what actually worked once the
+              dust settles.
+            </p>
+            <p class="text-justify text-sm leading-relaxed md:text-base lg:text-lg">
+              When I am not writing for this blog, I am usually exploring performance, accessibility, or cleaner ways to
+              model content so authors and engineers can collaborate without friction. Replace this copy with your own
+              story and point the profile image to any asset under your public folder when you are ready.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<app-footer-component></app-footer-component>

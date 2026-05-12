@@ -20,23 +20,24 @@
     --color-secondaryx: #fef5e7;
   }
 
-  button {
-    @apply hover:cursor-pointer transition-all hover:scale-115 hover:-translate-y-0.5
+  button, .button {
+    @apply rounded hover:cursor-pointer transition-all hover:scale-115 hover:-translate-y-0.5
   }
 
   .container{
-    @apply container mx-auto border border-blue-500
+    @apply container mx-auto  /* border border-blue-500 /**/
   }
 }
 
 @theme inline {
-  --color-bg-primary: var(--bg-primaryx);
+  --color-bg-primary: purple; /* remove */
+  --color-backone: var(--bg-primaryx);
   --color-primary: var(--color-primaryx);
   --color-secondary: var(--color-secondaryx);
 }
 
 @layer components {
   .mobile-menu {
-    @apply absolute inset-0 flex flex-col justify-around  items-center gap-2 bg-bg-primary overflow-y-scroll font-medium text-2xl
+    @apply absolute inset-0 flex flex-col justify-around  items-center gap-2 bg-backone overflow-y-scroll font-medium text-2xl
   }
 }

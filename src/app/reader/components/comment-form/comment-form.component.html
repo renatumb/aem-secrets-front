@@ -1,1 +1,22 @@
-<p>comment-form works!</p>
+<h2 class="mb-1.5 text-left text-xs font-bold uppercase tracking-wide text-secondary sm:mb-2 sm:text-sm md:text-base">
+  Leave a comment
+</h2>
+<p class="mb-4 max-w-2xl text-left text-xs leading-relaxed text-secondary/75 sm:mb-5 sm:text-sm md:mb-5">
+  Join the conversation — your thoughts matter.
+</p>
+
+<form class="flex w-full max-w-3xl flex-col items-start gap-4 rounded-lg border-2 border-secondary/35 bg-backone p-4 text-secondary shadow-md ring-1 ring-secondary/10 sm:gap-5 sm:p-5 md:gap-5 md:p-6" (ngSubmit)="onSubmit($event)">
+  <div class="flex w-full flex-col gap-1.5">
+    <label for="comment-name" class="text-left text-xs font-semibold text-secondary sm:text-sm">Name</label>
+    <input id="comment-name" name="name" type="text" autocomplete="name" class="w-full rounded-lg border border-secondary/25 bg-secondary/10 px-3 py-2 text-xs font-medium text-secondary placeholder:text-secondary/40 focus:border-primary/35 focus:outline-none focus:ring-2 focus:ring-primary/15 sm:text-sm md:py-2.5" placeholder=""/>
+  </div>
+
+  <div class="flex w-full flex-col gap-1.5">
+    <label for="comment-body" class="text-left text-xs font-semibold text-secondary sm:text-sm">Comment</label>
+    <textarea id="comment-body" name="comment" rows="4" class="min-h-[4.5rem] w-full resize-y rounded-lg border border-secondary/25 bg-secondary/10 px-3 py-2 text-xs font-medium text-secondary placeholder:text-secondary/40 focus:border-primary/35 focus:outline-none focus:ring-2 focus:ring-primary/15 sm:min-h-[5rem] sm:text-sm md:py-2.5" placeholder="..."></textarea>
+  </div>
+
+  <button type="submit" class="!rounded-lg w-full max-w-[10rem] self-start border border-secondary/25 bg-secondary/18 px-4 py-2 text-center text-xs font-semibold text-secondary transition-colors hover:!scale-100 hover:!translate-y-0 hover:bg-secondary/28 focus:outline-none focus:ring-2 focus:ring-primary/20 sm:max-w-[11rem] sm:py-2.5 sm:text-sm md:px-5">
+    Add comment
+  </button>
+</form>

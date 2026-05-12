@@ -1,1 +1,24 @@
-<p>single-category works!</p>
+<app-header-component [showCategoryNavBar]="true"></app-header-component>
+<main>
+<!--  -->
+  <section class="bg-secondary/90">
+    <div class="container flex flex-col justify-start  gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
+      <h2 class=" text-backone font-medium text-2xl uppercase text-left tracking-wider xl:text-3xl xl:font-bold">Category XYZ</h2>
+      <h3 class=" text-backone  text-left text-base tracking-wide md:text-xl md:mb-3">Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3>
+    </div>
+  </section>
+<!-- -->
+  <section class="bg-backone">
+    <div class="container ">
+      <app-load-posts></app-load-posts>
+    </div>
+  </section>
+<!--  -->
+  <section class="bg-backone">
+    <div class="container">
+      <app-subscription-form></app-subscription-form>
+    </div>
+  </section>
+<!--  -->
+</main>
+<app-footer-component></app-footer-component>

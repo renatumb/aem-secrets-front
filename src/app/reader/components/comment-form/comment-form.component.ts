@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './comment-form.component.css'
 })
 export class CommentFormComponent {
-
+  onSubmit(event: Event): void {
+    event.preventDefault();
+  }
 }
