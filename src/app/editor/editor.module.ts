@@ -19,8 +19,12 @@ import {
   matStickyNote2Round,
   matGroupsRound,
   matForumRound,
-  matCategoryRound
+  matCategoryRound,
+  matThumbDownRound,
+  matThumbUpRound,
+  matIndeterminateCheckBoxRound,
 } from '@ng-icons/material-icons/round';
+
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import { FormsModule } from '@angular/forms';
 
@@ -48,7 +52,10 @@ import { FormsModule } from '@angular/forms';
       matStickyNote2Round,
       matGroupsRound,
       matForumRound,
-      matCategoryRound
+      matCategoryRound,
+      matThumbDownRound,
+      matThumbUpRound,
+      matIndeterminateCheckBoxRound,
     }),
     FooterComponentComponent,
     FormsModule
