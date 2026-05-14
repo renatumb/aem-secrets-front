@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: 'comments', component: CommentsComponent, title: 'Comments'},
   {path: 'subscribers', component: SubscribersComponent, title: 'Subscribers'},
   {path: 'posts', component: PostComponent, title: 'Posts'},
-  {path: '**', component: LoginComponent, title: 'Aem Secrets: Login'},
+  {path: '**', redirectTo: 'dashboard'},
 ];
 
 @NgModule({
