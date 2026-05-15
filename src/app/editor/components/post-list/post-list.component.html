@@ -1,1 +1,46 @@
-<p>post-list works!</p>
+<h2 class="sr-only">Post list</h2>
+<div
+  class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5 md:overflow-x-visible">
+  <table class="w-full min-w-[56rem] border-collapse text-left text-xs text-secondary md:min-w-0 md:text-sm">
+    <thead>
+    <tr class="border-b-2 border-secondary bg-secondary/10">
+      <th class="w-12 px-2 py-3 text-center font-bold md:w-14 md:px-3 md:py-3.5">No</th>
+      <th class="w-[7.5rem] px-2 py-3 font-bold md:w-36 md:px-3 md:py-3.5">Post Image</th>
+      <th class="min-w-[8rem] px-3 py-3 font-bold md:min-w-[10rem] md:px-4 md:py-3.5">Title</th>
+      <th class="min-w-[12rem] px-3 py-3 font-bold md:min-w-[16rem] md:px-4 md:py-3.5">Excerpt</th>
+      <th class="min-w-[6rem] px-3 py-3 font-bold md:px-4 md:py-3.5">Category</th>
+      <th class="whitespace-nowrap px-3 py-3 font-bold md:px-4 md:py-3.5">Date</th>
+      <th class="w-28 px-3 py-3 text-center font-bold md:w-32 md:px-4 md:py-3.5">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let post of posts" class="border-b border-secondary/15 last:border-b-0 odd:bg-backone/60 even:bg-secondary/[0.04]">
+      <td class="px-2 py-3 text-center align-middle font-medium tabular-nums md:px-3 md:py-3.5">
+        {{ post.id }}
+      </td>
+      <td class="px-2 py-3 align-middle md:px-3 md:py-3.5">
+        <div class="aspect-video w-full max-w-[6.5rem] overflow-hidden rounded border border-secondary/20 bg-secondary/10 md:max-w-[7.5rem]">
+          <img [src]="post.imageUrl" [alt]="post.imageAlt" width="120" height="68" loading="lazy" decoding="async" class="h-full w-full object-cover"/>
+        </div>
+      </td>
+      <td class="px-3 py-3 align-top font-semibold leading-snug md:px-4 md:py-3.5">
+        {{ post.title }}
+      </td>
+      <td class="max-w-[14rem] px-3 py-3 align-top text-secondary/90 md:max-w-[22rem] md:px-4 md:py-3.5 lg:max-w-none">
+        <p class="line-clamp-3 leading-relaxed md:line-clamp-4" [attr.title]="post.excerpt">
+          {{ post.excerpt }}
+        </p>
+      </td>
+      <td class="px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ post.category }}</td>
+      <td class="whitespace-nowrap px-3 py-3 align-top font-medium md:px-4 md:py-3.5">
+        {{ post.dateLabel }}
+      </td>
+      <td class="px-3 py-3 text-center align-middle md:px-4 md:py-3.5">
+        <a [routerLink]="['/editor/posts/edit']" [queryParams]="{ id: post.id }" class="button inline-flex items-center justify-center rounded border border-primary/40 bg-primary px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 md:px-4 md:py-2 md:text-xs">
+          Edit
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

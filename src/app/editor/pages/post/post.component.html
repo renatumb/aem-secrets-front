@@ -11,14 +11,16 @@
         <p class="max-w-xl text-xs font-medium leading-relaxed text-secondary/85 md:text-sm lg:text-base">
           Manage all the Posts from here
         </p>
-        <div class="flex flex-row">
-          <a [routerLink]="['/editor/posts/new']" class="button mt-1 inline-flex items-center justify-center rounded border border-primary/35 bg-primary px-5 py-2.5 text-center text-xs font-semibold text-backone  hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/25 md:px-6 md:py-3 md:text-sm">New Post</a>
-          <a [routerLink]="['/editor/dashboard']" class="button mt-1 inline-flex items-center justify-center rounded border border-primary/35 bg-primary px-5 py-2.5 text-center text-xs font-semibold text-backone  hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/25 md:px-6 md:py-3 md:text-sm">Back to Dashboard</a>
+        <div class="mt-1 flex flex-row flex-wrap items-center justify-center gap-3 md:gap-4">
+          <a *ngIf="showNewPostButton" [routerLink]="['/editor/posts/new']" class="button inline-flex items-center justify-center rounded border border-primary/35 bg-primary px-5 py-2.5 text-center text-xs font-semibold text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/25 md:px-6 md:py-3 md:text-sm">
+            New Post
+          </a>
+          <a [routerLink]="['/editor/dashboard']" class="button inline-flex items-center justify-center rounded border border-primary/35 bg-primary px-5 py-2.5 text-center text-xs font-semibold text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/25 md:px-6 md:py-3 md:text-sm">Back to Dashboard</a>
         </div>
       </section>
 
       <!-- Table -->
-      <section class="grid w-full max-w-full grid-cols-1 place-items-stretch gap-5 rounded border border-primary bg-backone p-6 text-secondary shadow-sm md:gap-8 md:p-8 lg:p-10 lg:gap-12">
+      <section class="grid w-full max-w-full grid-cols-1 place-items-stretch  rounded border border-primary bg-backone p-6 text-secondary shadow-sm  md:p-8 ">
         <router-outlet ></router-outlet>
       </section>
     </div>
