@@ -27,6 +27,8 @@ import {
 
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import { FormsModule } from '@angular/forms';
+import { PostEditorComponent } from './components/post-editor/post-editor.component';
+import { PostListComponent } from './components/post-list/post-list.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { FormsModule } from '@angular/forms';
     CategoryComponent,
     PostComponent,
     SubscribersComponent,
-    CommentsComponent
+    CommentsComponent,
+    PostEditorComponent,
+    PostListComponent
   ],
   imports: [
     CommonModule,
