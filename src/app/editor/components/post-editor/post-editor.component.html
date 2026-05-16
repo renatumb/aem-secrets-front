@@ -56,7 +56,11 @@
   <section class="space-y-4 rounded-md border border-secondary/15 bg-white p-6 text-secondary shadow-sm">
     <div class="space-y-1.5">
       <label for="post-content" class="block text-xs font-medium text-secondary/70 md:text-sm">Content</label>
-      <textarea id="post-content" name="content" [(ngModel)]="content" rows="14" placeholder="Write the full post body here…" class="min-h-[18rem] w-full resize-y rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm leading-relaxed text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:min-h-[22rem] md:text-base"></textarea>
+<!--  <textarea       id="post-content" name="content" [(ngModel)]="content" rows="14" placeholder="Write the full post body here…" class="min-h-[18rem] w-full resize-y rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm leading-relaxed text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:min-h-[22rem] md:text-base"></textarea>-->
+      <angular-editor id="post-content" name="content" [(ngModel)]="content"           placeholder="Write the full post body here…" ></angular-editor>
+    </div>
+    <div>
+      {{ content }}
     </div>
   </section>
 </div>

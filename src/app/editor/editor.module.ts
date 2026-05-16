@@ -29,7 +29,8 @@ import {FooterComponentComponent} from '../shared/footer-component/footer-compon
 import { FormsModule } from '@angular/forms';
 import { PostEditorComponent } from './components/post-editor/post-editor.component';
 import { PostListComponent } from './components/post-list/post-list.component';
-
+import {AngularEditorModule} from '@kolkov/angular-editor';
+import { HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,9 @@ import { PostListComponent } from './components/post-list/post-list.component';
       matIndeterminateCheckBoxRound,
     }),
     FooterComponentComponent,
-    FormsModule
+    FormsModule,
+    AngularEditorModule,
+    HttpClientModule
   ]
 })
 export class EditorModule { }
