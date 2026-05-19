@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { ThemeService } from './core/theme/theme.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -26,10 +27,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('aem-blog-fe');
   });
 
-  it('should render title', () => {
+  it('should initialize theme on init', () => {
     const fixture = TestBed.createComponent(AppComponent);
+    const themeService = TestBed.inject(ThemeService);
+    spyOn(themeService, 'initTheme');
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, aem-blog-fe');
+    expect(themeService.initTheme).toHaveBeenCalled();
   });
 });
