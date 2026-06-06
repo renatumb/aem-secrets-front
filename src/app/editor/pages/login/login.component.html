@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="flex min-h-dvh flex-col bg-backone">
+  <div class="shrink-0">
+    <app-header-component [showCategoryNavBar]="false"></app-header-component>
+  </div>
+
+  <main class="flex min-h-0 flex-1 flex-col justify-center px-4 py-6 md:px-6 md:py-8">
+    <section class="container mx-auto grid w-full max-w-lg grid-cols-1 place-items-center gap-5 rounded border border-primary bg-backone p-10 text-secondary shadow-sm md:gap-12">
+      <form class="flex w-full max-w-xs flex-col items-center gap-4 sm:max-w-sm md:max-w-md md:gap-5" (ngSubmit)="onSubmit($event)">
+        <h1 class="w-full text-center text-base font-bold uppercase tracking-wide md:text-lg lg:text-xl">
+          Login
+        </h1>
+
+        <label class="sr-only" for="login-email">Email</label>
+        <input id="login-email" name="email" type="email" autocomplete="email" [(ngModel)]="email" placeholder="EMAIL" class="w-full rounded border border-secondary/25 bg-secondary/10 px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-secondary placeholder:text-secondary/50 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/15 md:px-4 md:py-3 md:text-sm"/>
+
+        <label class="sr-only" for="login-password">Password</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" [(ngModel)]="password" placeholder="PASSWORD" class="w-full rounded border border-secondary/25 bg-secondary/10 px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-secondary placeholder:text-secondary/50 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/15 md:px-4 md:py-3 md:text-sm"/>
+
+        <button type="submit" class="rounded w-full border border-primary/30 bg-primary px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-backone focus:outline-none focus:ring-2 focus:ring-primary/25 md:py-3 md:text-sm">
+          Login
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <div class="shrink-0">
+    <app-footer-component></app-footer-component>
+  </div>
+</div>

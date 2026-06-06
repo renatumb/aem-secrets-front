@@ -6,7 +6,7 @@
     <!-- CENTER LOGO -->
     <div class="flex justify-center">
       <div class="size-20 rounded-xl overflow-hidden md:size-28 xl:size-28">
-        <a [routerLink]="['']">
+        <a [routerLink]="['/']">
           <img alt="AEM Secrets Logo" aria-label="AEM Secrets Logo"  src="logo5.png" class="">
         </a>
       </div>
@@ -20,7 +20,7 @@
         <button (click)="switchTheme('dark')"><ng-icon name="matBrightness2Round"  class=" text-lg  text-primary ml-2 hover:text-secondary "></ng-icon></button>
       </div>
       <div class="md:hidden ">
-        <button (click)="this.showMobileMenu = !this.showMobileMenu;console.log('clicked toggle mobile menu');" >
+        <button type="button" (click)="this.showMobileMenu = !this.showMobileMenu" aria-label="Toggle menu" >
           <ng-icon name="matMenuOpenRound" class="text-2xl text-secondary hover:text-secondary/50 hover:cursor-pointer transition-all"></ng-icon>
         </button>
       </div>

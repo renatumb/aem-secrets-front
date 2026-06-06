@@ -19,10 +19,18 @@ import {
   matStickyNote2Round,
   matGroupsRound,
   matForumRound,
-  matCategoryRound
+  matCategoryRound,
+  matThumbDownRound,
+  matThumbUpRound,
+  matIndeterminateCheckBoxRound,
 } from '@ng-icons/material-icons/round';
-import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 
+import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
+import { FormsModule } from '@angular/forms';
+import { PostEditorComponent } from './components/post-editor/post-editor.component';
+import { PostListComponent } from './components/post-list/post-list.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
+import { HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,7 +39,9 @@ import {FooterComponentComponent} from '../shared/footer-component/footer-compon
     CategoryComponent,
     PostComponent,
     SubscribersComponent,
-    CommentsComponent
+    CommentsComponent,
+    PostEditorComponent,
+    PostListComponent
   ],
   imports: [
     CommonModule,
@@ -47,9 +57,15 @@ import {FooterComponentComponent} from '../shared/footer-component/footer-compon
       matStickyNote2Round,
       matGroupsRound,
       matForumRound,
-      matCategoryRound
+      matCategoryRound,
+      matThumbDownRound,
+      matThumbUpRound,
+      matIndeterminateCheckBoxRound,
     }),
-    FooterComponentComponent
+    FooterComponentComponent,
+    FormsModule,
+    AngularEditorModule,
+    HttpClientModule
   ]
 })
 export class EditorModule { }

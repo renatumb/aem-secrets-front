@@ -1,8 +1,10 @@
-import {Component, forwardRef, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgIcon} from '@ng-icons/core';
 import {CategoryNavBarComponent} from '../category-nav-bar/category-nav-bar.component';
 import {NgIf} from '@angular/common';
 import {RouterLink} from '@angular/router';
+import {ThemeId} from '../../core/theme/theme.model';
+import {ThemeService} from '../../core/theme/theme.service';
 
 @Component({
   selector: 'app-header-component',
@@ -21,13 +23,9 @@ export class HeaderComponentComponent {
 
   showMobileMenu: boolean = false
 
-  switchTheme(theme: string) {
-    let body = document.getElementsByTagName('body')[0];
+  constructor(private readonly themeService: ThemeService) {}
 
-    body.removeAttribute('data-theme');
-    body.setAttribute('data-theme', theme);
-    console.log('theme clicked ' + theme);
+  switchTheme(theme: ThemeId): void {
+    this.themeService.setTheme(theme);
   }
-
-  protected readonly console = console;
 }
