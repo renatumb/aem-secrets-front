@@ -19,6 +19,8 @@ import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Ro
 
 import {PostCardComponent} from './components/post-card/post-card.component';
 import {LoadPostsComponent} from './components/load-posts/load-posts.component';
+import {READER_API_PROVIDER} from '../shared/http/api.config';
+import {CategoriesService} from './services/categories.service';
 
 
 @NgModule({
@@ -45,6 +47,10 @@ import {LoadPostsComponent} from './components/load-posts/load-posts.component';
     NgIconsModule.withIcons({
       matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound
     })
+  ],
+  providers:[
+    READER_API_PROVIDER,
+    CategoriesService
   ]
 })
 export class ReaderModule { }

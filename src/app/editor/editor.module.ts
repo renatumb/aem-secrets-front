@@ -30,7 +30,8 @@ import { FormsModule } from '@angular/forms';
 import { PostEditorComponent } from './components/post-editor/post-editor.component';
 import { PostListComponent } from './components/post-list/post-list.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
-import { HttpClientModule} from '@angular/common/http';
+import {EDITOR_API_PROVIDER} from '../shared/http/api.config';
+import {CategoriesService} from './services/categories.service';
 
 @NgModule({
   declarations: [
@@ -64,8 +65,11 @@ import { HttpClientModule} from '@angular/common/http';
     }),
     FooterComponentComponent,
     FormsModule,
-    AngularEditorModule,
-    HttpClientModule
+    AngularEditorModule
+  ],
+  providers:[
+    EDITOR_API_PROVIDER,
+    CategoriesService
   ]
 })
 export class EditorModule { }
