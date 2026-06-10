@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 import { ReaderRoutingModule } from './reader-routing.module';
 import { HomeComponent } from './pages/home/home.component';
@@ -21,6 +22,7 @@ import {PostCardComponent} from './components/post-card/post-card.component';
 import {LoadPostsComponent} from './components/load-posts/load-posts.component';
 import {READER_API_PROVIDER} from '../shared/http/api.config';
 import {CategoriesService} from './services/categories.service';
+import {SubscribersService} from './services/subscribers.service';
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import {CategoriesService} from './services/categories.service';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReaderRoutingModule,
     FooterComponentComponent,
     HeaderComponentComponent,
@@ -50,7 +53,8 @@ import {CategoriesService} from './services/categories.service';
   ],
   providers:[
     READER_API_PROVIDER,
-    CategoriesService
+    CategoriesService,
+    SubscribersService
   ]
 })
 export class ReaderModule { }

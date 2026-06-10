@@ -32,6 +32,7 @@ import { PostListComponent } from './components/post-list/post-list.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {EDITOR_API_PROVIDER} from '../shared/http/api.config';
 import {CategoriesService} from './services/categories.service';
+import {SubscribersService} from './services/subscribers.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {CategoriesService} from './services/categories.service';
   ],
   providers:[
     EDITOR_API_PROVIDER,
-    CategoriesService
+    CategoriesService,
+    SubscribersService
   ]
 })
 export class EditorModule { }
