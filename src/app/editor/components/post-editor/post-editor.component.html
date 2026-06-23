@@ -31,8 +31,9 @@
         <label for="post-category" class="block text-xs font-medium text-secondary/70 md:text-sm">
           Please Select a post category
         </label>
+        <p *ngIf="errorCategory" class="text-justify text-xs font-medium text-red-500 md:text-sm">{{errorCategory.message | json }}</p>
         <select id="post-category" name="categoryId" [(ngModel)]="categoryId" class="w-full rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm text-secondary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:text-base">
-          <option *ngFor="let opt of categoryOptions" [value]="opt.id">{{ opt.label }}</option>
+          <option *ngFor="let opt of categoryOptions" [value]="opt.id">{{ opt.name }}</option>
         </select>
       </div>
 
@@ -46,7 +47,10 @@
             <span>Choose File</span>
             <input type="file" accept="image/*" class="sr-only" (change)="onImageFileChange($event)"/>
           </label>
-          <span class="text-xs text-secondary/70">{{ selectedImageLabel }}</span>
+          <span class="text-xs text-secondary/70">
+            {{ imageUploading ? 'Uploading…' : selectedImageLabel }}
+          </span>
+          <p *ngIf="imageUploadError" class="w-full text-xs text-red-500">{{ imageUploadError }}</p>
         </div>
       </div>
     </section>
@@ -57,10 +61,17 @@
     <div class="space-y-1.5">
       <label for="post-content" class="block text-xs font-medium text-secondary/70 md:text-sm">Content</label>
 <!--  <textarea       id="post-content" name="content" [(ngModel)]="content" rows="14" placeholder="Write the full post body here…" class="min-h-[18rem] w-full resize-y rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm leading-relaxed text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:min-h-[22rem] md:text-base"></textarea>-->
-      <angular-editor id="post-content" name="content" [(ngModel)]="content"           placeholder="Write the full post body here…" ></angular-editor>
+      <angular-editor id="post-content" name="content" [(ngModel)]="content" placeholder="Write the full post body here…" [config]="editorConfig"></angular-editor>
+      <p *ngIf="contentUploadError" class="text-xs text-red-500">{{ contentUploadError }}</p>
     </div>
     <div>
       {{ content }}
     </div>
   </section>
+
+  <div class="flex justify-center">
+    <button type="submit" class="button inline-flex items-center justify-center rounded border border-primary/35 bg-primary px-5 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/25 disabled:opacity-60 md:px-6 md:py-3 md:text-sm">
+      Save
+    </button>
+  </div>
 </div>

@@ -23,6 +23,7 @@ import {LoadPostsComponent} from './components/load-posts/load-posts.component';
 import {READER_API_PROVIDER} from '../shared/http/api.config';
 import {CategoriesService} from './services/categories.service';
 import {SubscribersService} from './services/subscribers.service';
+import {PostsService} from './services/posts.service';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import {SubscribersService} from './services/subscribers.service';
   providers:[
     READER_API_PROVIDER,
     CategoriesService,
-    SubscribersService
+    SubscribersService,
+    PostsService,
   ]
 })
 export class ReaderModule { }

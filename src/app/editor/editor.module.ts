@@ -33,6 +33,7 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
 import {EDITOR_API_PROVIDER} from '../shared/http/api.config';
 import {CategoriesService} from './services/categories.service';
 import {SubscribersService} from './services/subscribers.service';
+import {PostsService} from './services/posts.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import {SubscribersService} from './services/subscribers.service';
   providers:[
     EDITOR_API_PROVIDER,
     CategoriesService,
-    SubscribersService
+    SubscribersService,
+    PostsService,
   ]
 })
 export class EditorModule { }
