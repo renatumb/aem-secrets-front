@@ -8,6 +8,7 @@ import {CategoryComponent} from './pages/category/category.component';
 import {PostComponent} from './pages/post/post.component';
 import {PostListComponent} from './components/post-list/post-list.component';
 import {PostEditorComponent} from './components/post-editor/post-editor.component';
+import {CreatePostDraftComponent} from './components/create-post-draft/create-post-draft.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,7 @@ const routes: Routes = [
     title: 'Posts',
     children: [
       {path: '', component: PostListComponent      },
-      {path: 'new', component: PostEditorComponent },
+      {path: 'new', component: CreatePostDraftComponent},
       {path: 'edit', component: PostEditorComponent},
       {path: '**', redirectTo: 'posts'},
     ]

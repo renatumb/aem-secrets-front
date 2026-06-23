@@ -10,8 +10,9 @@ export const POST_ENDPOINTS = {
     bySlug: (slug: string) => `/post/${encodeURIComponent(slug)}`,
   },
   editor: {
+    list: () => '/post',
+    createDraft: () => '/post',
     uploadImage: () => '/post/image',
     downloadImage: (postIdParam : string, fileNameParam: string) => `/post/image?postID=${postIdParam}&filename=${fileNameParam}`,
-    list: () => '/post',
   },
 } as const;

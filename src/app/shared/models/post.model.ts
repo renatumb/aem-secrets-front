@@ -5,16 +5,26 @@ import {Category} from './category.model';
  */
 export interface Post {
   id: string
+  permalink: string
+  title: string
+  description: string
+  thumbnail: string
   content_en: string
   creation_date: string
-  description: string
-  highlight: boolean
   last_modification_date: string
-  permalink: string
+  highlight: boolean
   tags: string[]
-  thumbnail: string
-  title: string
+  categories: Category[]
+  author: string
+  comments: string[]
   user_id: string
+  status_post: PostStatus
+}
+
+export enum PostStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  UNPUBLISHED = 'UNPUBLISHED'
 }
 
 /** Response returned after uploading a post image. */

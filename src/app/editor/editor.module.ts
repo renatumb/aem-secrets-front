@@ -28,6 +28,7 @@ import {
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import { FormsModule } from '@angular/forms';
 import { PostEditorComponent } from './components/post-editor/post-editor.component';
+import { CreatePostDraftComponent } from './components/create-post-draft/create-post-draft.component';
 import { PostListComponent } from './components/post-list/post-list.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {EDITOR_API_PROVIDER} from '../shared/http/api.config';
@@ -44,6 +45,7 @@ import {PostsService} from './services/posts.service';
     SubscribersComponent,
     CommentsComponent,
     PostEditorComponent,
+    CreatePostDraftComponent,
     PostListComponent
   ],
   imports: [

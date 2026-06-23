@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { POST_ENDPOINTS } from '../../shared/http/post-endpoints';
 import { EDITOR_API_BASE_URL } from '../../shared/http/api.config';
 import {
+  PostDraft,
   Post,
-  UploadPostImageResponse,
+  UploadPostImageResponse, PostStatus,
 } from '../../shared/models/post.model';
 
 /**
@@ -18,6 +19,16 @@ export class PostsService {
     @Inject(EDITOR_API_BASE_URL) private readonly baseUrl: string,
     private readonly http: HttpClient,
   ) {}
+
+  createDraft(payload: PostDraft = {
+    categories: [],
+    statusPost: PostStatus.DRAFT
+  }): Observable<Post> {
+    return this.http.post<Post>(
+      this.url(POST_ENDPOINTS.editor.createDraft()),
+      payload,
+    );
+  }
 
   uploadImage(postId: string, file: File): Observable<UploadPostImageResponse> {
     const formData = new FormData();
