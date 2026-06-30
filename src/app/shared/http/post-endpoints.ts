@@ -12,6 +12,8 @@ export const POST_ENDPOINTS = {
   editor: {
     list: () => '/post',
     createDraft: () => '/post',
+    update: (id: string) => `/post/${encodeURIComponent(id)}`,
+    remove: (id: string) => `/post/${encodeURIComponent(id)}`,
     uploadImage: () => '/post/image',
     downloadImage: (postIdParam : string, fileNameParam: string) => `/post/image?postID=${postIdParam}&filename=${fileNameParam}`,
   },

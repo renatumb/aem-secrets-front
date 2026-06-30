@@ -23,6 +23,8 @@ import {
   matThumbDownRound,
   matThumbUpRound,
   matIndeterminateCheckBoxRound,
+  matEditRound,
+  matDeleteRound,
 } from '@ng-icons/material-icons/round';
 
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
@@ -66,6 +68,8 @@ import {PostsService} from './services/posts.service';
       matThumbDownRound,
       matThumbUpRound,
       matIndeterminateCheckBoxRound,
+      matEditRound,
+      matDeleteRound,
     }),
     FooterComponentComponent,
     FormsModule,

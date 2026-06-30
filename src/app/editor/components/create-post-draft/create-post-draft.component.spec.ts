@@ -10,6 +10,24 @@ describe('CreatePostDraftComponent', () => {
   let fixture: ComponentFixture<CreatePostDraftComponent>;
   let router: jasmine.SpyObj<Router>;
 
+  const mockDraftPost = {
+    id: 'new-post-id',
+    title: '',
+    permalink: '',
+    description: '',
+    thumbnail: '',
+    content_en: '',
+    creation_date: '2026-01-01T10:00:00Z',
+    last_modification_date: '2026-01-01T10:00:00Z',
+    highlight: false,
+    tags: [],
+    categories: [],
+    author: '',
+    comments: [],
+    user_id: '',
+    statusPost: 'DRAFT',
+  };
+
   beforeEach(async () => {
     router = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -19,7 +37,7 @@ describe('CreatePostDraftComponent', () => {
         {
           provide: PostsService,
           useValue: {
-            createDraft: () => of({ id: 'new-post-id' }),
+            createDraft: () => of(mockDraftPost),
           },
         },
         { provide: Router, useValue: router },
@@ -35,11 +53,12 @@ describe('CreatePostDraftComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should redirect to edit with the new post id', () => {
+  it('should redirect to edit with the new post id and router state', () => {
     expect(router.navigate).toHaveBeenCalledWith(
       ['/editor/posts/edit'],
       {
         queryParams: { id: 'new-post-id' },
+        state: { post: mockDraftPost },
         replaceUrl: true,
       },
     );

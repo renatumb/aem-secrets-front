@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpEvent, HttpResponse} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subject, takeUntil, throwError} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import {CategoriesService} from '../../services/categories.service';
 import {PostsService} from '../../services/posts.service';
 import {Category} from '../../../shared/models/category.model';
-import {UploadPostImageResponse} from '../../../shared/models/post.model';
+import {Post, UploadPostImageResponse} from '../../../shared/models/post.model';
 import {AngularEditorConfig, UploadResponse} from '@kolkov/angular-editor';
 
 @Component({
@@ -15,48 +15,47 @@ import {AngularEditorConfig, UploadResponse} from '@kolkov/angular-editor';
   styleUrl: './post-editor.component.css',
 })
 export class PostEditorComponent implements OnInit, OnDestroy {
-  postTitle = '';
-  excerpt =
-    'A short summary that appears in listings and SEO snippets. Keep it concise and inviting so readers know what to expect.';
-  content = '';
-  categoryId = '';
 
+  /* FORM FIELDS -- */
+  formPostId: string | null = null;
+  formPostTitle: string | null = null;
+  formPermalinkSlug: string | null = null;
+  formExcerpt: string | null = null;
+  formCategoryId: number[] = [];
+  formImagePreview: string | null  = null;
+  formContent: string | null = null;
+  /* FORM FIELDS -- */
+
+  editingPost!: Post; /* Post being edited */
+  editorConfig!: AngularEditorConfig; /* Editor config */
+  /* -- */
   categoryOptions: Category[] = [];
   errorCategory: null | any = null;
 
-  /** Shown in the permalink field; derived from the title for a classic CMS feel. */
-  permalinkSlug = 'post-title';
-
-  imagePreview: string = 'https://placehold.co/600x400';
-
   selectedImageLabel = 'No file chosen';
+
   imageUploading = false;
   imageUploadError: string | null = null;
+  imagePlaceHolder : string = 'https://placehold.co/600x400';
+
   contentUploadError: string | null = null;
-
-  /** Post id from route query (?id=...) — required by the image upload endpoint. */
-  postId: string | null = null;
-
-  editorConfig!: AngularEditorConfig;
+  postLoadError: string | null = null;
+  saving = false;
+  saveError: string | null = null;
 
   private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly categoriesService: CategoriesService,
     private readonly postsService: PostsService,
-    private readonly route: ActivatedRoute,
+    private readonly route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
     this.editorConfig = this.buildEditorConfig();
+    this.resolveEditingPost();
     this.loadCategories();
-
-    this.route.queryParamMap
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params) => {
-        this.postId = params.get('id');
-      });
   }
 
   ngOnDestroy(): void {
@@ -65,8 +64,8 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   }
 
   onTitleChange(value: string): void {
-    this.postTitle = value;
-    this.permalinkSlug = this.slugify(value) || 'post-title';
+    this.formPostTitle = value;
+    this.formPermalinkSlug = this.slugify(value) || 'post-title';
   }
 
   onImageFileChange(event: Event): void {
@@ -78,7 +77,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.postId) {
+    if (!this.formPostId) {
       this.imageUploadError = 'Post id is missing. Open the editor with ?id= in the URL.';
       return;
     }
@@ -88,13 +87,16 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     this.imageUploading = true;
 
     this.postsService
-      .uploadImage(this.postId, file)
+      .uploadImage(this.formPostId, file)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: UploadPostImageResponse) => {
           this.imageUploading = false;
           if (response?.imageUrl) {
-            this.imagePreview = this.postsService.resolveUploadedImageUrl(response.imageUrl);
+            this.formImagePreview = this.postsService.resolveUploadedImageUrl(response.imageUrl);
+            if (this.editingPost) {
+              this.editingPost.thumbnail = response.imageUrl;
+            }
           }
         },
         error: (err) => {
@@ -103,6 +105,67 @@ export class PostEditorComponent implements OnInit, OnDestroy {
           console.error('Image upload failed.', err);
         },
       });
+  }
+
+  onSave(): void {
+    if (!this.formPostId || !this.editingPost) {
+      this.saveError = 'Post id is missing. Open the editor with ?id= in the URL.';
+      return;
+    }
+
+    if (this.saving) {
+      return;
+    }
+
+    const payload: Post = this.buildPostPayload();
+
+    this.saving = true;
+    this.saveError = null;
+
+    this.postsService
+      .update(this.formPostId, payload)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (updated) => {
+          this.saving = false;
+          this.applyPost(updated);
+          alert("Saved **")
+        },
+        error: (err) => {
+          this.saving = false;
+          this.saveError =
+            err?.error?.message ?? err?.message ?? 'Could not save post.';
+          console.error('Could not save post.', err);
+        },
+      });
+  }
+
+  private buildPostPayload(): Post {
+    const categories =
+      this.formCategoryId.map((categoryId) => {
+        const existing = this.editingPost.categories?.find(
+          (category) => category.id === categoryId,
+        );
+
+        const fromOptions = this.categoryOptions.find(
+          (category) => category.id === categoryId,
+        );
+
+        return existing ?? fromOptions ?? {
+          id: categoryId,
+          name: '',
+          description: '',
+        };
+      });
+
+    return {
+      ...this.editingPost,
+      title: this.formPostTitle ?? this.editingPost.title,
+      permalink: this.formPermalinkSlug ?? this.editingPost.permalink,
+      description: this.formExcerpt ?? this.editingPost.description,
+      content_en: this.formContent ?? this.editingPost.content_en,
+      categories,
+    };
   }
 
   private buildEditorConfig(): AngularEditorConfig {
@@ -117,15 +180,14 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   }
 
   private uploadEditorImage(file: File): Observable<HttpEvent<UploadResponse>> {
-    if (!this.postId) {
+    if (!this.formPostId) {
       this.contentUploadError = 'Post id is missing. Open the editor with ?id= in the URL.';
       return throwError(() => new Error('Post id is missing.'));
     }
 
     this.contentUploadError = null;
 
-    const postId = this.postId;
-    const uploadRequest$ = this.postsService.uploadImage(postId, file);
+    const uploadRequest$ = this.postsService.uploadImage(this.formPostId, file);
 
     const uploadResult$ = uploadRequest$.pipe(
       map((backendResponse) => {
@@ -155,6 +217,40 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     return uploadResult$;
   }
 
+  private resolveEditingPost(): void {
+    const idFromRoute = this.route.snapshot.queryParamMap.get('id');
+    const statePost = history.state?.['post'] as Post | undefined;
+
+    this.formPostId = idFromRoute;
+
+    if (statePost?.id && (!idFromRoute || statePost.id === idFromRoute)) {
+      this.applyPost(statePost);
+      return;
+    }
+
+    if (idFromRoute) {
+      this.postLoadError = 'Post data was not passed through navigation state. Open this post from the post list.';
+    } else {
+      this.postLoadError = 'Post id is missing. Open the editor with ?id= in the URL.';
+    }
+  }
+
+  private applyPost(post: Post): void {
+    this.editingPost = post;
+    /**/
+    this.formPostId = post.id;
+    this.formPostTitle = post.title
+    this.formPermalinkSlug = post.permalink ;
+    this.formExcerpt = post.description;
+    this.formCategoryId = post.categories?.map((category) => category.id) ?? [];
+
+    if (post.thumbnail) {
+      this.formImagePreview = this.postsService.resolveUploadedImageUrl(post.thumbnail);
+    }
+
+    this.formContent = post.content_en;
+  }
+
   private slugify(raw: string): string {
     return raw
       .trim()
@@ -169,7 +265,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       .list()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (items) => this.categoryOptions = items?.content ? [{id: '', name: 'Please select a category '}, ...items?.content] : [],
+        next: (items) => this.categoryOptions = items?.content ? [...items?.content] : [],
         error: (err) => {
           this.errorCategory = err;
           console.error('Could not load categories.');

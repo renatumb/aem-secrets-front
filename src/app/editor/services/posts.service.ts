@@ -6,7 +6,11 @@ import { EDITOR_API_BASE_URL } from '../../shared/http/api.config';
 import {
   PostDraft,
   Post,
-  UploadPostImageResponse, PostStatus,
+  PostListQuery,
+  PostStatus,
+  UpdatePostHighlightDto,
+  UpdatePostStatusDto,
+  UploadPostImageResponse,
 } from '../../shared/models/post.model';
 
 /**
@@ -28,6 +32,49 @@ export class PostsService {
       this.url(POST_ENDPOINTS.editor.createDraft()),
       payload,
     );
+  }
+
+  list(query: PostListQuery = {}): Observable<any> {
+    let params = new HttpParams()
+      .set('page', String(query.page ?? 0))
+      .set('size', String(query.size ?? 100))
+      .set('sort', query.sort ?? 'desc')
+      .set('orderBy', query.orderBy ?? 'creationDate');
+
+    if (query.categoryFilter != null) {
+      params = params.set('categoryFilter', String(query.categoryFilter));
+    }
+
+    return this.http.get<any>(this.url(POST_ENDPOINTS.editor.list()), { params });
+  }
+
+  update(id: string, payload: Post): Observable<Post> {
+    return this.http.put<Post>(
+      this.url(POST_ENDPOINTS.editor.update(id)),
+      payload,
+    );
+  }
+
+  updateStatus(id: string, status: PostStatus): Observable<Post> {
+    const payload: UpdatePostStatusDto = { statusPost: status };
+
+    return this.http.put<Post>(
+      this.url(POST_ENDPOINTS.editor.update(id)),
+      payload,
+    );
+  }
+
+  updateHighlight(id: string, highlight: boolean): Observable<Post> {
+    const payload: UpdatePostHighlightDto = { highlight };
+
+    return this.http.put<Post>(
+      this.url(POST_ENDPOINTS.editor.update(id)),
+      payload,
+    );
+  }
+
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(this.url(POST_ENDPOINTS.editor.remove(id)));
   }
 
   uploadImage(postId: string, file: File): Observable<UploadPostImageResponse> {

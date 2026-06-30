@@ -10,15 +10,14 @@ export interface Post {
   description: string
   thumbnail: string
   content_en: string
-  creation_date: string
-  last_modification_date: string
+  creationDate: string
+  lastModificationDate: string
   highlight: boolean
   tags: string[]
   categories: Category[]
   author: string
-  comments: string[]
-  user_id: string
-  status_post: PostStatus
+  comment: string[]
+  statusPost: PostStatus
 }
 
 export enum PostStatus {
@@ -35,6 +34,16 @@ export interface UploadPostImageResponse {
 export interface PostDraft {
   categories: Category[]
   statusPost: string
+}
+
+/** Partial update payload for post status. */
+export interface UpdatePostStatusDto {
+  statusPost: PostStatus;
+}
+
+/** Partial update payload for post highlight flag. */
+export interface UpdatePostHighlightDto {
+  highlight: boolean;
 }
 
 /** Query options for paged/sorted post lookups. */

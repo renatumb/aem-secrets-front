@@ -36,6 +36,7 @@ export class CreatePostDraftComponent implements OnInit, OnDestroy {
             ['/editor/posts/edit'],
             {
               queryParams: { id: post.id },
+              state: { post },
               replaceUrl: true,
             },
           );
