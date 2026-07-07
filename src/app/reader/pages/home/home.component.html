@@ -1,30 +1,42 @@
 <app-header-component [showCategoryNavBar]="true"></app-header-component>
 <main>
-<!--  Featured Posts-->
+  <!-- Featured Posts -->
   <section class="bg-secondary/90">
     <div class="container flex flex-col justify-center items-center gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
-      <h2 class="text-backone font-medium text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Featured Posts</h2>
-      <h3 class="text-backone  text-center text-base tracking-wide md:text-xl md:mb-3">Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3>
-      <div class="grid grid-cols-2 gap-8 lg:flex lg:flex-row ">
-        <app-post-card></app-post-card>
-        <app-post-card></app-post-card>
-        <app-post-card></app-post-card>
-        <app-post-card></app-post-card>
+      <h2 class="text-backone font-bold text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Featured Posts</h2>
+      <h3 class="text-backone text-center text-base font-medium tracking-wide md:text-xl md:mb-3">Curated insights that simplify, solve, and elevate your AEM expertise</h3>
 
+      <p *ngIf="featuredLoading" class="text-backone/80 text-sm">Loading featured posts…</p>
+      <p *ngIf="featuredError" class="text-red-200 text-sm" role="alert">{{ featuredError }}</p>
+
+      <div *ngIf="featured.length" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:flex lg:flex-row lg:flex-wrap lg:justify-center">
+        <app-post-card *ngFor="let post of featured" [post]="post" class="lg:max-w-sm"></app-post-card>
       </div>
+
+      <p *ngIf="!featuredLoading && !featured.length && !featuredError" class="text-backone/80 text-sm">
+        No featured posts yet.
+      </p>
     </div>
   </section>
-<!--  Latest Posts-->
+
+  <!-- Latest Posts -->
   <section class="bg-backone">
     <div class="container flex flex-col justify-center items-center gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
-      <h2 class="text-primary font-medium text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Latest Posts</h2>
-      <h3 class="text-primary  text-center text-base tracking-wide md:text-xl md:mb-3">Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3>
-    <app-load-posts></app-load-posts>
+      <h2 class="text-primary font-bold text-2xl uppercase text-center tracking-wider xl:text-3xl xl:font-bold">Latest Posts</h2>
+      <h3 class="text-primary text-center text-base font-medium tracking-wide md:text-xl md:mb-3">Fresh content covering the latest trends, tips, and best practices in AEM</h3>
+      <p *ngIf="latestError" class="text-red-600 text-sm" role="alert">{{ latestError }}</p>
+      <app-load-posts
+        [posts]="latest"
+        [loading]="latestLoading"
+        [hasMore]="latestHasMore"
+        (loadMore)="loadMore()">
+      </app-load-posts>
     </div>
   </section>
+
   <section class="bg-backone">
     <div class="container">
-    <app-subscription-form></app-subscription-form>
+      <app-subscription-form></app-subscription-form>
     </div>
   </section>
 </main>

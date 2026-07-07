@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { LoadPostsComponent } from './load-posts.component';
 
@@ -8,9 +9,9 @@ describe('LoadPostsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoadPostsComponent]
-    })
-    .compileComponents();
+      declarations: [LoadPostsComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoadPostsComponent);
     component = fixture.componentInstance;

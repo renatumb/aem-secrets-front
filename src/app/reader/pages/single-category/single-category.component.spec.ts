@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
 import { SingleCategoryComponent } from './single-category.component';
 import { CategoriesService } from '../../services/categories.service';
+import { PostsService } from '../../services/posts.service';
 
 describe('SingleCategoryComponent', () => {
   let component: SingleCategoryComponent;
@@ -19,11 +21,18 @@ describe('SingleCategoryComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [SingleCategoryComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ActivatedRoute, useValue: routeStub },
         { provide: CategoriesService, useValue: serviceStub },
+        {
+          provide: PostsService,
+          useValue: {
+            listByCategory: () => of({ content: [] }),
+            mapPostsPage: () => ({ posts: [], hasMore: false }),
+          },
+        },
       ],
-      schemas: [],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SingleCategoryComponent);

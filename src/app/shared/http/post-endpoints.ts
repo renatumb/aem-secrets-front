@@ -8,6 +8,7 @@ export const POST_ENDPOINTS = {
   reader: {
     list: () => '/post',
     bySlug: (slug: string) => `/post/${encodeURIComponent(slug)}`,
+    downloadImage: (postIdParam: string, fileNameParam: string) => `/post/image?postID=${postIdParam}&filename=${fileNameParam}`,
   },
   editor: {
     list: () => '/post',

@@ -1,6 +1,5 @@
 <app-header-component [showCategoryNavBar]="true"></app-header-component>
 <main>
-<!--  -->
   <section class="bg-secondary/90">
     <div class="container flex flex-col justify-start gap-3 px-10 py-10 xl:gap-5 xl:pt-14">
       <p *ngIf="loading" class="text-backone/80 text-sm tracking-wide">Loading category...</p>
@@ -11,18 +10,23 @@
       </ng-container>
     </div>
   </section>
-<!-- -->
+
   <section class="bg-backone">
-    <div class="container ">
-      <app-load-posts></app-load-posts>
+    <div class="container">
+      <p *ngIf="postsError" class="px-10 pt-6 text-center text-sm text-red-600" role="alert">{{ postsError }}</p>
+      <app-load-posts
+        [posts]="posts"
+        [loading]="postsLoading"
+        [hasMore]="postsHasMore"
+        (loadMore)="loadMore()">
+      </app-load-posts>
     </div>
   </section>
-<!--  -->
+
   <section class="bg-backone">
     <div class="container">
       <app-subscription-form></app-subscription-form>
     </div>
   </section>
-<!--  -->
 </main>
 <app-footer-component></app-footer-component>
