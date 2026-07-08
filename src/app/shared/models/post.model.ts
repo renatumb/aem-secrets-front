@@ -53,5 +53,6 @@ export interface PostListQuery {
   sort?: 'asc' | 'desc';
   orderBy?: string;
   categoryFilter?: number;
+  tagFilter?: string;
   highlight?: boolean;
 }

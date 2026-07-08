@@ -33,11 +33,18 @@ export class PostsService {
       params = params.set('categoryFilter', String(query.categoryFilter));
     }
 
+    if (query.tagFilter != null && query.tagFilter !== '') {
+      params = params.set('tagFilter', query.tagFilter);
+    }
+
     if (query.highlight != null) {
       params = params.set('highlight', String(query.highlight));
     }
 
-    return this.http.get<any>(this.url(POST_ENDPOINTS.reader.list()), { params });
+    return this.http.get<any>(
+      this.url(POST_ENDPOINTS.reader.list()),
+      {params}
+    );
   }
 
   listFeatured(): Observable<any> {
@@ -56,6 +63,16 @@ export class PostsService {
   listByCategory(categoryId: number, page = 0, size = 6): Observable<any> {
     return this.list({
       categoryFilter: categoryId,
+      page,
+      size,
+      sort: 'desc',
+      orderBy: 'creationDate',
+    });
+  }
+
+  listByTag(tag: string, page = 0, size = 6): Observable<any> {
+    return this.list({
+      tagFilter: tag,
       page,
       size,
       sort: 'desc',

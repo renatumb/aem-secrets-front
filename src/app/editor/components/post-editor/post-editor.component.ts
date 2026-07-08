@@ -22,6 +22,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   formPermalinkSlug: string | null = null;
   formExcerpt: string | null = null;
   formCategoryId: number[] = [];
+  formTagsText : string = '';
   formImagePreview: string | null  = null;
   formContent: string | null = null;
   /* FORM FIELDS -- */
@@ -165,7 +166,29 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       description: this.formExcerpt ?? this.editingPost.description,
       content_en: this.formContent ?? this.editingPost.content_en,
       categories,
+      tags: this.parseTags(this.formTagsText),
     };
+  }
+
+  private parseTags(raw: string): string[] {
+    const seen = new Set<string>();
+
+    return raw
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter((tag) => {
+        if (!tag) {
+          return false;
+        }
+
+        const key = tag.toLowerCase();
+        if (seen.has(key)) {
+          return false;
+        }
+
+        seen.add(key);
+        return true;
+      });
   }
 
   private buildEditorConfig(): AngularEditorConfig {
@@ -243,6 +266,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     this.formPermalinkSlug = post.permalink ;
     this.formExcerpt = post.description;
     this.formCategoryId = post.categories?.map((category) => category.id) ?? [];
+    this.formTagsText = post.tags?.join(', ') ?? '';
 
     if (post.thumbnail) {
       this.formImagePreview = this.postsService.resolveUploadedImageUrl(post.thumbnail);

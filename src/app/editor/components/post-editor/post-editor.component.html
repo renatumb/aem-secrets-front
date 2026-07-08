@@ -25,6 +25,12 @@
         <label for="post-excerpt" class="block text-xs font-medium text-secondary/70 md:text-sm">Excerpt</label>
         <textarea id="post-excerpt" name="excerpt" [(ngModel)]="formExcerpt" rows="5" class="min-h-[8rem] w-full resize-y rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm leading-relaxed text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:text-base"></textarea>
       </div>
+<!---->
+      <div class="space-y-1.5">
+        <label for="post-tags" class="block text-xs font-medium text-secondary/70 md:text-sm">Tags</label>
+        <input id="post-tags" type="text" name="tags" [(ngModel)]="formTagsText" placeholder="e.g. angular, web development, tutorial" class="w-full rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:text-base"/>
+        <p class="text-xs text-secondary/60">Separate multiple tags with commas.</p>
+      </div>
     </section>
 
     <!-- Sidebar: category, image -->

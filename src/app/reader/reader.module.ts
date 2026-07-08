@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import { ReaderRoutingModule } from './reader-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { SingleCategoryComponent } from './pages/single-category/single-category.component';
+import { SingleTagComponent } from './pages/single-tag/single-tag.component';
 import { SinglePostComponent } from './pages/single-post/single-post.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
@@ -30,6 +31,7 @@ import {PostsService} from './services/posts.service';
   declarations: [
     HomeComponent,
     SingleCategoryComponent,
+    SingleTagComponent,
     SinglePostComponent,
     AboutUsComponent,
     TermsConditionsComponent,
