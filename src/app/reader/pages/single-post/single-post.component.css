@@ -1,0 +1,8 @@
+.post-hero-overlay {
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-secondaryx) 88%, transparent),
+    color-mix(in srgb, var(--color-secondaryx) 50%, transparent) 55%,
+    transparent
+  );
+}

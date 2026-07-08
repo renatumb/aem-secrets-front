@@ -9,8 +9,8 @@
       <p *ngIf="featuredLoading" class="text-backone/80 text-sm">Loading featured posts…</p>
       <p *ngIf="featuredError" class="text-red-200 text-sm" role="alert">{{ featuredError }}</p>
 
-      <div *ngIf="featured.length" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:flex lg:flex-row lg:flex-wrap lg:justify-center">
-        <app-post-card *ngFor="let post of featured" [post]="post" class="lg:max-w-sm"></app-post-card>
+      <div *ngIf="featured.length" class="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12" >
+        <app-post-card *ngFor="let post of featured" [post]="post"></app-post-card>
       </div>
 
       <p *ngIf="!featuredLoading && !featured.length && !featuredError" class="text-backone/80 text-sm">

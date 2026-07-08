@@ -1,4 +1,4 @@
-<article class="post-card mx-auto w-full max-w-4xl rounded-md bg-backone p-3 shadow-sm md:p-5 border-2 border-primary/40" [class.max-w-full]="compact">
+<article class="post-card mx-auto w-full min-w-0 max-w-4xl rounded-md bg-backone p-3 shadow-sm md:p-5 border-2 border-primary/40" [class.max-w-full]="compact">
   <a [routerLink]="['/post', post.permalink]" [state]="{ post: post }" class="block">
     <figure class="overflow-hidden rounded-md bg-secondary">
       <img [src]="thumbnailUrl" [alt]="post.title || 'Post cover image'" class="h-44 w-full object-cover sm:h-56 md:h-64" [class.lg:h-48]="compact" [class.lg:h-72]="!compact" loading="lazy" decoding="async"/>
