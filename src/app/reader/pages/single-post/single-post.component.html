@@ -37,11 +37,11 @@
           </article>
 
           <div class="rounded-lg border border-secondary/10 bg-primary/10 p-4 text-xs text-secondary/85 shadow-sm sm:text-sm md:p-8">
-            <app-comment-form></app-comment-form>
+            <app-comment-form [postId]="post.id" (commentSubmitted)="commentList.loadComments()"></app-comment-form>
           </div>
 
           <div class="rounded-lg border border-secondary/10 bg-primary/10 p-4 text-secondary/90 shadow-sm md:p-8">
-            <app-comment-list></app-comment-list>
+            <app-comment-list #commentList [postId]="post.id"></app-comment-list>
           </div>
         </div>
 

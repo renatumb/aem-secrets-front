@@ -1,30 +1,26 @@
 <h2 class="mb-1.5 text-left text-xs font-bold uppercase tracking-wide text-secondary sm:mb-2 sm:text-sm md:text-base">
   Comments
 </h2>
-<section class="rounded-lg border border-secondary/20 bg-secondary/10 p-4 text-secondary">
-  <article>
-    <header class="mb-3">
-      <h3 class="text-sm font-bold uppercase tracking-wide md:text-base">Person name</h3>
-      <p class="text-[11px] font-semibold uppercase tracking-wide text-secondary/75 md:text-xs">
-        - Last updated on 2026 05 20
+
+<p *ngIf="loading" class="text-xs text-secondary/70 sm:text-sm">Loading comments…</p>
+<p *ngIf="error" class="text-xs text-red-600 sm:text-sm" role="alert">{{ error }}</p>
+<p *ngIf="!loading && !error && !comments.length" class="text-xs text-secondary/70 sm:text-sm">
+  No comments yet. Be the first to share your thoughts.
+</p>
+
+<section *ngIf="comments.length" class="flex flex-col gap-6 text-secondary">
+  <article *ngFor="let comment of comments">
+    <blockquote class="relative px-2 pb-8 sm:px-4 sm:pb-10">
+      <span aria-hidden="true" class="pointer-events-none absolute left-0 top-0 select-none font-serif text-5xl leading-none text-primary/35 sm:text-6xl md:text-7xl">“</span>
+      <p class="relative z-10 whitespace-pre-wrap pl-8 pr-6 text-sm leading-relaxed sm:pl-10 sm:text-base md:text-lg">
+        {{ comment.content }}
       </p>
-    </header>
+      <span aria-hidden="true" class="pointer-events-none absolute bottom-0 right-0 select-none font-serif text-5xl leading-none text-primary/35 sm:text-6xl md:text-7xl">”</span>
+    </blockquote>
 
-    <p class="text-xs font-semibold uppercase leading-relaxed tracking-wide md:text-sm">
-      Comment content comment content comment content comment content comment content comment content comment content
-      comment content comment content comment content
+    <p class="mt-3 text-right text-xs font-medium text-secondary/80 sm:text-sm">
+      - {{ comment.nameAuthor }} on
+      <time [attr.datetime]="comment.creationDate">{{ comment.creationDate | date:'MMM d, yyyy' }}</time>
     </p>
-
-    <footer class="mt-4 flex items-center gap-6 text-xs font-bold uppercase tracking-wide md:text-sm">
-      <button type="button" class="!rounded-none text-primary hover:!scale-100 hover:!translate-y-0 hover:text-primary/80">
-        Reply
-      </button>
-      <button type="button" class="!rounded-none text-primary hover:!scale-100 hover:!translate-y-0 hover:text-primary/80">
-        View reply
-      </button>
-    </footer>
-
-    <div class="mt-3 border-b border-primary/60"></div>
   </article>
 </section>
-
