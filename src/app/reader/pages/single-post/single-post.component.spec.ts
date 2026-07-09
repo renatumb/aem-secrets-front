@@ -50,6 +50,7 @@ describe('SinglePostComponent', () => {
           provide: PostsService,
           useValue: {
             getBySlug: () => of({}),
+            listByTag: () => of({ content: [] }),
             resolveThumbnailUrl: (url: string) => url,
           },
         },

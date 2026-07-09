@@ -11,9 +11,12 @@ import { PostsService } from '../../services/posts.service';
 })
 export class SinglePostComponent implements OnInit, OnDestroy {
   post: Post | null = null;
+  relatedPosts: Post[] = [];
 
   loading = false;
+  relatedLoading = false;
   error: string | null = null;
+  relatedError: string | null = null;
 
   readonly placeholderThumbnail = 'https://placehold.co/1200x600?text=No+image';
 
@@ -47,6 +50,7 @@ export class SinglePostComponent implements OnInit, OnDestroy {
 
     if (statePost?.permalink && slug && statePost.permalink === slug) {
       this.post = statePost;
+      this.loadRelatedPosts();
       return;
     }
 
@@ -65,11 +69,40 @@ export class SinglePostComponent implements OnInit, OnDestroy {
         next: (post) => {
           this.post = post;
           this.loading = false;
+          this.loadRelatedPosts();
         },
         error: (err) => {
           this.loading = false;
           this.error = 'Could not load post.';
           console.error('Could not load post.', err);
+        },
+      });
+  }
+
+  private loadRelatedPosts(): void {
+    if (!this.post?.tags?.length) {
+      this.relatedPosts = [];
+      return;
+    }
+
+    this.relatedLoading = true;
+    this.relatedError = null;
+
+    this.postsService
+      .listByTag(this.post.tags, 0, 4)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.relatedPosts = this.postsService
+            .mapPostsResponse(response)
+            .filter((relatedPost) => relatedPost.permalink !== this.post?.permalink)
+            .slice(0, 3);
+          this.relatedLoading = false;
+        },
+        error: (err) => {
+          this.relatedLoading = false;
+          this.relatedError = 'Could not load related posts.';
+          console.error('Could not load related posts.', err);
         },
       });
   }

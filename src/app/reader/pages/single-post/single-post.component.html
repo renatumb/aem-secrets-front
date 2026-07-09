@@ -46,13 +46,20 @@
         </div>
 
         <aside class="flex w-full flex-col rounded-md bg-backone xl:col-span-1">
-          <div class="bg-primary/20 px-1 rounded-md relative">
-            <div class="mb-3 lg:mb-5">
-              <h2 class="absolute py-2 top-0 mx-auto w-[90%] mb-1.5 text-center text-xs font-bold uppercase tracking-wide text-secondary sm:text-sm md:text-base lg:text-lg">
-                Related posts
-              </h2>
+          <div class="rounded-md bg-primary/20 px-3 py-4">
+            <h2 class="mb-4 text-center text-xs font-bold uppercase tracking-wide text-secondary sm:text-sm md:text-base">
+              Related posts
+            </h2>
+
+            <p *ngIf="relatedLoading" class="text-center text-xs text-secondary/70">Loading related posts…</p>
+            <p *ngIf="relatedError" class="text-center text-xs text-red-600" role="alert">{{ relatedError }}</p>
+            <p *ngIf="!relatedLoading && !relatedError && !relatedPosts.length" class="text-center text-xs text-secondary/70">
+              No related posts found.
+            </p>
+
+            <div *ngIf="relatedPosts.length" class="flex flex-col gap-4">
+              <app-post-card *ngFor="let relatedPost of relatedPosts" [post]="relatedPost" [compact]="true"></app-post-card>
             </div>
-            <!-- Related posts wiring deferred to avoid extra API calls -->
           </div>
         </aside>
       </div>

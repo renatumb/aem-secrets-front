@@ -70,9 +70,10 @@ export class PostsService {
     });
   }
 
-  listByTag(tag: string, page = 0, size = 6): Observable<any> {
+  listByTag(tags: string | string[], page = 0, size = 6): Observable<any> {
+    const tagFilter = Array.isArray(tags) ? [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))].join(',') : tags;
     return this.list({
-      tagFilter: tag,
+      tagFilter,
       page,
       size,
       sort: 'desc',
