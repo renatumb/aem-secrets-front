@@ -11,5 +11,7 @@ export const COMMENT_ENDPOINTS = {
   },
   editor: {
     list: () => '/comment',
+    update: (id: number) => `/comment/${id}`,
+    remove: (id: number) => `/comment/${id}`,
   },
 } as const;

@@ -19,7 +19,14 @@
       <!-- Table -->
       <section class="grid w-full max-w-full grid-cols-1 place-items-stretch gap-5 rounded border border-primary bg-backone p-6 text-secondary shadow-sm md:gap-8 md:p-8 lg:p-10 lg:gap-12">
         <h2 class="sr-only">Comments list</h2>
-        <div class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5 ">
+
+        <p *ngIf="loading" class="text-sm font-medium text-secondary/70">Loading comments…</p>
+        <p *ngIf="error" class="text-sm font-medium text-red-600" role="alert">{{ error }}</p>
+        <p *ngIf="!loading && !error && !comments.length" class="text-sm font-medium text-secondary/70">
+          No comments found.
+        </p>
+
+        <div *ngIf="comments.length" class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5 ">
           <table class="w-full min-w-[64rem] border-collapse text-left text-xs text-secondary md:min-w-0 md:text-sm">
             <thead>
             <tr class="border-b-2 border-secondary bg-secondary/10">
@@ -39,24 +46,24 @@
               <td class="max-w-[14rem] px-3 py-3 align-top font-medium md:max-w-[18rem] md:px-4 md:py-3.5">
                 <span class="line-clamp-3 md:line-clamp-4" [attr.title]="row.content">{{ row.content }}</span>
               </td>
-              <td class="px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ row.authorName }}</td>
-              <td class="px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ row.authorEmail }}</td>
-              <td class="whitespace-nowrap px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ row.createdAt }}</td>
+              <td class="px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ row.nameAuthor }}</td>
+              <td class="px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ row.emailAuthor }}</td>
+              <td class="whitespace-nowrap px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ row.creationDate | date:'yyyy-MM-dd' }} <br> {{ row.creationDate | date:'HH:mm a' }} </td>
               <td class="px-3 py-3 text-center align-middle md:px-4 md:py-3.5">
-                <ng-icon *ngIf="row.status === 'APPROVED'" name="matThumbUpRound" class="text-xl text-primary md:text-2xl" aria-label="Approved"></ng-icon>
-                <ng-icon *ngIf="row.status === 'REJECTED'" name="matThumbDownRound" class="text-xl text-secondary md:text-2xl" aria-label="Rejected"></ng-icon>
-                <ng-icon *ngIf="row.status === 'PENDING'" name="matIndeterminateCheckBoxRound" class="text-xl text-secondary md:text-2xl" aria-label="Pending"></ng-icon>
+                <ng-icon *ngIf="row.statusComment === statusComment.ACCEPTED" name="matThumbUpRound" class="text-xl text-primary md:text-2xl" aria-label="Accepted"></ng-icon>
+                <ng-icon *ngIf="row.statusComment === statusComment.REJECTED" name="matThumbDownRound" class="text-xl text-secondary md:text-2xl" aria-label="Rejected"></ng-icon>
+                <ng-icon *ngIf="row.statusComment === statusComment.PENDING" name="matIndeterminateCheckBoxRound" class="text-xl text-secondary md:text-2xl" aria-label="Pending"></ng-icon>
               </td>
-              <td class="whitespace-nowrap px-3 py-3 text-center align-middle font-medium md:px-4 md:py-3.5">{{ row.statusDate }}</td>
+              <td class="whitespace-nowrap px-3 py-3 text-center align-middle font-medium md:px-4 md:py-3.5">{{ row.statusDate | date:'yyyy-MM-dd' }}<br> {{ row.statusDate | date:'HH:mm a' }}</td>
               <td class="px-3 py-3 text-center align-middle md:px-4 md:py-3.5">
                 <div class="flex flex-nowrap items-center justify-center gap-2">
-                  <button type="button" role="switch" [attr.aria-checked]="row.status === 'APPROVED'" [attr.aria-label]="    row.status === 'APPROVED'      ? 'Set comment ' + row.id + ' to pending'      : 'Approve comment ' + row.id  "
-                          (click)="toggleApprovalSwitch(row)"
-                          class="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                          [ngClass]="    row.status === 'APPROVED'      ? 'border-emerald-600/50 bg-emerald-600/35'      : 'border-secondary/30 bg-secondary/20'  ">
-                    <span class="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-backone shadow transition-all duration-200 ease-out" [ngClass]="row.status === 'APPROVED' ? 'left-[calc(100%-1.375rem)]' : 'left-0.5'"></span>
+                  <button type="button" role="switch" [attr.aria-checked]="row.statusComment === statusComment.ACCEPTED" [attr.aria-label]="row.statusComment === statusComment.ACCEPTED ? 'Reject comment ' + row.id : 'Accept comment ' + row.id"
+                          (click)="toggleApprovalSwitch(row)" [disabled]="isBusy(row)"
+                          class="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-60"
+                          [ngClass]="row.statusComment === statusComment.ACCEPTED ? 'border-emerald-600/50 bg-emerald-600/35' : 'border-secondary/30 bg-secondary/20'">
+                    <span class="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-backone shadow transition-all duration-200 ease-out" [ngClass]="row.statusComment === statusComment.ACCEPTED ? 'left-[calc(100%-1.375rem)]' : 'left-0.5'"></span>
                   </button>
-                  <button type="button" (click)="deleteComment(row)" class="inline-flex items-center justify-center rounded border border-secondary/35 bg-secondary/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-secondary  hover:bg-secondary/25 focus:outline-none focus:ring-2 focus:ring-secondary/20   md:text-xs">
+                  <button type="button" (click)="deleteComment(row)" [disabled]="isBusy(row)" class="inline-flex items-center justify-center rounded border border-secondary/35 bg-secondary/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-secondary hover:bg-secondary/25 focus:outline-none focus:ring-2 focus:ring-secondary/20 disabled:opacity-60 md:text-xs">
                     Delete
                   </button>
                 </div>

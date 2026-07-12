@@ -39,3 +39,8 @@ export interface CommentListQuery {
   orderBy?: string;
   statusFilter?: StatusComment;
 }
+
+/** Editor payload for updating comment moderation status. */
+export interface UpdateCommentStatusDto {
+  statusComment: StatusComment;
+}
