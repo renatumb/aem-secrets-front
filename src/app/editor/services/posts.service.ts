@@ -48,6 +48,10 @@ export class PostsService {
     return this.http.get<any>(this.url(POST_ENDPOINTS.editor.list()), { params });
   }
 
+  getById(id: string): Observable<Post> {
+    return this.http.get<Post>(this.url(POST_ENDPOINTS.editor.byId(id)));
+  }
+
   update(id: string, payload: Post): Observable<Post> {
     return this.http.put<Post>(
       this.url(POST_ENDPOINTS.editor.update(id)),

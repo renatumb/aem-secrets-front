@@ -40,6 +40,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   imagePlaceHolder : string = 'https://placehold.co/600x400';
 
   contentUploadError: string | null = null;
+  postLoading = false;
   postLoadError: string | null = null;
   saving = false;
   saveError: string | null = null;
@@ -245,6 +246,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     const statePost = history.state?.['post'] as Post | undefined;
 
     this.formPostId = idFromRoute;
+    this.postLoadError = null;
 
     if (statePost?.id && (!idFromRoute || statePost.id === idFromRoute)) {
       this.applyPost(statePost);
@@ -252,10 +254,32 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     }
 
     if (idFromRoute) {
-      this.postLoadError = 'Post data was not passed through navigation state. Open this post from the post list.';
-    } else {
-      this.postLoadError = 'Post id is missing. Open the editor with ?id= in the URL.';
+      this.loadPostById(idFromRoute);
+      return;
     }
+
+    this.postLoadError = 'Post id is missing. Open the editor with ?id= in the URL.';
+  }
+
+  private loadPostById(id: string): void {
+    this.postLoading = true;
+    this.postLoadError = null;
+
+    this.postsService
+      .getById(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (post) => {
+          this.postLoading = false;
+          this.applyPost(post);
+        },
+        error: (err) => {
+          this.postLoading = false;
+          this.postLoadError =
+            err?.error?.message ?? err?.message ?? 'Could not load post. Open this post from the post list.';
+          console.error('Could not load post by id.', err);
+        },
+      });
   }
 
   private applyPost(post: Post): void {

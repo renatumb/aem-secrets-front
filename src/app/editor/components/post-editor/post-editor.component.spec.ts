@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { convertToParamMap } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
@@ -18,26 +18,35 @@ const mockPost = {
   description: 'Excerpt text',
   thumbnail: '',
   content_en: '<p>Body</p>',
-  creation_date: '2026-01-01T10:00:00Z',
-  last_modification_date: '2026-01-02T10:00:00Z',
+  creationDate: '2026-01-01T10:00:00Z',
+  lastModificationDate: '2026-01-02T10:00:00Z',
   highlight: false,
   tags: [],
   categories: [],
   author: 'Author',
-  comments: [],
-  user_id: 'user-1',
+  comment: [],
   statusPost: PostStatus.DRAFT,
 };
 
 describe('PostEditorComponent', () => {
   let component: PostEditorComponent;
   let fixture: ComponentFixture<PostEditorComponent>;
-
-  let router: jasmine.SpyObj<Router>;
+  let postsService: jasmine.SpyObj<Partial<PostsService>>;
 
   beforeEach(async () => {
     history.replaceState({ post: mockPost }, '');
-    router = jasmine.createSpyObj('Router', ['navigate']);
+    postsService = jasmine.createSpyObj('PostsService', [
+      'uploadImage',
+      'resolveUploadedImageUrl',
+      'update',
+      'getById',
+    ]);
+    postsService.uploadImage!.and.returnValue(
+      of({ imageUrl: '94c089fb-567e-480a-921d-c19842ed5441\\bike1.jpg' }),
+    );
+    postsService.resolveUploadedImageUrl!.and.callFake((imageUrl: string) => imageUrl);
+    postsService.update!.and.returnValue(of(mockPost));
+    postsService.getById!.and.returnValue(of(mockPost));
 
     await TestBed.configureTestingModule({
       declarations: [PostEditorComponent],
@@ -47,14 +56,7 @@ describe('PostEditorComponent', () => {
           provide: CategoriesService,
           useValue: { list: () => of({ content: [] }) },
         },
-        {
-          provide: PostsService,
-          useValue: {
-            uploadImage: () => of({ imageUrl: '94c089fb-567e-480a-921d-c19842ed5441\\bike1.jpg' }),
-            resolveUploadedImageUrl: (imageUrl: string) => imageUrl,
-            update: () => of(mockPost),
-          },
-        },
+        { provide: PostsService, useValue: postsService },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -63,10 +65,9 @@ describe('PostEditorComponent', () => {
             },
           },
         },
-        { provide: Router, useValue: router },
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) },
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PostEditorComponent);
     component = fixture.componentInstance;
@@ -82,10 +83,104 @@ describe('PostEditorComponent', () => {
     expect(component.formPostTitle).toBe('Test post');
     expect(component.formExcerpt).toBe('Excerpt text');
     expect(component.formContent).toBe('<p>Body</p>');
+    expect(postsService.getById).not.toHaveBeenCalled();
   });
 
-  it('should call update and navigate on save', () => {
+  it('should call update on save', () => {
     component.onSave();
-    expect(router.navigate).toHaveBeenCalledWith(['/editor/posts']);
+    expect(postsService.update).toHaveBeenCalled();
+  });
+});
+
+describe('PostEditorComponent without router state', () => {
+  let component: PostEditorComponent;
+  let fixture: ComponentFixture<PostEditorComponent>;
+  let postsService: jasmine.SpyObj<Partial<PostsService>>;
+
+  beforeEach(async () => {
+    history.replaceState({}, '');
+    postsService = jasmine.createSpyObj('PostsService', [
+      'resolveUploadedImageUrl',
+      'getById',
+    ]);
+    postsService.resolveUploadedImageUrl!.and.callFake((imageUrl: string) => imageUrl);
+    postsService.getById!.and.returnValue(of(mockPost));
+
+    await TestBed.configureTestingModule({
+      declarations: [PostEditorComponent],
+      imports: [HttpClientTestingModule, FormsModule, AngularEditorModule],
+      providers: [
+        {
+          provide: CategoriesService,
+          useValue: { list: () => of({ content: [] }) },
+        },
+        { provide: PostsService, useValue: postsService },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParamMap: convertToParamMap({ id: mockPost.id }),
+            },
+          },
+        },
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(PostEditorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should load post by id when history state is missing', () => {
+    expect(postsService.getById).toHaveBeenCalledWith(mockPost.id);
+    expect(component.editingPost).toEqual(mockPost);
+    expect(component.formPostTitle).toBe('Test post');
+    expect(component.postLoadError).toBeNull();
+  });
+});
+
+describe('PostEditorComponent when getById fails', () => {
+  let component: PostEditorComponent;
+  let fixture: ComponentFixture<PostEditorComponent>;
+
+  beforeEach(async () => {
+    history.replaceState({}, '');
+
+    await TestBed.configureTestingModule({
+      declarations: [PostEditorComponent],
+      imports: [HttpClientTestingModule, FormsModule, AngularEditorModule],
+      providers: [
+        {
+          provide: CategoriesService,
+          useValue: { list: () => of({ content: [] }) },
+        },
+        {
+          provide: PostsService,
+          useValue: {
+            resolveUploadedImageUrl: (imageUrl: string) => imageUrl,
+            getById: () => throwError(() => ({ message: 'Not found' })),
+          },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParamMap: convertToParamMap({ id: mockPost.id }),
+            },
+          },
+        },
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(PostEditorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should show load error when getById fails', () => {
+    expect(component.postLoadError).toBeTruthy();
+    expect(component.postLoading).toBeFalse();
   });
 });

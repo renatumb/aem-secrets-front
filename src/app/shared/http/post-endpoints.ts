@@ -13,6 +13,7 @@ export const POST_ENDPOINTS = {
   editor: {
     list: () => '/post',
     createDraft: () => '/post',
+    byId: (id: string) => `/post/${encodeURIComponent(id)}`,
     update: (id: string) => `/post/${encodeURIComponent(id)}`,
     remove: (id: string) => `/post/${encodeURIComponent(id)}`,
     uploadImage: () => '/post/image',
