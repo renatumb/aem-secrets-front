@@ -26,6 +26,7 @@ import {CategoriesService} from './services/categories.service';
 import {SubscribersService} from './services/subscribers.service';
 import {PostsService} from './services/posts.service';
 import {CommentsService} from './services/comments.service';
+import {ContactService} from './services/contact.service';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import {CommentsService} from './services/comments.service';
     SubscribersService,
     PostsService,
     CommentsService,
+    ContactService,
   ]
 })
 export class ReaderModule { }
