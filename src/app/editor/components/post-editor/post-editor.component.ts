@@ -7,6 +7,7 @@ import {CategoriesService} from '../../services/categories.service';
 import {PostsService} from '../../services/posts.service';
 import {Category} from '../../../shared/models/category.model';
 import {Post, UploadPostImageResponse} from '../../../shared/models/post.model';
+import {toUserMessage} from '../../../shared/http/user-facing-error';
 import {AngularEditorConfig, UploadResponse} from '@kolkov/angular-editor';
 
 @Component({
@@ -31,7 +32,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   editorConfig!: AngularEditorConfig; /* Editor config */
   /* -- */
   categoryOptions: Category[] = [];
-  errorCategory: null | any = null;
+  errorCategory: string | null = null;
 
   selectedImageLabel = 'No file chosen';
 
@@ -103,7 +104,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.imageUploading = false;
-          this.imageUploadError = err?.error?.message ?? err?.message ?? 'Image upload failed.';
+          this.imageUploadError = toUserMessage(err, 'Image upload failed ');
           console.error('Image upload failed.', err);
         },
       });
@@ -135,8 +136,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.saving = false;
-          this.saveError =
-            err?.error?.message ?? err?.message ?? 'Could not save post.';
+          this.saveError = toUserMessage(err, 'Could not save post ');
           console.error('Could not save post.', err);
         },
       });
@@ -230,7 +230,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
         return httpResponse;
       }),
       catchError((err) => {
-        const errorMessage = err?.error?.message ?? err?.message ?? 'Image upload failed.';
+        const errorMessage = toUserMessage(err, 'Image upload failed ');
         this.contentUploadError = errorMessage;
         alert(errorMessage);
         console.error('Editor image upload failed.', err);
@@ -275,9 +275,8 @@ export class PostEditorComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.postLoading = false;
-          this.postLoadError =
-            err?.error?.message ?? err?.message ?? 'Could not load post. Open this post from the post list.';
-          console.error('Could not load post by id.', err);
+          this.postLoadError = toUserMessage(err, 'Could not load post. Open this post from the post list ',);
+          console.error('Could not load post by id ', err);
         },
       });
   }
@@ -315,9 +314,8 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (items) => this.categoryOptions = items?.content ? [...items?.content] : [],
         error: (err) => {
-          this.errorCategory = err;
-          console.error('Could not load categories.');
-          console.error(JSON.stringify(err));
+          this.errorCategory = toUserMessage(err, 'Could not load categories ');
+          console.error('Could not load categories.', err);
         },
       });
   }

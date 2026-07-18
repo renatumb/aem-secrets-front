@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/
 import { Subject, takeUntil } from 'rxjs';
 import { Comment } from '../../../shared/models/comment.model';
 import { CommentsService } from '../../services/comments.service';
+import { toUserMessage } from '../../../shared/http/user-facing-error';
 
 @Component({
   selector: 'app-comment-list',
@@ -49,7 +50,7 @@ export class CommentListComponent implements OnChanges, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message ?? 'Could not load comments.';
+          this.error = toUserMessage(err, 'Could not load comments ');
           console.error('Could not load comments.', err);
         },
       });

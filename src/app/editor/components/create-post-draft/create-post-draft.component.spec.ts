@@ -84,7 +84,7 @@ describe('CreatePostDraftComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    expect(component.error).toBe('Server error');
+    expect(component.error).toBe('Could not create draft post.');
     expect(router.navigate).not.toHaveBeenCalled();
   });
 });

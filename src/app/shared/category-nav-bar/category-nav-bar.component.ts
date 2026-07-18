@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {CategoriesService} from '../../reader/services/categories.service';
 import {Category} from '../models/category.model';
+import {toUserMessage} from '../http/user-facing-error';
 
 @Component({
   selector: 'app-category-nav-bar',
@@ -47,7 +48,7 @@ export class CategoryNavBarComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = 'Could not load categories. ' + JSON.stringify(err);
+          this.error = toUserMessage(err, 'Could not load categories ');
           console.error('Failed to load categories', err);
         },
       });

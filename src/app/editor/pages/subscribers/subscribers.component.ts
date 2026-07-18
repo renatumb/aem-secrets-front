@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { SubscribersService } from '../../services/subscribers.service';
 import { Subscriber } from '../../../shared/models/subscriber.model';
+import { toUserMessage } from '../../../shared/http/user-facing-error';
 
 @Component({
   selector: 'app-subscribers',
@@ -77,7 +78,7 @@ export class SubscribersComponent implements OnInit, OnDestroy {
 
   private handleError(err: unknown, fallback: string): void {
     this.loading = false;
-    this.error = fallback + ' : ' + JSON.stringify(err);
+    this.error = toUserMessage(err, fallback);
     console.error(fallback, err);
   }
 }

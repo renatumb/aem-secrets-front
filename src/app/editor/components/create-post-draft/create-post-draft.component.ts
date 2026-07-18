@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
+import { toUserMessage } from '../../../shared/http/user-facing-error';
 
 @Component({
   selector: 'app-create-post-draft',
@@ -43,8 +44,8 @@ export class CreatePostDraftComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message ?? err?.message ?? 'Could not create draft post.';
-          console.error('Could not create draft post.', err);
+          this.error = toUserMessage(err, 'Could not create draft post ');
+          console.error('Could not create draft post ', err);
         },
       });
   }

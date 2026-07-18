@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
+import { toUserMessage } from '../../../shared/http/user-facing-error';
 
 @Component({
   selector: 'app-comment-form',
@@ -52,7 +53,7 @@ export class CommentFormComponent implements OnDestroy {
       .subscribe({
         next: () => {
           this.submitting = false;
-          this.successMessage = 'Thanks! Your comment was submitted and is awaiting moderation.';
+          this.successMessage = 'Thanks! Your comment was submitted and is awaiting moderation ';
           this.nameAuthor = '';
           this.emailAuthor = '';
           this.content = '';
@@ -60,7 +61,7 @@ export class CommentFormComponent implements OnDestroy {
         },
         error: (err) => {
           this.submitting = false;
-          this.error = err?.message ?? 'Could not submit your comment. Please try again.';
+          this.error = toUserMessage(err, 'Could not submit your comment. Please try again ');
           console.error('Comment submission failed', err);
         },
       });

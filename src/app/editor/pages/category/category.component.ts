@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CategoriesService } from '../../services/categories.service';
 import { Category, CreateUpdateCategoryDto } from '../../../shared/models/category.model';
+import { toUserMessage } from '../../../shared/http/user-facing-error';
 
 @Component({
   selector: 'app-category',
@@ -197,10 +198,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  private handleError(err: any, fallback: string): void {
+  private handleError(err: unknown, fallback: string): void {
     this.loading = false;
     this.saving = false;
-    this.error = fallback + ':' + JSON.stringify( err ) ;
+    this.error = toUserMessage(err, fallback);
     console.error(fallback, err);
   }
 }
