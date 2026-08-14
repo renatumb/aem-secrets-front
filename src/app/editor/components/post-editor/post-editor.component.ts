@@ -90,7 +90,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     this.imageUploading = true;
 
     this.postsService
-      .uploadImage(this.formPostId, file)
+      .uploadImage(this.formPostId, file, true)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: UploadPostImageResponse) => {

@@ -31,7 +31,7 @@ const mockPost = {
 describe('PostEditorComponent', () => {
   let component: PostEditorComponent;
   let fixture: ComponentFixture<PostEditorComponent>;
-  let postsService: jasmine.SpyObj<Partial<PostsService>>;
+  let postsService: jasmine.SpyObj<PostsService>;
 
   beforeEach(async () => {
     history.replaceState({ post: mockPost }, '');
@@ -41,12 +41,12 @@ describe('PostEditorComponent', () => {
       'update',
       'getById',
     ]);
-    postsService.uploadImage!.and.returnValue(
+    postsService.uploadImage.and.returnValue(
       of({ imageUrl: '94c089fb-567e-480a-921d-c19842ed5441\\bike1.jpg' }),
     );
-    postsService.resolveUploadedImageUrl!.and.callFake((imageUrl: string) => imageUrl);
-    postsService.update!.and.returnValue(of(mockPost));
-    postsService.getById!.and.returnValue(of(mockPost));
+    postsService.resolveUploadedImageUrl.and.callFake((imageUrl: string) => imageUrl);
+    postsService.update.and.returnValue(of(mockPost));
+    postsService.getById.and.returnValue(of(mockPost));
 
     await TestBed.configureTestingModule({
       declarations: [PostEditorComponent],
@@ -95,7 +95,7 @@ describe('PostEditorComponent', () => {
 describe('PostEditorComponent without router state', () => {
   let component: PostEditorComponent;
   let fixture: ComponentFixture<PostEditorComponent>;
-  let postsService: jasmine.SpyObj<Partial<PostsService>>;
+  let postsService: jasmine.SpyObj<PostsService>;
 
   beforeEach(async () => {
     history.replaceState({}, '');
@@ -103,8 +103,8 @@ describe('PostEditorComponent without router state', () => {
       'resolveUploadedImageUrl',
       'getById',
     ]);
-    postsService.resolveUploadedImageUrl!.and.callFake((imageUrl: string) => imageUrl);
-    postsService.getById!.and.returnValue(of(mockPost));
+    postsService.resolveUploadedImageUrl.and.callFake((imageUrl: string) => imageUrl);
+    postsService.getById.and.returnValue(of(mockPost));
 
     await TestBed.configureTestingModule({
       declarations: [PostEditorComponent],

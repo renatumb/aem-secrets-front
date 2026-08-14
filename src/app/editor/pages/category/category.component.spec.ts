@@ -14,8 +14,8 @@ describe('CategoryComponent', () => {
   beforeEach(async () => {
     const serviceStub: Partial<CategoriesService> = {
       list: () => of([]),
-      create: () => of({ id: 1, description: 'x' }),
-      update: () => of({ id: 1, description: 'x' }),
+      create: () => of({ id: 1, name: 'x', description: 'x' }),
+      update: () => of({ id: 1, name: 'x', description: 'x' }),
       remove: () => of(void 0),
     };
 

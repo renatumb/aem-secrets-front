@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SUBSCRIBER_ENDPOINTS } from '../../shared/http/subscriber-endpoints';
 import { EDITOR_API_BASE_URL } from '../../shared/http/api.config';
+import { withAuth } from '../../core/auth/auth.context';
 import {
   Subscriber,
   SubscriberListQuery,
@@ -28,7 +29,7 @@ export class SubscribersService {
       .set('sort', query.sort ?? 'desc')
       .set('fields', query.fields ?? 'dateCreation,email')
 
-    return this.http.get<any>(this.url(SUBSCRIBER_ENDPOINTS.editor.list()), { params });
+    return this.http.get<any>(this.url(SUBSCRIBER_ENDPOINTS.editor.list()), { params, ...withAuth() });
   }
 
   switchActive(email: string, active: boolean): Observable<Subscriber> {
@@ -37,6 +38,7 @@ export class SubscribersService {
     return this.http.patch<Subscriber>(
       this.url(SUBSCRIBER_ENDPOINTS.editor.switchActive(email)),
       payload,
+      withAuth(),
     );
   }
 

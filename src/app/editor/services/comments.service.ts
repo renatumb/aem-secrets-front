@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COMMENT_ENDPOINTS } from '../../shared/http/comment-endpoints';
 import { EDITOR_API_BASE_URL } from '../../shared/http/api.config';
+import { withAuth } from '../../core/auth/auth.context';
 import {
   Comment,
   CommentListQuery,
@@ -37,7 +38,7 @@ export class CommentsService {
       params = params.set('statusFilter', query.statusFilter);
     }
 
-    return this.http.get<any>(this.url(COMMENT_ENDPOINTS.editor.list()), { params });
+    return this.http.get<any>(this.url(COMMENT_ENDPOINTS.editor.list()), { params, ...withAuth() });
   }
 
   updateStatus(id: number, statusComment: StatusComment): Observable<Comment> {
@@ -46,11 +47,15 @@ export class CommentsService {
     return this.http.put<Comment>(
       this.url(COMMENT_ENDPOINTS.editor.update(id)),
       payload,
+      withAuth(),
     );
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.url(COMMENT_ENDPOINTS.editor.remove(id)));
+    return this.http.delete<void>(
+      this.url(COMMENT_ENDPOINTS.editor.remove(id)),
+      withAuth(),
+    );
   }
 
   mapCommentsResponse(response: unknown): Comment[] {

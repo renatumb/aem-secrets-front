@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { POST_ENDPOINTS } from '../../shared/http/post-endpoints';
 import { EDITOR_API_BASE_URL } from '../../shared/http/api.config';
+import { withAuth } from '../../core/auth/auth.context';
 import {
   PostDraft,
   Post,
@@ -31,6 +32,7 @@ export class PostsService {
     return this.http.post<Post>(
       this.url(POST_ENDPOINTS.editor.createDraft()),
       payload,
+      withAuth(),
     );
   }
 
@@ -45,17 +47,18 @@ export class PostsService {
       params = params.set('categoryFilter', String(query.categoryFilter));
     }
 
-    return this.http.get<any>(this.url(POST_ENDPOINTS.editor.list()), { params });
+    return this.http.get<any>(this.url(POST_ENDPOINTS.editor.list()), { params, ...withAuth() });
   }
 
   getById(id: string): Observable<Post> {
-    return this.http.get<Post>(this.url(POST_ENDPOINTS.editor.byId(id)));
+    return this.http.get<Post>(this.url(POST_ENDPOINTS.editor.byId(id)), withAuth());
   }
 
   update(id: string, payload: Post): Observable<Post> {
     return this.http.put<Post>(
       this.url(POST_ENDPOINTS.editor.update(id)),
       payload,
+      withAuth(),
     );
   }
 
@@ -65,6 +68,7 @@ export class PostsService {
     return this.http.put<Post>(
       this.url(POST_ENDPOINTS.editor.update(id)),
       payload,
+      withAuth(),
     );
   }
 
@@ -74,21 +78,25 @@ export class PostsService {
     return this.http.put<Post>(
       this.url(POST_ENDPOINTS.editor.update(id)),
       payload,
+      withAuth(),
     );
   }
 
   remove(id: string): Observable<void> {
-    return this.http.delete<void>(this.url(POST_ENDPOINTS.editor.remove(id)));
+    return this.http.delete<void>(this.url(POST_ENDPOINTS.editor.remove(id)), withAuth());
   }
 
-  uploadImage(postId: string, file: File): Observable<UploadPostImageResponse> {
+  uploadImage(postId: string, file: File, cover: boolean = false): Observable<UploadPostImageResponse> {
     const formData = new FormData();
     formData.append('selected_file', file);
     formData.append('postId', postId);
+    // @ts-ignore
+    formData.append('isCover', cover);
 
     return this.http.post<UploadPostImageResponse>(
       this.url(POST_ENDPOINTS.editor.uploadImage()),
       formData,
+      withAuth(),
     );
   }
 

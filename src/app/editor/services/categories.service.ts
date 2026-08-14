@@ -3,6 +3,7 @@ import {Inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {CATEGORY_ENDPOINTS} from '../../shared/http/category-endpoints';
 import {EDITOR_API_BASE_URL} from '../../shared/http/api.config';
+import {withAuth} from '../../core/auth/auth.context';
 import {Category, CategoryListQuery, CreateUpdateCategoryDto} from '../../shared/models/category.model';
 
 /**
@@ -26,24 +27,31 @@ export class CategoriesService {
 
     return this.http.get<any>(
       this.url(CATEGORY_ENDPOINTS.editor.list()),
-      {params}
+      {params, ...withAuth()},
     );
   }
 
   create(payload: CreateUpdateCategoryDto): Observable<Category> {
     return this.http.post<Category>(
       this.url(CATEGORY_ENDPOINTS.editor.create()),
-      payload);
+      payload,
+      withAuth(),
+    );
   }
 
   update(id: number, payload: CreateUpdateCategoryDto): Observable<Category> {
     return this.http.put<Category>(
       this.url(CATEGORY_ENDPOINTS.editor.update(id)),
-      payload);
+      payload,
+      withAuth(),
+    );
   }
 
   remove(id: number): Observable<void> {
-    return this.http.delete<void>( this.url(CATEGORY_ENDPOINTS.editor.remove(id) ) );
+    return this.http.delete<void>(
+      this.url(CATEGORY_ENDPOINTS.editor.remove(id)),
+      withAuth(),
+    );
   }
 
   private url(path: string): string {

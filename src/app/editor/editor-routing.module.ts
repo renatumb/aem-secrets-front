@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../core/auth/auth.guard';
 import {LoginComponent} from './pages/login/login.component';
 import {CommentsComponent} from './pages/comments/comments.component';
 import {SubscribersComponent} from './pages/subscribers/subscribers.component';
@@ -13,15 +14,16 @@ import {CreatePostDraftComponent} from './components/create-post-draft/create-po
 
 const routes: Routes = [
   {path: '', component: LoginComponent, title: 'Aem Secrets: Login'},
-  {path: 'dashboard', component: DashboardComponent, title: 'Aem Secrets: Dashboard'},
-  {path: 'category', component: CategoryComponent, title: 'Category'},
-  {path: 'comments', component: CommentsComponent, title: 'Comments'},
-  {path: 'subscribers', component: SubscribersComponent, title: 'Subscribers'},
+  {path: 'dashboard', component: DashboardComponent, title: 'Aem Secrets: Dashboard', canActivate: [AuthGuard]},
+  {path: 'category', component: CategoryComponent, title: 'Category', canActivate: [AuthGuard]},
+  {path: 'comments', component: CommentsComponent, title: 'Comments', canActivate: [AuthGuard]},
+  {path: 'subscribers', component: SubscribersComponent, title: 'Subscribers', canActivate: [AuthGuard]},
 
   {
     path: 'posts',
     component: PostComponent,
     title: 'Posts',
+    canActivate: [AuthGuard],
     children: [
       {path: '', component: PostListComponent      },
       {path: 'new', component: CreatePostDraftComponent},
