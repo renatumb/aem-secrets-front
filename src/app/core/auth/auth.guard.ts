@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean | UrlTree {
-    console.log(this)
     if (this.authService.isAuthenticated()) {
        return true;
     }

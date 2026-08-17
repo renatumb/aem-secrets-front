@@ -6,7 +6,7 @@ import {map, catchError} from 'rxjs/operators';
 import {CategoriesService} from '../../services/categories.service';
 import {PostsService} from '../../services/posts.service';
 import {Category} from '../../../shared/models/category.model';
-import {Post, UploadPostImageResponse} from '../../../shared/models/post.model';
+import {Post, PostStatus, UploadPostImageResponse} from '../../../shared/models/post.model';
 import {toUserMessage} from '../../../shared/http/user-facing-error';
 import {AngularEditorConfig, UploadResponse} from '@kolkov/angular-editor';
 
@@ -168,6 +168,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       content_en: this.formContent ?? this.editingPost.content_en,
       categories,
       tags: this.parseTags(this.formTagsText),
+      statusPost : PostStatus.DRAFT
     };
   }
 

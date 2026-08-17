@@ -41,7 +41,8 @@ export class PostsService {
       .set('page', String(query.page ?? 0))
       .set('size', String(query.size ?? 100))
       .set('sort', query.sort ?? 'desc')
-      .set('orderBy', query.orderBy ?? 'creationDate');
+      .set('orderBy', query.orderBy ?? 'creationDate')
+      .set('statusPost', query.statusesPost ?? (Object.values(PostStatus).join(',')  ) );
 
     if (query.categoryFilter != null) {
       params = params.set('categoryFilter', String(query.categoryFilter));

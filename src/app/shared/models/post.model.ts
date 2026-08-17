@@ -55,4 +55,5 @@ export interface PostListQuery {
   categoryFilter?: number;
   tagFilter?: string;
   highlight?: boolean;
+  statusesPost?: string;
 }
