@@ -9,6 +9,7 @@ import {Category} from '../../../shared/models/category.model';
 import {Post, PostStatus, UploadPostImageResponse} from '../../../shared/models/post.model';
 import {toUserMessage} from '../../../shared/http/user-facing-error';
 import {PLACEHOLDER_THUMBNAIL} from '../../../shared/placeholder';
+import {sanitizePostHtml} from '../../../shared/security/sanitize-post-html';
 import {AngularEditorConfig, UploadResponse} from '@kolkov/angular-editor';
 
 @Component({
@@ -166,7 +167,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       title: this.formPostTitle ?? this.editingPost.title,
       permalink: this.formPermalinkSlug ?? this.editingPost.permalink,
       description: this.formExcerpt ?? this.editingPost.description,
-      content_en: this.formContent ?? this.editingPost.content_en,
+      content_en: sanitizePostHtml(this.formContent ?? this.editingPost.content_en),
       categories,
       tags: this.parseTags(this.formTagsText),
       statusPost : PostStatus.DRAFT
@@ -201,7 +202,9 @@ export class PostEditorComponent implements OnInit, OnDestroy {
       height: 'auto',
       minHeight: '18rem',
       placeholder: 'Write the full post body here…',
-      upload: (file: File) => this.uploadEditorImage(file),
+      sanitize: true,
+      rawPaste: false,
+      upload: (file: File) => this.uploadEditorImage(file)
     };
   }
 

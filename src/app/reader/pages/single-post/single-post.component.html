@@ -33,7 +33,7 @@
             <p *ngIf="post.description" class="mb-6 text-lg text-center font-semibold leading-relaxed text-secondary md:mb-8 md:text-xl ">
               {{ post.description }}
             </p>
-            <div class="text-justify text-sm font-semibold leading-relaxed sm:text-base md:text-lg lg:text-xl" [innerHTML]="post.content_en"></div>
+            <div class="text-justify text-sm font-semibold leading-relaxed sm:text-base md:text-lg lg:text-xl" [innerHTML]="post.content_en | safeHtml"></div>
           </article>
 
           <div class="rounded-lg border border-secondary/10 bg-primary/10 p-4 text-xs text-secondary/85 shadow-sm sm:text-sm md:p-8">

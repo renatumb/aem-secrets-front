@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { convertToParamMap } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -51,6 +52,7 @@ describe('PostEditorComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [PostEditorComponent],
       imports: [HttpClientTestingModule, FormsModule, AngularEditorModule],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: CategoriesService,
@@ -90,6 +92,15 @@ describe('PostEditorComponent', () => {
     component.onSave();
     expect(postsService.update).toHaveBeenCalled();
   });
+
+  it('should sanitize post HTML before save', () => {
+    component.formContent = '<p>Hi</p><script>alert(1)</script><img src="/x.jpg" onerror="alert(1)">';
+    component.onSave();
+    const payload = postsService.update.calls.mostRecent().args[1] as { content_en: string };
+    expect(payload.content_en).toContain('<p>Hi</p>');
+    expect(payload.content_en.toLowerCase()).not.toContain('<script');
+    expect(payload.content_en.toLowerCase()).not.toContain('onerror');
+  });
 });
 
 describe('PostEditorComponent without router state', () => {
@@ -109,6 +120,7 @@ describe('PostEditorComponent without router state', () => {
     await TestBed.configureTestingModule({
       declarations: [PostEditorComponent],
       imports: [HttpClientTestingModule, FormsModule, AngularEditorModule],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: CategoriesService,
@@ -150,6 +162,7 @@ describe('PostEditorComponent when getById fails', () => {
     await TestBed.configureTestingModule({
       declarations: [PostEditorComponent],
       imports: [HttpClientTestingModule, FormsModule, AngularEditorModule],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: CategoriesService,

@@ -27,6 +27,7 @@ import {SubscribersService} from './services/subscribers.service';
 import {PostsService} from './services/posts.service';
 import {CommentsService} from './services/comments.service';
 import {ContactService} from './services/contact.service';
+import {SafeHtmlPipe} from '../shared/security/safe-html.pipe';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {ContactService} from './services/contact.service';
     ReaderRoutingModule,
     FooterComponentComponent,
     HeaderComponentComponent,
+    SafeHtmlPipe,
     NgIconsModule.withIcons({
       matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound
     })

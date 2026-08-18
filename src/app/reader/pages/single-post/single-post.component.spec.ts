@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { SinglePostComponent } from './single-post.component';
 import { PostsService } from '../../services/posts.service';
 import { PostStatus } from '../../../shared/models/post.model';
+import { SafeHtmlPipe } from '../../../shared/security/safe-html.pipe';
 
 describe('SinglePostComponent', () => {
   let component: SinglePostComponent;
@@ -36,6 +37,7 @@ describe('SinglePostComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [SinglePostComponent],
+      imports: [SafeHtmlPipe],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
