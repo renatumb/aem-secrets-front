@@ -13,16 +13,16 @@ import {CreatePostDraftComponent} from './components/create-post-draft/create-po
 
 
 const routes: Routes = [
-  {path: '', component: LoginComponent, title: 'Aem Secrets: Login'},
-  {path: 'dashboard', component: DashboardComponent, title: 'Aem Secrets: Dashboard', canActivate: [AuthGuard]},
-  {path: 'category', component: CategoryComponent, title: 'Category', canActivate: [AuthGuard]},
-  {path: 'comments', component: CommentsComponent, title: 'Comments', canActivate: [AuthGuard]},
-  {path: 'subscribers', component: SubscribersComponent, title: 'Subscribers', canActivate: [AuthGuard]},
+  {path: '', component: LoginComponent, title: 'AEM Secrets: Login'},
+  {path: 'dashboard', component: DashboardComponent, title: 'AEM Secrets: Dashboard', canActivate: [AuthGuard]},
+  {path: 'category', component: CategoryComponent, title: 'AEM Secrets: Categories', canActivate: [AuthGuard]},
+  {path: 'comments', component: CommentsComponent, title: 'AEM Secrets: Comments', canActivate: [AuthGuard]},
+  {path: 'subscribers', component: SubscribersComponent, title: 'AEM Secrets: Subscribers', canActivate: [AuthGuard]},
 
   {
     path: 'posts',
     component: PostComponent,
-    title: 'Posts',
+    title: 'AEM Secrets: Posts',
     canActivate: [AuthGuard],
     children: [
       {path: '', component: PostListComponent      },

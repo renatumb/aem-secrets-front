@@ -7,7 +7,7 @@ import { ThemeService } from './core/theme/theme.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  title = 'aem-blog-fe';
+  title = 'AEM Secrets';
 
   constructor(private readonly themeService: ThemeService) {}
 

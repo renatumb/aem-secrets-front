@@ -20,4 +20,11 @@ describe('FooterComponentComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show the current copyright year', () => {
+    const year = new Date().getFullYear();
+    expect(component.copyrightYear).toBe(year);
+    expect(fixture.nativeElement.textContent).toContain(`Copyright © ${year} AEM Secrets`);
+  });
 });
+

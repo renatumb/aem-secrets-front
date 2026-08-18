@@ -21,10 +21,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'aem-blog-fe'`, () => {
+  it(`should have as title 'AEM Secrets'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('aem-blog-fe');
+    expect(app.title).toEqual('AEM Secrets');
   });
 
   it('should initialize theme on init', () => {
