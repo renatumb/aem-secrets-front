@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Post } from '../../../shared/models/post.model';
+import { PLACEHOLDER_THUMBNAIL } from '../../../shared/placeholder';
 import { PostsService } from '../../services/posts.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class PostCardComponent {
   @Input({ required: true }) post!: Post;
   @Input() compact = false;
 
-  readonly placeholderThumbnail = 'https://placehold.co/600x400?text=No+image';
+  readonly placeholderThumbnail = PLACEHOLDER_THUMBNAIL;
 
   constructor(private readonly postsService: PostsService) {}
 

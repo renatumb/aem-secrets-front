@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Post } from '../../../shared/models/post.model';
+import { PLACEHOLDER_THUMBNAIL } from '../../../shared/placeholder';
 import { PostsService } from '../../services/posts.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class SinglePostComponent implements OnInit, OnDestroy {
   error: string | null = null;
   relatedError: string | null = null;
 
-  readonly placeholderThumbnail = 'https://placehold.co/1200x600?text=No+image';
+  readonly placeholderThumbnail = PLACEHOLDER_THUMBNAIL;
 
   private readonly destroy$ = new Subject<void>();
 

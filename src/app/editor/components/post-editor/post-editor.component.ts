@@ -8,6 +8,7 @@ import {PostsService} from '../../services/posts.service';
 import {Category} from '../../../shared/models/category.model';
 import {Post, PostStatus, UploadPostImageResponse} from '../../../shared/models/post.model';
 import {toUserMessage} from '../../../shared/http/user-facing-error';
+import {PLACEHOLDER_THUMBNAIL} from '../../../shared/placeholder';
 import {AngularEditorConfig, UploadResponse} from '@kolkov/angular-editor';
 
 @Component({
@@ -38,7 +39,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
 
   imageUploading = false;
   imageUploadError: string | null = null;
-  imagePlaceHolder : string = 'https://placehold.co/600x400';
+  imagePlaceHolder = PLACEHOLDER_THUMBNAIL;
 
   contentUploadError: string | null = null;
   postLoading = false;

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
 import { Post, PostStatus } from '../../../shared/models/post.model';
+import { PLACEHOLDER_THUMBNAIL } from '../../../shared/placeholder';
 
 @Component({
   selector: 'app-post-list',
@@ -16,7 +17,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   busyIds = new Set<string>();
 
   readonly statusOptions = Object.values(PostStatus);
-  readonly placeholderThumbnail = 'https://placehold.co/120x120?text=No+image';
+  readonly placeholderThumbnail = PLACEHOLDER_THUMBNAIL;
 
   private readonly destroy$ = new Subject<void>();
 
