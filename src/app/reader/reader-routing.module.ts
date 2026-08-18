@@ -7,6 +7,8 @@ import {SinglePostComponent} from './pages/single-post/single-post.component';
 import {AboutUsComponent} from './pages/about-us/about-us.component';
 import {TermsConditionsComponent} from './pages/terms-conditions/terms-conditions.component';
 import {ContactUsComponent} from './pages/contact-us/contact-us.component';
+import {PrivacyPolicyComponent} from './pages/privacy-policy/privacy-policy.component';
+import {UnsubscribeComponent} from './pages/unsubscribe/unsubscribe.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent, title: 'AEM Secrets: Home'},
@@ -15,7 +17,9 @@ const routes: Routes = [
   {path: 'post/:post-id', component: SinglePostComponent, title: 'AEM Secrets: Post'},
   {path: 'about-us', component: AboutUsComponent, title: 'AEM Secrets: About'},
   {path: 'terms-conditions', component: TermsConditionsComponent, title: 'AEM Secrets: Terms & Conditions'},
-  {path: 'contact-us', component: ContactUsComponent, title: 'AEM Secrets: Contact'}
+  {path: 'privacy-policy', component: PrivacyPolicyComponent, title: 'AEM Secrets: Privacy Policy'},
+  {path: 'contact-us', component: ContactUsComponent, title: 'AEM Secrets: Contact'},
+  {path: 'unsubscribe', component: UnsubscribeComponent, title: 'AEM Secrets: Unsubscribe'},
 ];
 
 @NgModule({

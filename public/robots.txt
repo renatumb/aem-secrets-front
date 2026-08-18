@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /editor/
+
+Sitemap: https://aemsecrets.com/sitemap.xml

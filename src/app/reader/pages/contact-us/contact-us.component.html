@@ -44,6 +44,11 @@
           <p *ngIf="successMessage" class="text-sm font-medium text-emerald-700" role="status">{{ successMessage }}</p>
           <p *ngIf="error" class="text-sm font-medium text-red-600" role="alert">{{ error }}</p>
 
+          <p class="text-xs font-medium leading-relaxed text-secondary/80 md:text-sm">
+            We use your name and email only to respond to this message. See our
+            <a routerLink="/privacy-policy" class="text-primary underline hover:text-secondary">Privacy Policy</a>.
+          </p>
+
           <div class="mt-2 flex flex-wrap items-center gap-3 md:gap-4">
             <button type="submit" [disabled]="submitting || contactForm.invalid" class="rounded-xl border border-primary/30 bg-primary px-5 py-2.5 text-xs font-semibold text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-60 md:px-6 md:py-3 md:text-sm">
               {{ submitting ? 'Sending...' : 'Send message' }}

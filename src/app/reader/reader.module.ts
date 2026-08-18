@@ -10,6 +10,8 @@ import { SinglePostComponent } from './pages/single-post/single-post.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { UnsubscribeComponent } from './pages/unsubscribe/unsubscribe.component';
 import { SubscriptionFormComponent } from './components/subscription-form/subscription-form.component';
 import { CommentFormComponent } from './components/comment-form/comment-form.component';
 import { CommentListComponent } from './components/comment-list/comment-list.component';
@@ -39,6 +41,8 @@ import {SafeHtmlPipe} from '../shared/security/safe-html.pipe';
     AboutUsComponent,
     TermsConditionsComponent,
     ContactUsComponent,
+    PrivacyPolicyComponent,
+    UnsubscribeComponent,
     SubscriptionFormComponent,
     CommentFormComponent,
     CommentListComponent,

@@ -9,6 +9,8 @@
 export const SUBSCRIBER_ENDPOINTS = {
   reader: {
     create: () => '/subscriber',
+    /** Token from newsletter unsubscribe links: POST body `{ token }`. */
+    unsubscribe: () => '/subscriber/unsubscribe',
   },
   editor: {
     list: () => '/subscriber',

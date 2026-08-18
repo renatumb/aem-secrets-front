@@ -1,0 +1,100 @@
+<app-header-component [showCategoryNavBar]="true"></app-header-component>
+<main class="bg-backone">
+  <div class="container px-4 py-8 text-secondary md:px-8 md:py-12">
+    <section class="mx-auto max-w-5xl">
+      <div class="rounded-sm bg-primary/20 px-5 py-8 shadow-lg md:px-10 md:py-12">
+        <h1 class="mb-2 text-center text-base font-bold uppercase tracking-wide text-secondary md:mb-3 md:text-lg">
+          Privacy Policy
+        </h1>
+        <p class="mb-6 text-center text-xs font-medium text-secondary/80 md:mb-8 md:text-sm">
+          Last updated: {{ lastUpdated }}
+        </p>
+
+        <div class="mx-auto max-w-2xl space-y-4 text-justify text-sm leading-relaxed text-secondary md:text-base">
+          <p>
+            AEM Secrets ("we", "us") operates the website at
+            <a href="https://aemsecrets.com/" class="text-primary underline hover:text-secondary">aemsecrets.com</a>.
+            This policy explains what personal data we collect, why we use it, and the choices you have.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Information we collect</h2>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>
+              <strong>Newsletter subscription:</strong> name and email address when you use the subscription form.
+            </li>
+            <li>
+              <strong>Contact messages:</strong> name, email address, and message content when you use the contact form.
+            </li>
+            <li>
+              <strong>Comments:</strong> the name and comment text you submit on posts (email is not shown publicly).
+            </li>
+            <li>
+              <strong>Editor access:</strong> login credentials are sent to our backend; a session token may be stored in your browser's local storage while you use the author dashboard.
+            </li>
+            <li>
+              <strong>Site preferences:</strong> your theme choice (light, middle, or dark) is stored in local storage.
+            </li>
+            <li>
+              <strong>Analytics:</strong> we use Google Analytics 4 to measure visits, page views, and approximate location (country/region). Google may set cookies or similar identifiers on your device. Analytics runs only after you accept optional cookies.
+            </li>
+          </ul>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">How we use your information</h2>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>Send occasional newsletter emails with AEM tips and blog updates (only if you subscribed).</li>
+            <li>Respond to contact form messages.</li>
+            <li>Display and moderate public comments.</li>
+            <li>Operate and secure the author dashboard.</li>
+            <li>Measure site usage with Google Analytics (with your consent).</li>
+          </ul>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Legal basis (EEA/UK visitors)</h2>
+          <p>We rely on your consent for newsletter emails and for Google Analytics cookies, on our legitimate interest in replying to contact messages and operating the site, and on contractual necessity where needed to provide services you request.</p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Retention</h2>
+          <p>We keep subscriber and contact details for as long as needed to provide the service or until you unsubscribe or ask us to delete your data. Comment data may remain visible until moderated or removed.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Cookies and Google Analytics</h2>
+          <p>Strictly necessary storage (theme preference) stays in your browser's local storage and is not used for advertising. Optional Google Analytics cookies are used only if you click Accept on the cookie banner.
+          </p>
+
+          <p>If you decline, we tell Google (Consent Mode) not to store analytics cookies. You can also use browser controls or Google's
+            <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer" target="_blank" class="text-primary underline hover:text-secondary">Analytics opt-out add-on</a>.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Unsubscribe from emails</h2>
+          <p>
+            Every marketing email includes a one-click unsubscribe link with a unique token. That link opens our
+            <a routerLink="/unsubscribe" class="text-primary underline hover:text-secondary">unsubscribe page</a>, which
+            deactivates your subscription without requiring a login. You can also
+            <a routerLink="/contact-us" class="text-primary underline hover:text-secondary">contact us</a> and ask to be
+            removed.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Sharing and processors</h2>
+          <p>We do not sell your personal data. Data is processed on our hosting infrastructure, email delivery providers, and Google (as analytics processor) when you have accepted analytics cookies. We do not use Google Analytics for advertising.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Your rights</h2>
+          <p>
+            Depending on where you live, you may have the right to access, correct, delete, or restrict use of your
+            personal
+            data, or to withdraw consent. To exercise these rights, use the
+            <a routerLink="/contact-us" class="text-primary underline hover:text-secondary">contact form</a>.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Children</h2>
+          <p>
+            This site is not directed at children under 16, and we do not knowingly collect their personal data.
+          </p>
+
+          <h2 class="pt-2 text-sm font-bold uppercase tracking-wide md:text-base">Changes</h2>
+          <p>We may update this policy from time to time. Continued use of the site after changes are posted means you accept the revised policy.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<app-footer-component></app-footer-component>

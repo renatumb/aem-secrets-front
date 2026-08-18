@@ -1,0 +1,41 @@
+<app-header-component [showCategoryNavBar]="false"></app-header-component>
+<main class="bg-backone">
+  <section class="container px-4 py-8 md:px-6 md:py-12">
+    <div class="mx-auto max-w-xl overflow-hidden rounded border border-secondary/20 bg-secondary/95 shadow-md ring-1 ring-secondary/10">
+      <header class="px-6 py-8 text-center text-backone md:px-10 md:py-10">
+        <h1 class="text-xl font-bold uppercase tracking-wide md:text-2xl">
+          Unsubscribe
+        </h1>
+      </header>
+
+      <div class="border-t border-secondary/20 bg-backone px-6 py-8 text-secondary md:px-10 md:py-10">
+        <p *ngIf="status === 'loading'" class="text-center text-sm font-medium md:text-base" role="status">
+          Processing your unsubscribe request…
+        </p>
+
+        <p *ngIf="status === 'missing-token'" class="text-center text-sm leading-relaxed md:text-base">
+          This page completes unsubscribe requests from links in our emails. Open the unsubscribe link in a recent newsletter,
+          or <a routerLink="/contact-us" class="text-primary underline hover:text-secondary">contact us</a> for help.
+        </p>
+
+        <p *ngIf="status === 'success'" class="text-center text-sm font-medium text-emerald-700 md:text-base" role="status">
+          {{ message }}
+        </p>
+
+        <div *ngIf="status === 'error'" class="flex flex-col items-center gap-4 text-center">
+          <p class="text-sm font-medium text-red-600 md:text-base" role="alert">{{ message }}</p>
+          <button type="button" (click)="retry()" class="rounded-xl border border-primary/30 bg-primary px-5 py-2.5 text-xs font-semibold text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 md:text-sm">
+            Try again
+          </button>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a routerLink="/" class="text-sm font-medium text-primary underline hover:text-secondary md:text-base">
+            Back to home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<app-footer-component></app-footer-component>

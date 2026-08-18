@@ -10,6 +10,7 @@ import { SubscribersService } from '../../services/subscribers.service';
 export class SubscriptionFormComponent implements OnDestroy {
   email = '';
   name = '';
+  consented = false;
 
   submitting = false;
   /** Confirmation message after a successful subscription. */
@@ -28,7 +29,7 @@ export class SubscriptionFormComponent implements OnDestroy {
   submit(): void {
     const email = this.email.trim();
     const name = this.name.trim();
-    if (!email || !name || this.submitting) {
+    if (!email || !name || !this.consented || this.submitting) {
       return;
     }
 
@@ -42,9 +43,10 @@ export class SubscriptionFormComponent implements OnDestroy {
       .subscribe({
         next: (created) => {
           this.submitting = false;
-          this.successMessage = `Thanks, ${created?.name ?? name}! You're subscribed.`;
+          this.successMessage = `Thanks, ${created?.name ?? name}! You're subscribed. Use the unsubscribe link in any email to opt out.`;
           this.email = '';
           this.name = '';
+          this.consented = false;
         },
         error: (err) => {
           this.submitting = false;

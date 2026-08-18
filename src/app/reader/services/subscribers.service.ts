@@ -6,6 +6,7 @@ import { READER_API_BASE_URL } from '../../shared/http/api.config';
 import {
   CreateSubscriberDto,
   Subscriber,
+  UnsubscribeByTokenDto,
 } from '../../shared/models/subscriber.model';
 
 /**
@@ -22,6 +23,15 @@ export class SubscribersService {
   create(payload: CreateSubscriberDto): Observable<Subscriber> {
     return this.http.post<Subscriber>(
       this.url(SUBSCRIBER_ENDPOINTS.reader.create()),
+      payload,
+    );
+  }
+
+  /** Deactivates a subscription using the signed token from newsletter emails. */
+  unsubscribeByToken(token: string): Observable<void> {
+    const payload: UnsubscribeByTokenDto = { token };
+    return this.http.post<void>(
+      this.url(SUBSCRIBER_ENDPOINTS.reader.unsubscribe()),
       payload,
     );
   }

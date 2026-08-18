@@ -16,6 +16,11 @@ export interface CreateSubscriberDto {
   name: string;
 }
 
+/** One-click unsubscribe payload from email token links. */
+export interface UnsubscribeByTokenDto {
+  token: string;
+}
+
 /** Editor payload for toggling a subscriber's active flag. */
 export interface UpdateSubscriberStatusDto {
   enableSubscription: boolean;
