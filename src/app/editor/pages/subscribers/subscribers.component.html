@@ -29,6 +29,7 @@
               <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Name</th>
               <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Creation Date</th>
               <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Status Date</th>
+              <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5">Status<br>Source</th>
               <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5">Status</th>
               <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5"></th>
             </tr>
@@ -39,6 +40,14 @@
               <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.name }}</td>
               <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.dateCreation | date:'yyyy-MM-d  hh:mm a' }}</td>
               <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.dateStatus   | date:'yyyy-MM-d  hh:mm a' }}</td>
+              <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
+                <ng-icon
+                  [name]="statusChangeSourceIcon(row.statusChangeSource)"
+                  [attr.aria-label]="statusChangeSourceLabel(row.statusChangeSource)"
+                  [title]="statusChangeSourceLabel(row.statusChangeSource)"
+                  class="inline-block text-xl text-primary md:text-2xl">
+                </ng-icon>
+              </td>
               <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
                 <span [class.bg-emerald-500]="row.enableSubscription" [class.bg-red-500]="!row.enableSubscription" [attr.aria-label]="row.enableSubscription ? 'Active' : 'Inactive'" role="img"
                       class="inline-block h-3 w-3 rounded-full align-middle md:h-3.5 md:w-3.5">
@@ -56,7 +65,7 @@
               </td>
             </tr>
             <tr *ngIf="!subscribers.length">
-              <td colspan="6" class="px-4 py-6 text-center text-xs text-secondary/65 md:text-sm">No subscribers yet.</td>
+              <td colspan="7" class="px-4 py-6 text-center text-xs text-secondary/65 md:text-sm">No subscribers yet.</td>
             </tr>
             </tbody>
           </table>

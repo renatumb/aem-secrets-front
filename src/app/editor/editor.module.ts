@@ -25,7 +25,14 @@ import {
   matIndeterminateCheckBoxRound,
   matEditRound,
   matDeleteRound,
+  matAppRegistrationRound,
+  matLinkOffRound,
+  matQuestionMarkRound
 } from '@ng-icons/material-icons/round';
+
+import{
+  matPerson4Outline
+} from '@ng-icons/material-icons/outline';
 
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import { FormsModule } from '@angular/forms';
@@ -71,6 +78,10 @@ import {CommentsService} from './services/comments.service';
       matIndeterminateCheckBoxRound,
       matEditRound,
       matDeleteRound,
+      matAppRegistrationRound,
+      matLinkOffRound,
+      matPerson4Outline,
+      matQuestionMarkRound
     }),
     FooterComponentComponent,
     FormsModule,

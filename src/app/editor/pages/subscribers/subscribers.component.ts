@@ -1,8 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { SubscribersService } from '../../services/subscribers.service';
-import { Subscriber } from '../../../shared/models/subscriber.model';
+import { Subscriber, StatusChangeSource } from '../../../shared/models/subscriber.model';
 import { toUserMessage } from '../../../shared/http/user-facing-error';
+
+const STATUS_CHANGE_SOURCE_META: Record<StatusChangeSource, { icon: string; label: string }> = {
+                [StatusChangeSource.SUBSCRIBE]        : {icon: 'matAppRegistrationRound', label: 'Subscribed via signup form'},
+                [StatusChangeSource.UNSUBSCRIBE_LINK] : {icon: 'matLinkOffRound', label: 'Unsubscribed via email link'},
+                [StatusChangeSource.EDITOR_PATCH]     : {icon: 'matPerson4Outline', label: 'Changed by editor',}
+};
 
 @Component({
   selector: 'app-subscribers',
@@ -10,6 +16,8 @@ import { toUserMessage } from '../../../shared/http/user-facing-error';
   styleUrl: './subscribers.component.css',
 })
 export class SubscribersComponent implements OnInit, OnDestroy {
+  readonly statusChangeSource = StatusChangeSource;
+
   subscribers: Subscriber[] = [];
 
   loading = false;
@@ -32,6 +40,14 @@ export class SubscribersComponent implements OnInit, OnDestroy {
 
   isBusy(row: Subscriber): boolean {
     return this.busyIds.has(row.email);
+  }
+
+  statusChangeSourceIcon(source: StatusChangeSource): string {
+    return STATUS_CHANGE_SOURCE_META[source]?.icon ?? 'matQuestionMarkRound';
+  }
+
+  statusChangeSourceLabel(source: StatusChangeSource): string {
+    return STATUS_CHANGE_SOURCE_META[source]?.label ?? 'Unknown source';
   }
 
   toggleActive(row: Subscriber): void {

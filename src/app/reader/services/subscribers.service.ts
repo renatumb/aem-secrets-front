@@ -5,8 +5,7 @@ import { SUBSCRIBER_ENDPOINTS } from '../../shared/http/subscriber-endpoints';
 import { READER_API_BASE_URL } from '../../shared/http/api.config';
 import {
   CreateSubscriberDto,
-  Subscriber,
-  UnsubscribeByTokenDto,
+  Subscriber
 } from '../../shared/models/subscriber.model';
 
 /**
@@ -29,10 +28,9 @@ export class SubscribersService {
 
   /** Deactivates a subscription using the signed token from newsletter emails. */
   unsubscribeByToken(token: string): Observable<void> {
-    const payload: UnsubscribeByTokenDto = { token };
-    return this.http.post<void>(
-      this.url(SUBSCRIBER_ENDPOINTS.reader.unsubscribe()),
-      payload,
+    return this.http.put<void>(
+      this.url(SUBSCRIBER_ENDPOINTS.reader.unsubscribe(token)),
+      null,
     );
   }
 
