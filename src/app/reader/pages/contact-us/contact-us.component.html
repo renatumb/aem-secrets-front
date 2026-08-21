@@ -34,19 +34,17 @@
             <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" [(ngModel)]="company"/>
           </div>
 
-          <div class="flex flex-col gap-1.5">
-            <label for="contact-challenge" class="text-left text-xs font-semibold text-secondary md:text-sm">
-              Verification: what is {{ challengeA }} + {{ challengeB }}?
-            </label>
-            <input id="contact-challenge" name="challenge" type="text" inputmode="numeric" autocomplete="off" required [(ngModel)]="challengeAnswer" [disabled]="submitting" class="w-full max-w-[12rem] rounded border border-secondary/25 bg-secondary/10 px-3 py-2.5 text-xs font-medium text-secondary placeholder:text-secondary/40 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/15 disabled:opacity-60 md:px-4 md:py-3 md:text-sm" placeholder="Your answer"/>
-          </div>
-
           <p *ngIf="successMessage" class="text-sm font-medium text-emerald-700" role="status">{{ successMessage }}</p>
           <p *ngIf="error" class="text-sm font-medium text-red-600" role="alert">{{ error }}</p>
 
           <p class="text-xs font-medium leading-relaxed text-secondary/80 md:text-sm">
             We use your name and email only to respond to this message. See our
             <a routerLink="/privacy-policy" class="text-primary underline hover:text-secondary">Privacy Policy</a>.
+            This site is protected by reCAPTCHA and the Google
+            <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank" class="text-primary underline hover:text-secondary">Privacy Policy</a>
+            and
+            <a href="https://policies.google.com/terms" rel="noopener noreferrer" target="_blank" class="text-primary underline hover:text-secondary">Terms of Service</a>
+            apply.
           </p>
 
           <div class="mt-2 flex flex-wrap items-center gap-3 md:gap-4">

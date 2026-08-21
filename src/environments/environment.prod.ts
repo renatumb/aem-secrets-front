@@ -7,4 +7,7 @@ export const environment = {
     /** Relative base for authenticated editor requests. */
     editorBaseUrl: '/api',
   },
+  recaptcha: {
+    siteKey: '6LctEY0tAAAAAH8IhfJV3E7DMbALXQEW9-AInii-',
+  },
 } as const;

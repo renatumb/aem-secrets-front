@@ -10,4 +10,7 @@ export const environment = {
     /** Base URL used by editor (admin) services. Requires bearer token. */
     editorBaseUrl: 'http://localhost:8090/api',
   },
+  recaptcha: {
+    siteKey: '6LctEY0tAAAAAH8IhfJV3E7DMbALXQEW9-AInii-',
+  },
 } as const;

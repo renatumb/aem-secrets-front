@@ -30,6 +30,8 @@ import {PostsService} from './services/posts.service';
 import {CommentsService} from './services/comments.service';
 import {ContactService} from './services/contact.service';
 import {SafeHtmlPipe} from '../shared/security/safe-html.pipe';
+import {RecaptchaService} from '../shared/security/recaptcha.service';
+import {RECAPTCHA_SITE_KEY_PROVIDER} from '../shared/security/recaptcha.config';
 
 
 @NgModule({
@@ -69,6 +71,8 @@ import {SafeHtmlPipe} from '../shared/security/safe-html.pipe';
     PostsService,
     CommentsService,
     ContactService,
+    RecaptchaService,
+    RECAPTCHA_SITE_KEY_PROVIDER,
   ]
 })
 export class ReaderModule { }

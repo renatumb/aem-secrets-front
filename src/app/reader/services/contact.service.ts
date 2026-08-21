@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { CONTACT_ENDPOINTS } from '../../shared/http/contact-endpoints';
 import { READER_API_BASE_URL } from '../../shared/http/api.config';
 import { ContactMessageDto } from '../../shared/models/contact.model';
+import { recaptchaHeaders } from '../../shared/security/recaptcha.model';
 
 /**
  * Public contact service for the reader. Unauthenticated.
@@ -17,11 +18,12 @@ export class ContactService {
     private readonly http: HttpClient,
   ) {}
 
-  send(payload: ContactMessageDto): Observable<void> {
+  send(payload: ContactMessageDto, recaptchaToken: string): Observable<void> {
     return this.http
       .post(this.url(CONTACT_ENDPOINTS.reader.send()), payload, {
         observe: 'response',
         responseType: 'text',
+        ...recaptchaHeaders(recaptchaToken),
       })
       .pipe(map(() => undefined));
   }

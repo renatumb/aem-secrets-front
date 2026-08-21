@@ -10,6 +10,7 @@ import {
   CreateCommentDto,
   StatusComment,
 } from '../../shared/models/comment.model';
+import { recaptchaHeaders } from '../../shared/security/recaptcha.model';
 
 /**
  * Public comment service for the reader. Unauthenticated.
@@ -21,10 +22,11 @@ export class CommentsService {
     private readonly http: HttpClient,
   ) {}
 
-  create(payload: CreateCommentDto): Observable<Comment> {
+  create(payload: CreateCommentDto, recaptchaToken: string): Observable<Comment> {
     return this.http.post<Comment>(
       this.url(COMMENT_ENDPOINTS.reader.create()),
       payload,
+      recaptchaHeaders(recaptchaToken),
     );
   }
 

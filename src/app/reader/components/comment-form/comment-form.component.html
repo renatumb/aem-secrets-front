@@ -29,4 +29,12 @@
 
   <p *ngIf="successMessage" class="text-xs font-medium text-emerald-700 sm:text-sm" role="status">{{ successMessage }}</p>
   <p *ngIf="error" class="text-xs font-medium text-red-600 sm:text-sm" role="alert">{{ error }}</p>
+
+  <p class="text-xs font-medium leading-relaxed text-secondary/75 sm:text-sm">
+    This site is protected by reCAPTCHA and the Google
+    <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank" class="text-primary underline hover:text-secondary">Privacy Policy</a>
+    and
+    <a href="https://policies.google.com/terms" rel="noopener noreferrer" target="_blank" class="text-primary underline hover:text-secondary">Terms of Service</a>
+    apply.
+  </p>
 </form>

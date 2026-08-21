@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 import { ContactService } from '../../services/contact.service';
+import {
+  RECAPTCHA_USER_MESSAGE,
+  RecaptchaUnavailableError,
+} from '../../../shared/security/recaptcha.model';
+import { RecaptchaService } from '../../../shared/security/recaptcha.service';
 
 /** Reject submissions faster than this (bot / script timing). */
 const MIN_DWELL_MS = 3000;
@@ -21,10 +26,6 @@ export class ContactUsComponent implements OnInit, OnDestroy {
    */
   company = '';
 
-  challengeA = 0;
-  challengeB = 0;
-  challengeAnswer = '';
-
   submitting = false;
   successMessage: string | null = null;
   error: string | null = null;
@@ -32,10 +33,12 @@ export class ContactUsComponent implements OnInit, OnDestroy {
   private formOpenedAt = 0;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private readonly contactService: ContactService) {}
+  constructor(
+    private readonly contactService: ContactService,
+    private readonly recaptcha: RecaptchaService,
+  ) {}
 
   ngOnInit(): void {
-    this.resetChallenge();
     this.formOpenedAt = Date.now();
   }
 
@@ -65,32 +68,28 @@ export class ContactUsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const expected = this.challengeA + this.challengeB;
-    const answered = Number.parseInt(this.challengeAnswer.trim(), 10);
-    if (!Number.isFinite(answered) || answered !== expected) {
-      this.error = 'Please solve the verification question correctly.';
-      this.resetChallenge();
-      return;
-    }
-
     this.submitting = true;
     this.error = null;
     this.successMessage = null;
 
-    this.contactService
-      .send({ name, email, message })
-      .pipe(takeUntil(this.destroy$))
+    this.recaptcha
+      .execute('contact')
+      .pipe(
+        switchMap((token) => this.contactService.send({ name, email, message }, token)),
+        takeUntil(this.destroy$),
+      )
       .subscribe({
         next: () => {
           this.submitting = false;
           this.successMessage = 'Thanks! Your message was sent. We will get back to you soon.';
           this.clearFields();
-          this.resetChallenge();
           this.formOpenedAt = Date.now();
         },
         error: (err) => {
           this.submitting = false;
-          this.error = 'Could not send your message. Please try again.';
+          this.error = err instanceof RecaptchaUnavailableError
+            ? RECAPTCHA_USER_MESSAGE
+            : 'Could not send your message. Please try again.';
           console.error('Contact submission failed', err);
         },
       });
@@ -101,12 +100,5 @@ export class ContactUsComponent implements OnInit, OnDestroy {
     this.email = '';
     this.message = '';
     this.company = '';
-    this.challengeAnswer = '';
-  }
-
-  private resetChallenge(): void {
-    this.challengeA = 1 + Math.floor(Math.random() * 9);
-    this.challengeB = 1 + Math.floor(Math.random() * 9);
-    this.challengeAnswer = '';
   }
 }

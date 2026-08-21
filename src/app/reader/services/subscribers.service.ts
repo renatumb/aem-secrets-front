@@ -7,6 +7,7 @@ import {
   CreateSubscriberDto,
   Subscriber
 } from '../../shared/models/subscriber.model';
+import { recaptchaHeaders } from '../../shared/security/recaptcha.model';
 
 /**
  * Public subscriber service for the reader. Unauthenticated.
@@ -19,10 +20,11 @@ export class SubscribersService {
     private readonly http: HttpClient,
   ) {}
 
-  create(payload: CreateSubscriberDto): Observable<Subscriber> {
+  create(payload: CreateSubscriberDto, recaptchaToken: string): Observable<Subscriber> {
     return this.http.post<Subscriber>(
       this.url(SUBSCRIBER_ENDPOINTS.reader.create()),
       payload,
+      recaptchaHeaders(recaptchaToken),
     );
   }
 

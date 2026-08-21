@@ -1,6 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 import { SubscribersService } from '../../services/subscribers.service';
+import {
+  RECAPTCHA_USER_MESSAGE,
+  RecaptchaUnavailableError,
+} from '../../../shared/security/recaptcha.model';
+import { RecaptchaService } from '../../../shared/security/recaptcha.service';
 
 @Component({
   selector: 'app-subscription-form',
@@ -19,7 +24,10 @@ export class SubscriptionFormComponent implements OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private readonly subscribersService: SubscribersService) {}
+  constructor(
+    private readonly subscribersService: SubscribersService,
+    private readonly recaptcha: RecaptchaService,
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -37,9 +45,12 @@ export class SubscriptionFormComponent implements OnDestroy {
     this.error = null;
     this.successMessage = null;
 
-    this.subscribersService
-      .create({ email, name })
-      .pipe(takeUntil(this.destroy$))
+    this.recaptcha
+      .execute('subscribe')
+      .pipe(
+        switchMap((token) => this.subscribersService.create({ email, name }, token)),
+        takeUntil(this.destroy$),
+      )
       .subscribe({
         next: (created) => {
           this.submitting = false;
@@ -50,7 +61,9 @@ export class SubscriptionFormComponent implements OnDestroy {
         },
         error: (err) => {
           this.submitting = false;
-          this.error = 'Could not subscribe. Please try again.';
+          this.error = err instanceof RecaptchaUnavailableError
+            ? RECAPTCHA_USER_MESSAGE
+            : 'Could not subscribe. Please try again.';
           console.error('Subscription failed', err);
         },
       });

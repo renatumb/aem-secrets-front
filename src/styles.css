@@ -41,3 +41,8 @@
     @apply absolute inset-0 flex flex-col justify-around  items-center gap-2 bg-backone overflow-y-scroll font-medium text-2xl
   }
 }
+
+/* Google requires the badge to remain in the DOM; hide it because each form includes the required disclosure. */
+.grecaptcha-badge {
+  visibility: hidden;
+}

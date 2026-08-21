@@ -4,19 +4,27 @@ import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { ContactUsComponent } from './contact-us.component';
 import { ContactService } from '../../services/contact.service';
+import { RecaptchaService } from '../../../shared/security/recaptcha.service';
+import { RecaptchaUnavailableError } from '../../../shared/security/recaptcha.model';
 
 describe('ContactUsComponent', () => {
   let component: ContactUsComponent;
   let fixture: ComponentFixture<ContactUsComponent>;
   let contactService: jasmine.SpyObj<ContactService>;
+  let recaptcha: jasmine.SpyObj<RecaptchaService>;
 
   beforeEach(async () => {
     contactService = jasmine.createSpyObj('ContactService', ['send']);
+    recaptcha = jasmine.createSpyObj('RecaptchaService', ['execute']);
+    recaptcha.execute.and.returnValue(of('test-token'));
 
     await TestBed.configureTestingModule({
       declarations: [ContactUsComponent],
       imports: [FormsModule],
-      providers: [{ provide: ContactService, useValue: contactService }],
+      providers: [
+        { provide: ContactService, useValue: contactService },
+        { provide: RecaptchaService, useValue: recaptcha },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
@@ -29,49 +37,39 @@ describe('ContactUsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should send the contact payload after verification', fakeAsync(() => {
+  it('should send the contact payload after the dwell period', fakeAsync(() => {
     contactService.send.and.returnValue(of(undefined));
     component.name = 'Ada';
     component.email = 'ada@example.com';
     component.message = 'Hello';
-    component.challengeAnswer = String(component.challengeA + component.challengeB);
 
     tick(3000);
     component.onSubmit();
 
-    expect(contactService.send).toHaveBeenCalledWith({
-      name: 'Ada',
-      email: 'ada@example.com',
-      message: 'Hello',
-    });
+    expect(recaptcha.execute).toHaveBeenCalledWith('contact');
+    expect(contactService.send).toHaveBeenCalledWith(
+      {
+        name: 'Ada',
+        email: 'ada@example.com',
+        message: 'Hello',
+      },
+      'test-token',
+    );
     expect(component.successMessage).toContain('Thanks');
   }));
 
-  it('should not call the API when the honeypot is filled', fakeAsync(() => {
+  it('should not call recaptcha or the API when the honeypot is filled', fakeAsync(() => {
     component.name = 'Bot';
     component.email = 'bot@example.com';
     component.message = 'Spam';
     component.company = 'Acme Corp';
-    component.challengeAnswer = String(component.challengeA + component.challengeB);
 
     tick(3000);
     component.onSubmit();
 
+    expect(recaptcha.execute).not.toHaveBeenCalled();
     expect(contactService.send).not.toHaveBeenCalled();
     expect(component.successMessage).toBeTruthy();
-  }));
-
-  it('should reject an incorrect challenge answer', fakeAsync(() => {
-    component.name = 'Ada';
-    component.email = 'ada@example.com';
-    component.message = 'Hello';
-    component.challengeAnswer = String(component.challengeA + component.challengeB + 1);
-
-    tick(3000);
-    component.onSubmit();
-
-    expect(contactService.send).not.toHaveBeenCalled();
-    expect(component.error).toContain('verification');
   }));
 
   it('should show an error when the API fails', fakeAsync(() => {
@@ -79,11 +77,23 @@ describe('ContactUsComponent', () => {
     component.name = 'Ada';
     component.email = 'ada@example.com';
     component.message = 'Hello';
-    component.challengeAnswer = String(component.challengeA + component.challengeB);
 
     tick(3000);
     component.onSubmit();
 
     expect(component.error).toContain('Could not send');
+  }));
+
+  it('should show a verification error when reCAPTCHA fails', fakeAsync(() => {
+    recaptcha.execute.and.returnValue(throwError(() => new RecaptchaUnavailableError()));
+    component.name = 'Ada';
+    component.email = 'ada@example.com';
+    component.message = 'Hello';
+
+    tick(3000);
+    component.onSubmit();
+
+    expect(contactService.send).not.toHaveBeenCalled();
+    expect(component.error).toContain('verify');
   }));
 });

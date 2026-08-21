@@ -1,7 +1,12 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { toUserMessage } from '../../../shared/http/user-facing-error';
+import {
+  RECAPTCHA_USER_MESSAGE,
+  RecaptchaUnavailableError,
+} from '../../../shared/security/recaptcha.model';
+import { RecaptchaService } from '../../../shared/security/recaptcha.service';
 
 @Component({
   selector: 'app-comment-form',
@@ -22,7 +27,10 @@ export class CommentFormComponent implements OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(
+    private readonly commentsService: CommentsService,
+    private readonly recaptcha: RecaptchaService,
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -42,14 +50,22 @@ export class CommentFormComponent implements OnDestroy {
     this.error = null;
     this.successMessage = null;
 
-    this.commentsService
-      .create({
-        nameAuthor,
-        emailAuthor,
-        content,
-        post: { id: this.postId },
-      })
-      .pipe(takeUntil(this.destroy$))
+    this.recaptcha
+      .execute('comment')
+      .pipe(
+        switchMap((token) =>
+          this.commentsService.create(
+            {
+              nameAuthor,
+              emailAuthor,
+              content,
+              post: { id: this.postId },
+            },
+            token,
+          ),
+        ),
+        takeUntil(this.destroy$),
+      )
       .subscribe({
         next: () => {
           this.submitting = false;
@@ -61,7 +77,9 @@ export class CommentFormComponent implements OnDestroy {
         },
         error: (err) => {
           this.submitting = false;
-          this.error = toUserMessage(err, 'Could not submit your comment. Please try again ');
+          this.error = err instanceof RecaptchaUnavailableError
+            ? RECAPTCHA_USER_MESSAGE
+            : toUserMessage(err, 'Could not submit your comment. Please try again ');
           console.error('Comment submission failed', err);
         },
       });
