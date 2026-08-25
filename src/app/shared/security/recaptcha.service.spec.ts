@@ -2,7 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { RecaptchaUnavailableError } from './recaptcha.model';
-import { RECAPTCHA_SITE_KEY, RecaptchaService } from './recaptcha.service';
+import { RECAPTCHA_SITE_KEY } from './recaptcha.config';
+import { RecaptchaService } from './recaptcha.service';
 
 describe('RecaptchaService', () => {
   function createGrecaptcha(token: string | Promise<string>) {

@@ -22,10 +22,12 @@ describe('PrivacyPolicyComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should mention newsletter and unsubscribe', () => {
+  it('should mention newsletter, unsubscribe, and reCAPTCHA (no analytics claims)', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Privacy Policy');
     expect(text).toContain('unsubscribe');
-    expect(text).toContain('Google Analytics');
+    expect(text).toContain('reCAPTCHA');
+    expect(text).toContain('We do not use Google Analytics');
+    expect(text).not.toContain('cookie banner');
   });
 });

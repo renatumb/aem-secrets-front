@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './privacy-policy.component.css',
 })
 export class PrivacyPolicyComponent {
-  readonly lastUpdated = 'August 18, 2026';
+  readonly lastUpdated = 'August 24, 2026';
 }
