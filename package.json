@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --port 4201 ",
     "build": "ng build",
-    "build-prod": "ng build --optimization true",
+    "build-prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "post": "tailwindcss/postcss --help"
