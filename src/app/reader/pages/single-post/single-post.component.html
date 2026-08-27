@@ -1,50 +1,71 @@
 <app-header-component [showCategoryNavBar]="true"></app-header-component>
 <main class="bg-backone">
-  <section class="container px-4 pt-6 md:px-6 md:pt-10">
-    <figure class="overflow-hidden bg-primary rounded">
-      <img src="bike3.jpg" alt="Hero image" class="h-52 w-full object-cover sm:h-72 md:h-80 lg:h-96" />
-    </figure>
-  </section>
+  <p *ngIf="loading" class="container px-4 py-8 text-center text-sm text-secondary/70 md:px-6">
+    Loading post…
+  </p>
+  <p *ngIf="error && !loading" class="container px-4 py-8 text-center text-sm text-red-600 md:px-6" role="alert">
+    {{ error }}
+  </p>
 
-  <section class="container px-4 pb-8 pt-3 md:px-6 md:pb-12 md:pt-4">
-    <ul class="mb-2 flex flex-wrap gap-1.5 md:mb-3 md:gap-2">
-      <li><a href="#" class="inline-block rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-backone md:px-2.5 md:text-xs">tag</a></li>
-      <li><a href="#" class="inline-block rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-backone md:px-2.5 md:text-xs">tag</a></li>
-      <li><a href="#" class="inline-block rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-backone md:px-2.5 md:text-xs">tag</a></li>
-      <li><a href="#" class="inline-block rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-backone md:px-2.5 md:text-xs">tag</a></li>
-      <li><a href="#" class="inline-block rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-backone md:px-2.5 md:text-xs">tag</a></li>
-    </ul>
-
-    <div class="grid grid-cols-1 gap-4 xl:grid-cols-4 xl:items-start xl:gap-3">
-      <div class="flex min-w-0 flex-col gap-4 xl:col-span-3">
-        <article class="rounded-lg border border-secondary/10 bg-primary/20 p-5 text-secondary/90 shadow-sm md:p-8">
-          <h1 class="mb-6 text-center text-xl font-bold uppercase tracking-wide sm:text-2xl md:mb-8 md:text-3xl lg:text-4xl">
-            Post title
+  <ng-container *ngIf="post && !loading">
+    <section class="container px-4 pt-6 md:px-6 md:pt-10">
+      <figure class="post-hero relative h-40 overflow-hidden rounded bg-primary sm:h-48 md:h-56">
+        <img [src]="heroImageUrl" alt="" class="absolute inset-0 h-full w-full object-cover" loading="eager" decoding="async"/>
+        <div class="post-hero-overlay absolute inset-0" aria-hidden="true"></div>
+        <figcaption class="relative flex h-full items-center px-6 md:px-10">
+          <h1 class="max-w-3xl text-left text-4xl font-bold uppercase leading-none tracking-wider text-primary drop-shadow-sm  sm:text-4xl md:text-6xl">
+            {{ post.title }}
           </h1>
-          <p class="text-justify text-sm font-semibold leading-relaxed sm:text-base md:text-lg lg:text-xl">Post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content post content.</p>
+        </figcaption>
+      </figure>
+    </section>
 
-        </article>
-        <div class="rounded-lg border border-secondary/10 bg-primary/20 p-4 text-xs text-secondary/85 shadow-sm sm:text-sm md:p-8">
-          <app-comment-form></app-comment-form>
-        </div>
+    <section class="container px-4 pb-8 pt-3 md:px-6 md:pb-12 md:pt-4">
+      <ul *ngIf="post.tags?.length" class="mb-2 flex flex-wrap gap-1.5 md:mb-3 md:gap-2">
+        <li *ngFor="let tag of post.tags">
+          <a [routerLink]="['/tag', tag]" class="inline-block rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-backone transition-all hover:scale-115 hover:bg-primary/90 md:px-2.5 md:text-xs">{{ tag }}</a>
+        </li>
+      </ul>
 
-        <div class="rounded-lg border border-secondary/10 bg-primary/20 p-4 text-secondary/90 shadow-sm md:p-8">
-          <app-comment-list></app-comment-list>
-        </div>
-      </div>
+      <div class="grid grid-cols-1 gap-4 xl:grid-cols-4 xl:items-start xl:gap-3">
+        <div class="flex min-w-0 flex-col gap-4 xl:col-span-3">
+          <article class="rounded-lg border border-secondary/10 bg-primary/10 p-5 text-secondary/90 shadow-sm md:p-8">
+            <p *ngIf="post.description" class="mb-6 text-lg text-center font-semibold leading-relaxed text-secondary md:mb-8 md:text-xl ">
+              {{ post.description }}
+            </p>
+            <div class="text-justify text-sm font-semibold leading-relaxed sm:text-base md:text-lg lg:text-xl" [innerHTML]="post.content_en | safeHtml"></div>
+          </article>
 
-      <aside class="flex w-full flex-col rounded-md bg-backone xl:col-span-1">
-        <div class="bg-primary/20  px-1  rounded-md relative">
-          <div class="mb-3  lg:mb-5">
-            <h2 class=" absolute py-2 top-0  mx-auto w-[90%] mb-1.5 text-center text-xs font-bold uppercase tracking-wide text-secondary sm:text-sm md:text-base lg:text-lg">Related posts</h2>
+          <div class="rounded-lg border border-secondary/10 bg-primary/10 p-4 text-xs text-secondary/85 shadow-sm sm:text-sm md:p-8">
+            <app-comment-form [postId]="post.id" (commentSubmitted)="commentList.loadComments()"></app-comment-form>
           </div>
-          <app-post-card class="p-1"></app-post-card>
-          <app-post-card class="p-1"></app-post-card>
-          <app-post-card class="p-1"></app-post-card>
+
+          <div class="rounded-lg border border-secondary/10 bg-primary/10 p-4 text-secondary/90 shadow-sm md:p-8">
+            <app-comment-list #commentList [postId]="post.id"></app-comment-list>
+          </div>
         </div>
-      </aside>
-    </div>
-  </section>
+
+        <aside class="flex w-full flex-col rounded-md bg-backone xl:col-span-1">
+          <div class="rounded-md bg-primary/20 px-3 py-4">
+            <h2 class="mb-4 text-center text-xs font-bold uppercase tracking-wide text-secondary sm:text-sm md:text-base">
+              Related posts
+            </h2>
+
+            <p *ngIf="relatedLoading" class="text-center text-xs text-secondary/70">Loading related posts…</p>
+            <p *ngIf="relatedError" class="text-center text-xs text-red-600" role="alert">{{ relatedError }}</p>
+            <p *ngIf="!relatedLoading && !relatedError && !relatedPosts.length" class="text-center text-xs text-secondary/70">
+              No related posts found.
+            </p>
+
+            <div *ngIf="relatedPosts.length" class="flex flex-col gap-4">
+              <app-post-card *ngFor="let relatedPost of relatedPosts" [post]="relatedPost" [compact]="true"></app-post-card>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </ng-container>
+
   <app-subscription-form></app-subscription-form>
 </main>
 

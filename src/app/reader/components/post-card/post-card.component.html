@@ -1,32 +1,26 @@
-<article class="post-card mx-auto w-full max-w-4xl rounded-md bg-backone p-3 shadow-sm md:p-5">
-  <a href="/post/xyz" class="block">
+<article class="post-card mx-auto w-full min-w-0 max-w-4xl rounded-md bg-backone p-3 shadow-sm md:p-5 border-2 border-primary/40" [class.max-w-full]="compact">
+  <a [routerLink]="['/post', post.permalink]" [state]="{ post: post }" class="block">
     <figure class="overflow-hidden rounded-md bg-secondary">
-      <img
-        src="bike1.jpg"
-        alt="Post cover image"
-        class="h-44 w-full object-cover sm:h-56 md:h-64 lg:h-72"
-      />
+      <img [src]="thumbnailUrl" [alt]="post.title || 'Post cover image'" class="h-44 w-full object-cover sm:h-56 md:h-64" [class.lg:h-48]="compact" [class.lg:h-72]="!compact" loading="lazy" decoding="async"/>
     </figure>
   </a>
 
   <div class="mt-4 flex flex-col gap-3 sm:mt-5">
-    <ul class="flex flex-wrap gap-1 justify-around md:justify-start md:gap-2">
-      <li><a href="#" class="inline-block rounded px-2 py-1 text-xs font-semibold uppercase tracking-wide  bg-primary  text-backone hover:bg-primary/80 hover:scale-110 transition-all">Tag</a></li>
-      <li><a href="#" class="inline-block rounded px-2 py-1 text-xs font-semibold uppercase tracking-wide  bg-primary  text-backone hover:bg-primary/80 hover:scale-110 transition-all">TagBB</a></li>
-      <li><a href="#" class="inline-block rounded px-2 py-1 text-xs font-semibold uppercase tracking-wide  bg-primary  text-backone hover:bg-primary/80 hover:scale-110 transition-all">TagCCC</a></li>
+    <ul *ngIf="post.tags?.length" class="flex flex-wrap gap-1 justify-around md:justify-start md:gap-2">
+      <li *ngFor="let tag of post.tags">
+        <a [routerLink]="['/tag', tag]" class="inline-block rounded px-2 py-1 text-xs font-semibold uppercase tracking-wide bg-primary text-backone transition-all hover:scale-115 hover:bg-primary/90">{{ tag }}</a>
+      </li>
     </ul>
 
-    <h2 class="text-lg text-justify font-extrabold uppercase leading-tight tracking-wide text-primary ">
-      Post title post title post title post title post title
+    <h2 class="text-lg text-justify font-extrabold uppercase leading-tight tracking-wide text-primary">
+      <a [routerLink]="['/post', post.permalink]" [state]="{ post: post }" class="hover:underline">{{ post.title }}</a>
     </h2>
 
-    <p class="rounded bg-secondary/10 hidden p-2 text-sm font-semibold leading-6 text-primary xl:inline xl:text-lg ">
-      Post content preview content post content preview content post content preview content post content preview content post content preview content post content preview content post content preview content post content preview content post content preview content post content preview content ....
-    </p>
+    <p *ngIf="!compact && post.description" class="rounded bg-secondary/10 hidden p-2 text-sm font-semibold leading-6 text-primary xl:inline xl:text-lg line-clamp-4">{{ post.description }}</p>
 
     <footer class="flex flex-wrap items-center justify-between gap-2 border-t border-secondary/25 pt-3 text-xs font-medium text-secondary">
-      <span>By AEM Secrets</span>
-      <time datetime="2026-04-28">Updated Apr 28, 2026</time>
+      <span>By {{ post.author || 'AEM Secrets' }}</span>
+      <time [attr.datetime]="post.lastModificationDate">Updated {{ post.lastModificationDate | date:'MMM d, yyyy' }}</time>
     </footer>
   </div>
 </article>

@@ -1,73 +1,112 @@
-import {Component} from '@angular/core';
-
-export type CommentStatus = 'APPROVED' | 'REJECTED' | 'PENDING';
-
-export interface CommentRow {
-  id: number;
-  content: string;
-  authorName: string;
-  authorEmail: string;
-  createdAt: string;
-  status: CommentStatus;
-  /** When the current status was last set (moderation). */
-  statusDate: string;
-}
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { CommentsService } from '../../services/comments.service';
+import { Comment, StatusComment } from '../../../shared/models/comment.model';
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css',
 })
-export class CommentsComponent {
-  comments: CommentRow[] = [
-    {
-      id: 1,
-      content: 'Great post on AEM components — very clear walkthrough.',
-      authorName: 'Jane Reader',
-      authorEmail: 'jane@example.com',
-      createdAt: '2026-05-10 09:12',
-      status: 'APPROVED',
-      statusDate: '2026-05-10 10:05',
-    },
-    {
-      id: 2,
-      content: 'Could you cover SPA editor next?',
-      authorName: 'Sam Dev',
-      authorEmail: 'sam.dev@example.com',
-      createdAt: '2026-05-11 16:45',
-      status: 'REJECTED',
-      statusDate: '2026-05-11 17:00',
-    },
-    {
-      id: 3,
-      content: 'Thanks, this saved me a day of debugging.',
-      authorName: 'Alex',
-      authorEmail: 'alex@example.com',
-      createdAt: '2026-05-12 11:03',
-      status: 'PENDING',
-      statusDate: '—',
-    },
-  ];
+export class CommentsComponent implements OnInit, OnDestroy {
+  readonly statusComment = StatusComment;
 
-  private formatStatusDateNow(): string {
-    const d = new Date();
-    const pad = (n: number) => String(n).padStart(2, '0');
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  comments: Comment[] = [];
+  loading = false;
+  error: string | null = null;
+
+  private readonly busyIds = new Set<number>();
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(private readonly commentsService: CommentsService) {}
+
+  ngOnInit(): void {
+    this.loadComments();
   }
 
-  /** Switch is ON only for APPROVED; toggles between APPROVED and REJECTED and stamps status date. */
-  toggleApprovalSwitch(row: CommentRow): void {
-    const next: CommentStatus = row.status === 'APPROVED' ? 'REJECTED' : 'APPROVED';
-    const statusDate = this.formatStatusDateNow();
-    this.comments = this.comments.map((c) =>
-      c.id === row.id ? {...c, status: next, statusDate} : c
-    );
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  deleteComment(row: CommentRow): void {
+  isBusy(row: Comment): boolean {
+    return this.busyIds.has(row.id);
+  }
+
+  /** Switch is ON only for ACCEPTED; toggles between ACCEPTED and REJECTED. */
+  toggleApprovalSwitch(row: Comment): void {
+    if (this.busyIds.has(row.id)) {
+      return;
+    }
+
+    const nextStatus = row.statusComment === StatusComment.ACCEPTED ? StatusComment.REJECTED : StatusComment.ACCEPTED;
+
+    this.busyIds.add(row.id);
+    this.error = null;
+
+    this.commentsService
+      .updateStatus(row.id, nextStatus)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (updated) => {
+          this.comments = this.comments.map((comment) =>
+            comment.id === updated.id ? updated : comment,
+          );
+          this.busyIds.delete(row.id);
+        },
+        error: (err) => {
+          this.busyIds.delete(row.id);
+          this.handleError(err, 'Could not update comment status.');
+        },
+      });
+  }
+
+  deleteComment(row: Comment): void {
     if (!window.confirm('Delete this comment?')) {
       return;
     }
-    this.comments = this.comments.filter((c) => c.id !== row.id);
+
+    if (this.busyIds.has(row.id)) {
+      return;
+    }
+
+    this.busyIds.add(row.id);
+    this.error = null;
+
+    this.commentsService
+      .delete(row.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.comments = this.comments.filter((comment) => comment.id !== row.id);
+          this.busyIds.delete(row.id);
+        },
+        error: (err) => {
+          this.busyIds.delete(row.id);
+          this.handleError(err, 'Could not delete comment.');
+        },
+      });
+  }
+
+  private loadComments(): void {
+    this.loading = true;
+    this.error = null;
+
+    this.commentsService
+      .list({ orderBy: 'creationDate' })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.comments = this.commentsService.mapCommentsResponse(response);
+          this.loading = false;
+        },
+        error: (err) => this.handleError(err, 'Could not load comments.'),
+      });
+  }
+
+  private handleError(err: unknown, fallback: string): void {
+    this.loading = false;
+    this.error = fallback;
+    console.error(fallback, err);
   }
 }

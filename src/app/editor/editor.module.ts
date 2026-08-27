@@ -23,14 +23,28 @@ import {
   matThumbDownRound,
   matThumbUpRound,
   matIndeterminateCheckBoxRound,
+  matEditRound,
+  matDeleteRound,
+  matAppRegistrationRound,
+  matLinkOffRound,
+  matQuestionMarkRound
 } from '@ng-icons/material-icons/round';
+
+import{
+  matPerson4Outline
+} from '@ng-icons/material-icons/outline';
 
 import {FooterComponentComponent} from '../shared/footer-component/footer-component.component';
 import { FormsModule } from '@angular/forms';
 import { PostEditorComponent } from './components/post-editor/post-editor.component';
+import { CreatePostDraftComponent } from './components/create-post-draft/create-post-draft.component';
 import { PostListComponent } from './components/post-list/post-list.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
-import { HttpClientModule} from '@angular/common/http';
+import {EDITOR_API_PROVIDER} from '../shared/http/api.config';
+import {CategoriesService} from './services/categories.service';
+import {SubscribersService} from './services/subscribers.service';
+import {PostsService} from './services/posts.service';
+import {CommentsService} from './services/comments.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +55,7 @@ import { HttpClientModule} from '@angular/common/http';
     SubscribersComponent,
     CommentsComponent,
     PostEditorComponent,
+    CreatePostDraftComponent,
     PostListComponent
   ],
   imports: [
@@ -61,11 +76,23 @@ import { HttpClientModule} from '@angular/common/http';
       matThumbDownRound,
       matThumbUpRound,
       matIndeterminateCheckBoxRound,
+      matEditRound,
+      matDeleteRound,
+      matAppRegistrationRound,
+      matLinkOffRound,
+      matPerson4Outline,
+      matQuestionMarkRound
     }),
     FooterComponentComponent,
     FormsModule,
-    AngularEditorModule,
-    HttpClientModule
+    AngularEditorModule
+  ],
+  providers:[
+    EDITOR_API_PROVIDER,
+    CategoriesService,
+    SubscribersService,
+    PostsService,
+    CommentsService,
   ]
 })
 export class EditorModule { }

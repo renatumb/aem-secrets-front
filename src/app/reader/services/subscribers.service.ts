@@ -1,0 +1,42 @@
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SUBSCRIBER_ENDPOINTS } from '../../shared/http/subscriber-endpoints';
+import { READER_API_BASE_URL } from '../../shared/http/api.config';
+import {
+  CreateSubscriberDto,
+  Subscriber
+} from '../../shared/models/subscriber.model';
+import { recaptchaHeaders } from '../../shared/security/recaptcha.model';
+
+/**
+ * Public subscriber service for the reader. Unauthenticated.
+ * Only `create` is exposed — readers may subscribe but cannot read or modify the list.
+ */
+@Injectable()
+export class SubscribersService {
+  constructor(
+    @Inject(READER_API_BASE_URL) private readonly baseUrl: string,
+    private readonly http: HttpClient,
+  ) {}
+
+  create(payload: CreateSubscriberDto, recaptchaToken: string): Observable<Subscriber> {
+    return this.http.post<Subscriber>(
+      this.url(SUBSCRIBER_ENDPOINTS.reader.create()),
+      payload,
+      recaptchaHeaders(recaptchaToken),
+    );
+  }
+
+  /** Deactivates a subscription using the signed token from newsletter emails. */
+  unsubscribeByToken(token: string): Observable<void> {
+    return this.http.put<void>(
+      this.url(SUBSCRIBER_ENDPOINTS.reader.unsubscribe(token)),
+      null,
+    );
+  }
+
+  private url(path: string): string {
+    return `${this.baseUrl}${path}`;
+  }
+}

@@ -19,35 +19,53 @@
       <!-- Table -->
       <section class="container mx-auto place-items-stretch border border-primary grid w-full max-w-5xl grid-cols-1 gap-5 rounded bg-backone p-10 text-secondary shadow-sm md:gap-12">
         <h2 class="sr-only">Subscribers list</h2>
-        <div class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5">
+        <p *ngIf="error" class="text-center text-xs font-medium text-red-600 md:text-sm" role="alert">{{ error }}</p>
+        <p *ngIf="loading" class="text-center text-xs font-medium text-secondary/70 md:text-sm">Loading subscribers...</p>
+        <div *ngIf="!loading" class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5">
           <table class="w-full min-w-[28rem] border-collapse text-left text-xs text-secondary md:text-sm">
             <thead>
             <tr class="border-b-2 border-secondary bg-secondary/10">
-              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">No</th>
-              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Name</th>
               <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Email</th>
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Name</th>
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Creation Date</th>
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Status Date</th>
+              <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5">Status<br>Source</th>
               <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5">Status</th>
-              <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5">Actions</th>
+              <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let row of subscribers" class="border-b border-secondary/15 last:border-b-0 odd:bg-backone/60 even:bg-secondary/[0.04]">
-              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.no }}</td>
-              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.name }}</td>
               <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.email }}</td>
+              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.name }}</td>
+              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.dateCreation | date:'yyyy-MM-d  hh:mm a' }}</td>
+              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ row.dateStatus   | date:'yyyy-MM-d  hh:mm a' }}</td>
               <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
-                <span class="inline-block h-3 w-3 rounded-full align-middle md:h-3.5 md:w-3.5" [class.bg-emerald-500]="row.enabled" [class.bg-red-500]="!row.enabled" [attr.aria-label]="row.enabled ? 'Enabled' : 'Disabled'" role="img"></span>
+                <ng-icon
+                  [name]="statusChangeSourceIcon(row.statusChangeSource)"
+                  [attr.aria-label]="statusChangeSourceLabel(row.statusChangeSource)"
+                  [title]="statusChangeSourceLabel(row.statusChangeSource)"
+                  class="inline-block text-xl text-primary md:text-2xl">
+                </ng-icon>
               </td>
               <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
+                <span [class.bg-emerald-500]="row.enableSubscription" [class.bg-red-500]="!row.enableSubscription" [attr.aria-label]="row.enableSubscription ? 'Active' : 'Inactive'" role="img"
+                      class="inline-block h-3 w-3 rounded-full align-middle md:h-3.5 md:w-3.5">
+                </span>
+              </td>
+              <!--              -->
+              <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
                 <div class="flex flex-wrap items-center justify-center gap-2">
-                  <button type="button" role="switch" [attr.aria-checked]="row.enabled" [attr.aria-label]="(row.enabled ? 'Disable' : 'Enable') + ' subscriber ' + row.name" (click)="toggleEnabled(row)" class="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border  focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" [ngClass]="    row.enabled      ? 'border-emerald-600/50 bg-emerald-600/35'      : 'border-secondary/30 bg-secondary/20'  ">
-                    <span class="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-backone shadow transition-all duration-200 ease-out" [ngClass]="row.enabled ? 'left-[calc(100%-1.375rem)]' : 'left-0.5'"></span>
-                  </button>
-                  <button type="button" (click)="deleteSubscriber(row)" class="border border-secondary/35 bg-secondary/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-secondary  hover:bg-secondary/25 focus:outline-none focus:ring-2 focus:ring-secondary/20  md:text-xs">
-                    Delete
+                  <button type="button" role="switch" [attr.aria-checked]="row.enableSubscription" [attr.aria-label]="(row.enableSubscription ? 'Deactivate' : 'Activate') + ' subscriber ' + row.name" (click)="toggleActive(row)" [disabled]="isBusy(row)" [ngClass]="row.enableSubscription ? 'border-emerald-600/50 bg-emerald-600/35' : 'border-secondary/30 bg-secondary/20'"
+                    class="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-60">
+                    <span class="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-backone shadow transition-all duration-200 ease-out"
+                          [ngClass]="row.enableSubscription ? 'left-[calc(100%-1.375rem)]' : 'left-0.5'"></span>
                   </button>
                 </div>
               </td>
+            </tr>
+            <tr *ngIf="!subscribers.length">
+              <td colspan="7" class="px-4 py-6 text-center text-xs text-secondary/65 md:text-sm">No subscribers yet.</td>
             </tr>
             </tbody>
           </table>

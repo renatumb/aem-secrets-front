@@ -1,13 +1,17 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 import { ReaderRoutingModule } from './reader-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { SingleCategoryComponent } from './pages/single-category/single-category.component';
+import { SingleTagComponent } from './pages/single-tag/single-tag.component';
 import { SinglePostComponent } from './pages/single-post/single-post.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { UnsubscribeComponent } from './pages/unsubscribe/unsubscribe.component';
 import { SubscriptionFormComponent } from './components/subscription-form/subscription-form.component';
 import { CommentFormComponent } from './components/comment-form/comment-form.component';
 import { CommentListComponent } from './components/comment-list/comment-list.component';
@@ -19,16 +23,28 @@ import {matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Ro
 
 import {PostCardComponent} from './components/post-card/post-card.component';
 import {LoadPostsComponent} from './components/load-posts/load-posts.component';
+import {READER_API_PROVIDER} from '../shared/http/api.config';
+import {CategoriesService} from './services/categories.service';
+import {SubscribersService} from './services/subscribers.service';
+import {PostsService} from './services/posts.service';
+import {CommentsService} from './services/comments.service';
+import {ContactService} from './services/contact.service';
+import {SafeHtmlPipe} from '../shared/security/safe-html.pipe';
+import {RecaptchaService} from '../shared/security/recaptcha.service';
+import {RECAPTCHA_SITE_KEY_PROVIDER} from '../shared/security/recaptcha.config';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
     SingleCategoryComponent,
+    SingleTagComponent,
     SinglePostComponent,
     AboutUsComponent,
     TermsConditionsComponent,
     ContactUsComponent,
+    PrivacyPolicyComponent,
+    UnsubscribeComponent,
     SubscriptionFormComponent,
     CommentFormComponent,
     CommentListComponent,
@@ -39,12 +55,24 @@ import {LoadPostsComponent} from './components/load-posts/load-posts.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReaderRoutingModule,
     FooterComponentComponent,
     HeaderComponentComponent,
+    SafeHtmlPipe,
     NgIconsModule.withIcons({
       matWbSunnyRound, matMenuOpenRound, matBrightness6Round, matBrightness2Round, matCloseRound
     })
+  ],
+  providers:[
+    READER_API_PROVIDER,
+    CategoriesService,
+    SubscribersService,
+    PostsService,
+    CommentsService,
+    ContactService,
+    RecaptchaService,
+    RECAPTCHA_SITE_KEY_PROVIDER,
   ]
 })
 export class ReaderModule { }

@@ -1,44 +1,79 @@
 <h2 class="sr-only">Post list</h2>
+<p *ngIf="error" class="mb-4 text-center text-xs font-medium text-red-600 md:text-sm" role="alert">{{ error }}</p>
+<p *ngIf="loading" class="mb-4 text-center text-xs font-medium text-secondary/70 md:text-sm">Loading posts…</p>
+<!--  -->
 <div
-  class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5 md:overflow-x-visible">
-  <table class="w-full min-w-[56rem] border-collapse text-left text-xs text-secondary md:min-w-0 md:text-sm">
+  *ngIf="!loading"
+  class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5">
+  <table class="w-full min-w-[72rem] border-collapse text-left text-xs text-secondary md:text-sm">
     <thead>
     <tr class="border-b-2 border-secondary bg-secondary/10">
-      <th class="w-12 px-2 py-3 text-center font-bold md:w-14 md:px-3 md:py-3.5">No</th>
-      <th class="w-[7.5rem] px-2 py-3 font-bold md:w-36 md:px-3 md:py-3.5">Post Image</th>
+      <th class="w-[7.5rem] px-2 py-3 font-bold md:w-36 md:px-3 md:py-3.5">Cover</th>
       <th class="min-w-[8rem] px-3 py-3 font-bold md:min-w-[10rem] md:px-4 md:py-3.5">Title</th>
-      <th class="min-w-[12rem] px-3 py-3 font-bold md:min-w-[16rem] md:px-4 md:py-3.5">Excerpt</th>
+      <th class="min-w-[8rem] px-3 py-3 font-bold md:min-w-[10rem] md:px-4 md:py-3.5">Link</th>
       <th class="min-w-[6rem] px-3 py-3 font-bold md:px-4 md:py-3.5">Category</th>
-      <th class="whitespace-nowrap px-3 py-3 font-bold md:px-4 md:py-3.5">Date</th>
-      <th class="w-28 px-3 py-3 text-center font-bold md:w-32 md:px-4 md:py-3.5">Actions</th>
+      <th class="whitespace-nowrap px-3 py-3 font-bold md:px-4 md:py-3.5">Creation<BR>Date</th>
+      <th class="whitespace-nowrap px-3 py-3 font-bold md:px-4 md:py-3.5">Last<br>Modification</th>
+      <th class="min-w-[22rem] whitespace-nowrap px-3 py-3 text-center font-bold md:min-w-[24rem] md:px-4 md:py-3.5">Actions</th>
     </tr>
     </thead>
     <tbody>
+<!--    -->
     <tr *ngFor="let post of posts" class="border-b border-secondary/15 last:border-b-0 odd:bg-backone/60 even:bg-secondary/[0.04]">
-      <td class="px-2 py-3 text-center align-middle font-medium tabular-nums md:px-3 md:py-3.5">
-        {{ post.id }}
-      </td>
       <td class="px-2 py-3 align-middle md:px-3 md:py-3.5">
-        <div class="aspect-video w-full max-w-[6.5rem] overflow-hidden rounded border border-secondary/20 bg-secondary/10 md:max-w-[7.5rem]">
-          <img [src]="post.imageUrl" [alt]="post.imageAlt" width="120" height="68" loading="lazy" decoding="async" class="h-full w-full object-cover"/>
+        <div class="w-full max-w-[6.5rem] overflow-hidden rounded border border-secondary/20 bg-secondary/10 md:max-w-[7.5rem]">
+          <img [src]="thumbnailUrl(post)" [alt]="post.title || 'Post cover'" width="120" height="120" loading="lazy" decoding="async" class="h-full w-full object-cover"/>
         </div>
       </td>
-      <td class="px-3 py-3 align-top font-semibold leading-snug md:px-4 md:py-3.5">
-        {{ post.title }}
+      <td class="px-3 py-3 align-middle font-semibold leading-snug md:px-4 md:py-3.5">
+        {{ post.title || '—' }}
       </td>
-      <td class="max-w-[14rem] px-3 py-3 align-top text-secondary/90 md:max-w-[22rem] md:px-4 md:py-3.5 lg:max-w-none">
-        <p class="line-clamp-3 leading-relaxed md:line-clamp-4" [attr.title]="post.excerpt">
-          {{ post.excerpt }}
-        </p>
+      <td class="px-3 py-3 align-middle md:px-4 md:py-3.5">
+        <a *ngIf="post.permalink; else noPermalink" [routerLink]="['/post', post.permalink]" class="break-all font-medium text-primary underline-offset-2 hover:underline">{{ post.permalink }}</a>
+        <ng-template #noPermalink>—</ng-template>
       </td>
-      <td class="px-3 py-3 align-top font-medium md:px-4 md:py-3.5">{{ post.category }}</td>
-      <td class="whitespace-nowrap px-3 py-3 align-top font-medium md:px-4 md:py-3.5">
-        {{ post.dateLabel }}
+<!--      <td class="px-3 py-3 align-middle font-medium md:px-4 md:py-3.5">{{ categoryLabel(post) }}</td>-->
+      <td class="px-3 py-3 align-middle font-medium md:px-4 md:py-3.5">
+        <ul *ngIf="post.categories" class="list-disc">
+          <li *ngFor="let category of post.categories" class="text-nowrap">{{ category?.name }}</li>
+        </ul>
       </td>
-      <td class="px-3 py-3 text-center align-middle md:px-4 md:py-3.5">
-        <a [routerLink]="['/editor/posts/edit']" [queryParams]="{ id: post.id }" class="button inline-flex items-center justify-center rounded border border-primary/40 bg-primary px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 md:px-4 md:py-2 md:text-xs">
-          Edit
-        </a>
+      <td class="whitespace-nowrap px-3 py-3 align-middle font-medium md:px-4 md:py-3.5">
+        {{ post.creationDate | date:'yyyy-MM-d ' }}<br>
+        {{ post.creationDate | date:'hh:mm a' }}
+      </td>
+      <td class="whitespace-nowrap px-3 py-3 align-middle font-medium md:px-4 md:py-3.5">
+        {{ post.lastModificationDate | date:'yyyy-MM-d' }}<br>
+        {{ post.lastModificationDate | date:'hh:mm a' }}
+      </td>
+
+      <td class="px-3 py-3 align-middle md:px-4 md:py-3.5">
+        <div class="flex flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
+
+          <label class="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium text-secondary md:text-xs">
+            <input type="checkbox" [checked]="post.highlight" (change)="onHighlightChange(post, $any($event.target).checked)" [disabled]="isBusy(post)" class="h-4 w-4 shrink-0 rounded border-secondary/35 text-primary focus:ring-primary/25"/>
+            Highlight
+          </label>
+
+          <select [ngModel]="post.statusPost" (ngModelChange)="onStatusChange(post, $event)" [disabled]="isBusy(post)" [ngClass]="statusSelectClasses(post.statusPost)" aria-label="Change post status" class="shrink-0 rounded border py-1.5 text-[11px] font-medium focus:outline-none focus:ring-2 md:text-xs">
+            <option *ngFor="let status of statusOptions" [ngValue]="status">{{ status }}</option>
+          </select>
+
+          <a [routerLink]="['/editor/posts/edit']" [queryParams]="{ id: post.id }" [state]="{ post: post }" aria-label="Edit post" title="Edit post" class="button inline-flex shrink-0 items-center justify-center rounded border border-primary/40 bg-primary p-2 text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 md:p-2.5">
+            <ng-icon name="matEditRound" class="text-base md:text-lg"></ng-icon>
+          </a>
+
+          <button type="button" (click)="deletePost(post)" [disabled]="isBusy(post)" aria-label="Delete post" title="Delete post" class="inline-flex shrink-0 items-center justify-center rounded border border-red-500/40 bg-red-500/15 p-2 text-red-700 hover:bg-red-500/25 focus:outline-none focus:ring-2 focus:ring-red-500/20 disabled:opacity-60 md:p-2.5">
+            <ng-icon name="matDeleteRound" class="text-base md:text-lg"></ng-icon>
+          </button>
+
+        </div>
+      </td>
+    </tr>
+<!--  -->
+    <tr *ngIf="!posts.length">
+      <td colspan="8" class="px-4 py-6 text-center text-xs text-secondary/65 md:text-sm">
+        No posts yet.
       </td>
     </tr>
     </tbody>
