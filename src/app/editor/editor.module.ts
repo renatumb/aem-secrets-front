@@ -45,6 +45,7 @@ import {CategoriesService} from './services/categories.service';
 import {SubscribersService} from './services/subscribers.service';
 import {PostsService} from './services/posts.service';
 import {CommentsService} from './services/comments.service';
+import {UsersService} from './services/users.service';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import {CommentsService} from './services/comments.service';
     SubscribersService,
     PostsService,
     CommentsService,
+    UsersService,
   ]
 })
 export class EditorModule { }
