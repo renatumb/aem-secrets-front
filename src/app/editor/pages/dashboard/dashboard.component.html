@@ -39,6 +39,14 @@
 
     </div>
 
+    <div class="flex min-h-52 w-full max-w-sm items-center justify-center rounded bg-secondary p-10 text-center text-2xl font-bold tracking-wider text-backone transition-all hover:shadow-md hover:shadow-primary hover:scale-105">
+      <a [routerLink]="['/editor/users']" class="grid grid-cols-1 place-items-center gap-2">
+        <ng-icon name="matManageAccountsRound" class="text-4xl md:text-5xl"></ng-icon>
+        <span>Users</span>
+        <p class="text-xs font-normal">Manage editor accounts, access levels, and lock status.</p>
+      </a>
+    </div>
+
   </section>
 </main>
 <app-footer-component></app-footer-component>
