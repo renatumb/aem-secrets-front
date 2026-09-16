@@ -30,6 +30,7 @@ export interface UpdateUserDto {
   accessLevel?: AccessLevel;
   accountLocked?: boolean;
   password?: string;
+  name?: string
 }
 
 /** Query options for paged/sorted user lookups (editor). */

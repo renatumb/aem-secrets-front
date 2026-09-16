@@ -1,0 +1,68 @@
+<div class="flex min-h-dvh flex-col bg-backone">
+  <div class="shrink-0">
+    <app-header-component [showCategoryNavBar]="false"></app-header-component>
+  </div>
+
+  <main class="flex min-h-0 flex-1 flex-col px-4 py-6 md:px-6 md:py-8">
+    <div class="container mx-auto flex w-full max-w-5xl flex-col gap-6 md:gap-8">
+      <!-- Header / CTA -->
+      <section class="flex flex-col items-center justify-center gap-3 rounded border border-primary/35 bg-primary/[0.08] px-6 py-8 text-center text-secondary shadow-sm md:gap-4 md:px-10 md:py-10">
+        <h1 class="text-base font-bold tracking-wide md:text-xl lg:text-2xl">All Users</h1>
+        <p class="max-w-xl text-xs font-medium leading-relaxed text-secondary/85 md:text-sm lg:text-base">
+          From here you can manage editor accounts and access levels.
+        </p>
+        <a [routerLink]="['/editor/dashboard']" class="button mt-1 inline-flex items-center justify-center rounded border border-primary/35 bg-primary px-5 py-2.5 text-center text-xs font-semibold text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/25 md:px-6 md:py-3 md:text-sm">
+          Back to Dashboard
+        </a>
+      </section>
+
+      <!-- Table -->
+      <section class="container mx-auto place-items-stretch border border-primary grid w-full max-w-5xl grid-cols-1 gap-5 rounded bg-backone p-10 text-secondary shadow-sm md:gap-12">
+        <h2 class="sr-only">Users list</h2>
+        <p *ngIf="error" class="text-center text-xs font-medium text-red-600 md:text-sm" role="alert">{{ error }}</p>
+        <p *ngIf="loading" class="text-center text-xs font-medium text-secondary/70 md:text-sm">Loading users...</p>
+        <div *ngIf="!loading" class="w-full overflow-x-auto rounded border border-secondary/15 bg-secondary/5">
+          <table class="w-full min-w-[36rem] border-collapse text-left text-xs text-secondary md:text-sm">
+            <thead>
+            <tr class="border-b-2 border-secondary bg-secondary/10">
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Photo</th>
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Name</th>
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Email</th>
+              <th class="px-4 py-3 font-bold md:px-5 md:py-3.5">Access</th>
+              <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5">Status</th>
+              <th class="px-4 py-3 text-center align-middle font-bold md:px-5 md:py-3.5"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of users" class="border-b border-secondary/15 last:border-b-0 odd:bg-backone/60 even:bg-secondary/[0.04]">
+              <td class="px-4 py-3 align-middle md:px-5 md:py-3.5">
+                <div class="h-10 w-10 overflow-hidden rounded-full border border-secondary/20 bg-secondary/10 md:h-12 md:w-12">
+                  <img [src]="photoUrl(user)" [alt]="user.name || 'User photo'" width="48" height="48" loading="lazy" decoding="async" (error)="onPhotoError($event)" class="h-full w-full object-cover"/>
+                </div>
+              </td>
+              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ user.name || '—' }}</td>
+              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ user.email || '—' }}</td>
+              <td class="px-4 py-3 font-medium md:px-5 md:py-3.5">{{ user.accessLevel || '—' }}</td>
+              <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
+                <span [class.bg-red-500]="user.accountLocked" [class.bg-emerald-500]="!user.accountLocked" [attr.aria-label]="user.accountLocked ? 'Locked' : 'Unlocked'" role="img" class="inline-block h-3 w-3 rounded-full align-middle md:h-3.5 md:w-3.5"></span>
+              </td>
+              <td class="px-4 py-3 text-center align-middle md:px-5 md:py-3.5">
+                <a [routerLink]="['/editor/users/edit']" [queryParams]="{ id: user.id }" [state]="{ user: user }" aria-label="Edit user" title="Edit user" class="button inline-flex shrink-0 items-center justify-center rounded border border-primary/40 bg-primary p-2 text-backone hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 md:p-2.5">
+                  <ng-icon name="matEditRound" class="text-base md:text-lg"></ng-icon>
+                </a>
+              </td>
+            </tr>
+            <tr *ngIf="!users.length">
+              <td colspan="6" class="px-4 py-6 text-center text-xs text-secondary/65 md:text-sm">No users yet.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="shrink-0">
+    <app-footer-component></app-footer-component>
+  </div>
+</div>

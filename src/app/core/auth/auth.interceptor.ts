@@ -33,11 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((err: unknown) => {
-        if (
-          authRequired &&
-          err instanceof HttpErrorResponse &&
-          err.status === 401
-        ) {
+        if (authRequired && err instanceof HttpErrorResponse && err.status === 401) {
           this.authService.clearToken();
           void this.router.navigate(['/editor']);
         }

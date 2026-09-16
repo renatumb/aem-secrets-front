@@ -44,6 +44,9 @@ export class UsersService {
   update(id: string, payload: UpdateUserDto): Observable<User> {
     const formData = new FormData();
 
+    if (payload.name !== undefined) {
+      formData.append('name', payload.name);
+    }
     if (payload.password !== undefined) {
       formData.append('password', payload.password);
     }
@@ -65,6 +68,14 @@ export class UsersService {
       formData,
       withAuth(),
     );
+  }
+  //
+  resolvePhotoProfileUrl(photoProfile: string): string {
+    if (/^https?:\/\//i.test(photoProfile)) {
+      return photoProfile;
+    }
+
+    return this.url(USER_ENDPOINTS.editor.downloadImage(photoProfile));
   }
 
   private url(path: string): string {

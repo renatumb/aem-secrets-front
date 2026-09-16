@@ -10,7 +10,7 @@ export const USER_ENDPOINTS = {
     byId: (id: string) => `/user/${encodeURIComponent(id)}`,
     /** Multipart PATCH: any subset of pass word, about, photo, accessLevel, accountLocked. */
     update: (id: string) => `/user/${encodeURIComponent(id)}`,
-    downloadImage: (userIdParam: string, fileNameParam: string) =>
-      `/user/image?userID=${userIdParam}&filename=${fileNameParam}`,
+
+    downloadImage: (fileNameParam: string) => `/user/profilephoto/${fileNameParam}`,
   },
 } as const;

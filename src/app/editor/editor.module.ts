@@ -8,6 +8,8 @@ import { CategoryComponent } from './pages/category/category.component';
 import { PostComponent } from './pages/post/post.component';
 import { SubscribersComponent } from './pages/subscribers/subscribers.component';
 import { CommentsComponent } from './pages/comments/comments.component';
+import { UsersComponent } from './pages/users/users.component';
+import { UserEditorComponent } from './pages/user-editor/user-editor.component';
 import {HeaderComponentComponent} from '../shared/header-component/header-component.component';
 import {NgIconsModule} from '@ng-icons/core';
 import {
@@ -27,7 +29,8 @@ import {
   matDeleteRound,
   matAppRegistrationRound,
   matLinkOffRound,
-  matQuestionMarkRound
+  matQuestionMarkRound,
+  matManageAccountsRound
 } from '@ng-icons/material-icons/round';
 
 import{
@@ -55,6 +58,8 @@ import {UsersService} from './services/users.service';
     PostComponent,
     SubscribersComponent,
     CommentsComponent,
+    UsersComponent,
+    UserEditorComponent,
     PostEditorComponent,
     CreatePostDraftComponent,
     PostListComponent
@@ -82,7 +87,8 @@ import {UsersService} from './services/users.service';
       matAppRegistrationRound,
       matLinkOffRound,
       matPerson4Outline,
-      matQuestionMarkRound
+      matQuestionMarkRound,
+      matManageAccountsRound
     }),
     FooterComponentComponent,
     FormsModule,
