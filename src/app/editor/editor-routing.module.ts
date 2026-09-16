@@ -10,6 +10,8 @@ import {PostComponent} from './pages/post/post.component';
 import {PostListComponent} from './components/post-list/post-list.component';
 import {PostEditorComponent} from './components/post-editor/post-editor.component';
 import {CreatePostDraftComponent} from './components/create-post-draft/create-post-draft.component';
+import {UsersComponent} from './pages/users/users.component';
+import {UserEditorComponent} from './pages/user-editor/user-editor.component';
 
 
 const routes: Routes = [
@@ -18,6 +20,8 @@ const routes: Routes = [
   {path: 'category', component: CategoryComponent, title: 'AEM Secrets: Categories', canActivate: [AuthGuard]},
   {path: 'comments', component: CommentsComponent, title: 'AEM Secrets: Comments', canActivate: [AuthGuard]},
   {path: 'subscribers', component: SubscribersComponent, title: 'AEM Secrets: Subscribers', canActivate: [AuthGuard]},
+  {path: 'users/edit', component: UserEditorComponent, title: 'AEM Secrets: Edit user', canActivate: [AuthGuard]},
+  {path: 'users', component: UsersComponent, title: 'AEM Secrets: Users', canActivate: [AuthGuard]},
 
   {
     path: 'posts',
