@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { POST_ENDPOINTS } from '../../shared/http/post-endpoints';
+import { USER_ENDPOINTS } from '../../shared/http/user-endpoints';
 import { READER_API_BASE_URL } from '../../shared/http/api.config';
 import { Post, PostListQuery } from '../../shared/models/post.model';
 
@@ -122,6 +123,20 @@ export class PostsService {
     }
 
     return thumbnail;
+  }
+
+  /** Turns author photoProfile paths into a browser-loadable URL (public, no auth). */
+  resolveAuthorPhotoUrl(photoProfile: string): string {
+    if (!photoProfile) {
+      return '';
+    }
+
+    if (/^https?:\/\//i.test(photoProfile)) {
+      return photoProfile;
+    }
+
+    const fileName = photoProfile.split(/[/\\]/).filter(Boolean).pop() ?? photoProfile;
+    return this.url(USER_ENDPOINTS.reader.downloadImage(fileName));
   }
 
   private url(path: string): string {

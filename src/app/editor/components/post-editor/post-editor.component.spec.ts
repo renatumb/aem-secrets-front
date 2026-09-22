@@ -10,9 +10,10 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PostEditorComponent } from './post-editor.component';
 import { CategoriesService } from '../../services/categories.service';
 import { PostsService } from '../../services/posts.service';
-import { PostStatus } from '../../../shared/models/post.model';
+import { Post, PostStatus } from '../../../shared/models/post.model';
+import { AccessLevel } from '../../../shared/models/user.model';
 
-const mockPost = {
+const mockPost: Post = {
   id: '94c089fb-567e-480a-921d-c19842ed5441',
   title: 'Test post',
   permalink: 'test-post',
@@ -24,7 +25,13 @@ const mockPost = {
   highlight: false,
   tags: [],
   categories: [],
-  author: 'Author',
+  author: {
+    id: 'user-1',
+    name: 'Author',
+    email: 'author@mail.com',
+    accessLevel: AccessLevel.CAN_WRITE,
+    accountLocked: false,
+  },
   comment: [],
   statusPost: PostStatus.DRAFT,
 };

@@ -19,7 +19,7 @@
     <p *ngIf="!compact && post.description" class="rounded bg-secondary/10 hidden p-2 text-sm font-semibold leading-6 text-primary xl:inline xl:text-lg line-clamp-4">{{ post.description }}</p>
 
     <footer class="flex flex-wrap items-center justify-between gap-2 border-t border-secondary/25 pt-3 text-xs font-medium text-secondary">
-      <span>By {{ post.author || 'AEM Secrets' }}</span>
+      <span>By {{ post?.author?.name || 'AEM Secrets' }}</span>
       <time [attr.datetime]="post.lastModificationDate">Updated {{ post.lastModificationDate | date:'MMM d, yyyy' }}</time>
     </footer>
   </div>

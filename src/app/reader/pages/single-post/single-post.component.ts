@@ -45,6 +45,36 @@ export class SinglePostComponent implements OnInit, OnDestroy {
     return this.postsService.resolveThumbnailUrl(this.post.thumbnail) || this.placeholderThumbnail;
   }
 
+  get authorName(): string {
+    return this.post?.author?.name?.trim() || 'AEM Secrets';
+  }
+
+  get authorAbout(): string {
+    return this.post?.author?.about?.trim() || '';
+  }
+
+  get authorPhotoUrl(): string {
+    const photo = this.post?.author?.photoProfile?.trim();
+    if (!photo) {
+      return '';
+    }
+    return this.postsService.resolveAuthorPhotoUrl(photo);
+  }
+
+  /** Absolute http(s) URL for the author byline link, or '' when unusable. */
+  get authorWeblink(): string {
+    const raw = this.post?.author?.webLink?.trim();
+    if (!raw) {
+      return '';
+    }
+
+    return /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  }
+
+  get hasAuthorBio(): boolean {
+    return !!(this.post?.author?.name || this.post?.author?.about || this.post?.author?.photoProfile);
+  }
+
   private resolvePost(): void {
     const slug = this.route.snapshot.paramMap.get('post-id');
     const statePost = history.state?.['post'] as Post | undefined;

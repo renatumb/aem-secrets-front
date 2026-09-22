@@ -49,6 +49,12 @@
             <textarea id="user-about" name="about" [(ngModel)]="formAbout" rows="4" [disabled]="controlsDisabled" class="min-h-[6rem] w-full resize-y rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm leading-relaxed text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60 md:text-base"></textarea>
           </div>
 
+          <div class="space-y-1.5">
+            <label for="user-weblink" class="block text-xs font-medium text-secondary/70 md:text-sm">Web link</label>
+            <input id="user-weblink" name="weblink" type="url" inputmode="url" [(ngModel)]="formWeblink" [disabled]="controlsDisabled" placeholder="https://example.com" class="w-full rounded-md border border-secondary/25 bg-backone px-3 py-2.5 text-sm text-secondary placeholder:text-secondary/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60 md:text-base"/>
+            <p class="text-xs text-secondary/60">Shown on the post page: the author photo and name link here.</p>
+          </div>
+
           <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
             <!--            -->
             <div class="space-y-2">

@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { SinglePostComponent } from './single-post.component';
 import { PostsService } from '../../services/posts.service';
 import { PostStatus } from '../../../shared/models/post.model';
+import { AccessLevel } from '../../../shared/models/user.model';
 import { SafeHtmlPipe } from '../../../shared/security/safe-html.pipe';
 
 describe('SinglePostComponent', () => {
@@ -27,7 +28,15 @@ describe('SinglePostComponent', () => {
           highlight: false,
           tags: [],
           categories: [],
-          author: '',
+          author: {
+            id: 'user-1',
+            name: 'JOSE WRITE',
+            email: 'write@mail.com',
+            about: 'about this user',
+            photoProfile: 'x2.jpg',
+            accessLevel: AccessLevel.CAN_WRITE,
+            accountLocked: false,
+          },
           comment: [],
           statusPost: PostStatus.PUBLISHED,
         },
@@ -54,6 +63,7 @@ describe('SinglePostComponent', () => {
             getBySlug: () => of({}),
             listByTag: () => of({ content: [] }),
             resolveThumbnailUrl: (url: string) => url,
+            resolveAuthorPhotoUrl: (path: string) => `/api/user/profilephoto/${path}`,
           },
         },
       ],
@@ -66,5 +76,12 @@ describe('SinglePostComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('exposes author bio fields from the post author', () => {
+    expect(component.authorName).toBe('JOSE WRITE');
+    expect(component.authorAbout).toBe('about this user');
+    expect(component.authorPhotoUrl).toBe('/api/user/profilephoto/x2.jpg');
+    expect(component.hasAuthorBio).toBeTrue();
   });
 });
