@@ -53,6 +53,9 @@ export class UsersService {
     if (payload.about !== undefined) {
       formData.append('about', payload.about);
     }
+    if (payload.webLink !== undefined) {
+      formData.append('webLink', payload.webLink);
+    }
     if (payload.accessLevel !== undefined) {
       formData.append('accessLevel', payload.accessLevel);
     }
@@ -71,11 +74,16 @@ export class UsersService {
   }
   //
   resolvePhotoProfileUrl(photoProfile: string): string {
+    if (!photoProfile) {
+      return '';
+    }
+
     if (/^https?:\/\//i.test(photoProfile)) {
       return photoProfile;
     }
 
-    return this.url(USER_ENDPOINTS.editor.downloadImage(photoProfile));
+    const fileName = photoProfile.split(/[/\\]/).filter(Boolean).pop() ?? photoProfile;
+    return this.url(USER_ENDPOINTS.editor.downloadImage(fileName));
   }
 
   private url(path: string): string {

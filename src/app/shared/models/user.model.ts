@@ -1,7 +1,8 @@
 /**
  * User domain contract aligned with the backend User entity.
  * Password is never displayed from API values in the UI.
- * photoProfile is a storage path; use UsersService.resolvePhotoProfileUrl to display it.
+ * photoProfile is a storage path; resolve with UsersService.resolvePhotoProfileUrl (editor)
+ * or PostsService.resolveAuthorPhotoUrl (reader post page).
  */
 export enum AccessLevel {
   CAN_READ = 'CAN_READ',
@@ -15,6 +16,7 @@ export interface User {
   password?: string;
   about?: string;
   photoProfile?: string;
+  webLink?: string;
   accessLevel: AccessLevel;
   accountLocked: boolean;
 }
@@ -27,6 +29,7 @@ export interface User {
 export interface UpdateUserDto {
   about?: string;
   photo?: File;
+  webLink?: string;
   accessLevel?: AccessLevel;
   accountLocked?: boolean;
   password?: string;

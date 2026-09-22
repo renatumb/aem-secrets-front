@@ -1,4 +1,5 @@
 import {Category} from './category.model';
+import {User} from './user.model';
 
 /**
  * Post domain contract used by both reader and editor services.
@@ -15,7 +16,7 @@ export interface Post {
   highlight: boolean
   tags: string[]
   categories: Category[]
-  author: string
+  author: User
   comment: string[]
   statusPost: PostStatus
 }

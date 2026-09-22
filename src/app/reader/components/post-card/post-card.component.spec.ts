@@ -3,9 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { PostCardComponent } from './post-card.component';
 import { PostsService } from '../../services/posts.service';
-import { PostStatus } from '../../../shared/models/post.model';
+import { Post, PostStatus } from '../../../shared/models/post.model';
+import { AccessLevel } from '../../../shared/models/user.model';
 
-const mockPost = {
+const mockPost: Post = {
   id: 'post-1',
   permalink: 'test-post',
   title: 'Test post',
@@ -17,7 +18,13 @@ const mockPost = {
   highlight: false,
   tags: ['tag'],
   categories: [],
-  author: 'Author',
+  author: {
+    id: 'user-1',
+    name: 'Author',
+    email: 'author@mail.com',
+    accessLevel: AccessLevel.CAN_WRITE,
+    accountLocked: false,
+  },
   comment: [],
   statusPost: PostStatus.PUBLISHED,
 };

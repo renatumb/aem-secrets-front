@@ -26,6 +26,7 @@ export class UserEditorComponent implements OnInit, OnDestroy {
   formName = '';
   formEmail = '';
   formAbout = '';
+  formWeblink = '';
   formAccessLevel: AccessLevel | null = null;
   formAccountLocked = false;
   formPhotoPreview: string | null = null;
@@ -111,6 +112,7 @@ export class UserEditorComponent implements OnInit, OnDestroy {
 
     const payload: UpdateUserDto = {
       about: this.formAbout.trim(),
+      webLink: this.formWeblink.trim(),
       accessLevel: this.formAccessLevel,
       accountLocked: this.formAccountLocked,
     };
@@ -191,6 +193,7 @@ export class UserEditorComponent implements OnInit, OnDestroy {
     this.formName = user.name ?? '';
     this.formEmail = user.email ?? '';
     this.formAbout = user.about ?? '';
+    this.formWeblink = user.webLink ?? '';
     this.formAccessLevel = user.accessLevel ?? null;
     this.formAccountLocked = !!user.accountLocked;
 
